@@ -1636,6 +1636,7 @@ let flashMode='vocab', flashCat='Tous', flashDeck=[], flashIdx=0, flashFlipped=f
 
 function setFlashMode(mode){
   flashMode=mode;
+  flashCatSel='Tous';
   ['vocab','phrases','verbs'].forEach(m=>{
     document.getElementById('fpill-'+m).classList.toggle('on',m===mode);
   });
@@ -1645,17 +1646,15 @@ function setFlashMode(mode){
 
 function buildFlashCats(){
   let cats=['Tous'];
-  if(flashMode==='vocab') cats=[...cats,...new Set(VOCAB.map(v=>v.cat))];
-  else if(flashMode==='phrases') cats=[...cats,...new Set(PHRASES.map(p=>p.cat))];
-  else cats=['Tous'];
-  flashCatSel='Tous';
+  if(flashMode==='vocab') cats=[...cats,...[...new Set(VOCAB.map(v=>v.cat))]];
+  else if(flashMode==='phrases') cats=[...cats,...[...new Set(PHRASES.map(p=>p.cat))]];
+  else cats=['Tous','Présent','Passé','Futur'];
   document.getElementById('flash-cat-pills').innerHTML=cats.map(c=>`<button class="pill ${c===flashCatSel?'on':''}" onclick="selFlashCat('${c.replace(/'/g,"\\'")}')">${c}</button>`).join('');
 }
 
 function selFlashCat(c){
   flashCatSel=c;
-  buildFlashCats();
-  // re-highlight correct pill
+  // Met à jour visuellement les pills
   document.querySelectorAll('#flash-cat-pills .pill').forEach(b=>{
     b.classList.toggle('on', b.textContent===c);
   });
@@ -1665,15 +1664,31 @@ function selFlashCat(c){
 function buildFlashDeck(){
   if(flashMode==='vocab'){
     let pool=flashCatSel==='Tous'?VOCAB:VOCAB.filter(v=>v.cat===flashCatSel);
-    return shuffle(pool).map(w=>({fr:w.fr,ua:w.ua,tr:w.tr,ctx:w.cat+' · '+w.lvl.toUpperCase()}));
+    if(pool.length===0) pool=VOCAB; // fallback si catégorie vide
+    return shuffle(pool).map(w=>({fr:w.fr,ua:w.ua,tr:w.tr,ctx:w.cat+' · '+w.lvl.toUpperCase(),vocabIdx:VOCAB.indexOf(w)}));
   } else if(flashMode==='phrases'){
     let pool=flashCatSel==='Tous'?PHRASES:PHRASES.filter(p=>p.cat===flashCatSel);
+    if(pool.length===0) pool=PHRASES;
     return shuffle(pool).map(p=>({fr:p.fr,ua:p.ua,tr:p.tr,ctx:p.cat}));
   } else {
-    return shuffle(VERBS).map(v=>{
-      const ex=v.pres[0];
-      return {fr:'Conjuguer : '+v.fr+' (présent — je)',ua:ex.ua,tr:ex.tr,ctx:'Infinitif : '+v.inf};
+    // Verbes : une carte par pronom pour chaque verbe selon le temps sélectionné
+    const tenseKey=flashCatSel==='Passé'?'past':flashCatSel==='Futur'?'fut':'pres';
+    const tenseLabel=flashCatSel==='Passé'?'Passé':flashCatSel==='Futur'?'Futur':'Présent';
+    let cards=[];
+    VERBS.forEach(v=>{
+      const rows=v[tenseKey]||v.pres;
+      rows.forEach(r=>{
+        // Recto : FR avec pronom → Verso : forme ukrainienne
+        const proFr=r.pro.replace('я','je').replace('ти','tu').replace('він / вона','il / elle').replace('він','il').replace('вона','elle').replace('ми','nous').replace('ви','vous').replace('вони','ils / elles');
+        cards.push({
+          fr:'"'+proFr+'" + '+v.fr+' ('+tenseLabel+')',
+          ua:r.ua,
+          tr:r.tr,
+          ctx:v.fr+' → '+v.inf+' · '+tenseLabel
+        });
+      });
     });
+    return shuffle(cards);
   }
 }
 
@@ -1727,7 +1742,7 @@ function rateFlash(r){
   // Facile (r===3) → coche immédiatement le mot dans Vocabulaire
   if(r===3 && flashMode==='vocab'){
     const card=flashDeck[flashIdx];
-    const i=VOCAB.findIndex(w=>w.ua===card.ua);
+    const i=card.vocabIdx!==undefined?card.vocabIdx:VOCAB.findIndex(w=>w.ua===card.ua);
     if(i!==-1 && !known.has(i)){
       known.add(i);
       saveData();
