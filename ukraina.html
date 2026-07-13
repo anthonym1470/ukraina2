@@ -1724,10 +1724,17 @@ function flipFlash(){
 function rateFlash(r){
   if(!flashFlipped)return;
   if(r>=2){flashOk++;addXP(4);}
+  // Facile (r===3) → coche le mot dans Vocabulaire
+  if(r===3 && flashMode==='vocab'){
+    const card=flashDeck[flashIdx];
+    const i=VOCAB.findIndex(w=>w.ua===card.ua);
+    if(i!==-1 && !known.has(i)){known.add(i);saveData();}
+  }
   if(r===0){
     const c=flashDeck.splice(flashIdx,1)[0];
     flashDeck.splice(Math.min(flashIdx+3,flashDeck.length),0,c);
   } else { flashIdx++; }
+  updateAll();
   showFlashCard();
   haptic();
 }
