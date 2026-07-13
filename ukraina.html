@@ -59,7 +59,7 @@ body{font-family:-apple-system,'SF Pro Text','Inter',system-ui,sans-serif;color:
 }
 .bnav-item{
   flex:1;display:flex;flex-direction:column;align-items:center;
-  padding:6px 1px 4px;cursor:pointer;border:none;background:transparent;
+  padding:8px 2px 5px;cursor:pointer;border:none;background:transparent;
   color:var(--muted);font-family:-apple-system,'SF Pro Text','Inter',system-ui,sans-serif;
   transition:color .2s,transform .1s;
   -webkit-tap-highlight-color:transparent;
@@ -67,8 +67,8 @@ body{font-family:-apple-system,'SF Pro Text','Inter',system-ui,sans-serif;color:
 }
 .bnav-item:active{transform:scale(.92);}
 .bnav-item.on{color:var(--acc2);}
-.bnav-ico{font-size:16px;margin-bottom:1px;line-height:1;display:block;}
-.bnav-lbl{font-size:7px;font-weight:500;letter-spacing:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
+.bnav-ico{font-size:20px;margin-bottom:2px;line-height:1;display:block;}
+.bnav-lbl{font-size:8px;font-weight:500;letter-spacing:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
 .bnav-dot{width:3px;height:3px;border-radius:50%;background:var(--acc2);margin:1px auto 0;opacity:0;}
 .bnav-item.on .bnav-dot{opacity:1;}
 
@@ -286,6 +286,11 @@ body{font-family:-apple-system,'SF Pro Text','Inter',system-ui,sans-serif;color:
         <div class="hero-kc"><strong id="kc">0</strong>mots appris</div>
       </div>
     </div>
+    <div class="stats3" style="margin-bottom:20px">
+      <div class="scard"><div class="snum" id="s1">0</div><div class="slbl">Mots appris</div></div>
+      <div class="scard"><div class="snum" id="s2">0</div><div class="slbl">Anki faits</div></div>
+      <div class="scard"><div class="snum" id="s3">0</div><div class="slbl">XP total</div></div>
+    </div>
     <div class="section-title">Modules</div>
     <div class="cards2">
       <div class="mcard" onclick="go('vocab')">
@@ -324,12 +329,6 @@ body{font-family:-apple-system,'SF Pro Text','Inter',system-ui,sans-serif;color:
         <div class="mcard-top"><div class="mcard-ico">🔤</div><div class="mcard-badge">33 lettres</div></div>
         <div class="mcard-ttl">Alphabet</div><div class="mcard-sub">Cyrillique ukrainien</div>
       </div>
-    </div>
-    <div class="section-title">Statistiques</div>
-    <div class="stats3">
-      <div class="scard"><div class="snum" id="s1">0</div><div class="slbl">Mots appris</div></div>
-      <div class="scard"><div class="snum" id="s2">0</div><div class="slbl">Anki faits</div></div>
-      <div class="scard"><div class="snum" id="s3">0</div><div class="slbl">XP total</div></div>
     </div>
   </div>
 
