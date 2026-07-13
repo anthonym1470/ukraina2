@@ -1297,6 +1297,7 @@ function saveData(){
     localStorage.setItem('uk_known',JSON.stringify([...known]));
     localStorage.setItem('uk_xp',xp);
     localStorage.setItem('uk_anki_done',ankiDoneToday);
+    localStorage.setItem('uk_known_verbs',JSON.stringify([...knownVerbs]));
   }catch(e){}
 }
 function loadData(){
@@ -1307,10 +1308,12 @@ function loadData(){
     if(x)xp=parseInt(x)||0;
     const a=localStorage.getItem('uk_anki_done');
     if(a)ankiDoneToday=parseInt(a)||0;
+    const kv=localStorage.getItem('uk_known_verbs');
+    if(kv)knownVerbs=new Set(JSON.parse(kv));
   }catch(e){}
 }
 
-let known=new Set(),xp=0,ankiSession=[],ankiIdx=0,ankiFlipped=false,ankiDoneToday=0;
+let known=new Set(),knownVerbs=new Set(),xp=0,ankiSession=[],ankiIdx=0,ankiFlipped=false,ankiDoneToday=0;
 let selCat='Tous',selPhrCat='Tous',selVerb=0,selTense='pres';
 let qCur=0,qArr=[],qCorrect=0,qAns=false;
 const pages=['home','vocab','flash','quiz','anki','trad','phrases','conj','gram','alpha'];
@@ -1811,6 +1814,15 @@ function rateFlash(r){
     if(i!==-1){
       if(r===3){ known.add(i); }
       else if(r===0||r===1){ known.delete(i); }
+      saveData();updateAll();
+      if(document.getElementById('page-vocab').classList.contains('on')) renderVocab();
+    }
+  } else if(flashMode==='verbs' && flashCatSel==='Infinitif'){
+    const card=flashDeck[flashIdx];
+    const i=VERBS.findIndex(v=>v.inf===card.ua);
+    if(i!==-1){
+      if(r===3){ knownVerbs.add(i); }
+      else if(r===0||r===1){ knownVerbs.delete(i); }
       saveData();updateAll();
       if(document.getElementById('page-vocab').classList.contains('on')) renderVocab();
     }
@@ -2403,9 +2415,35 @@ function renderTrad(){
 // ============================
 
 function renderVocab(){
-  const cats=['Tous',...new Set(VOCAB.map(v=>v.cat))];
-  document.getElementById('vtot').textContent=VOCAB.length;
-  document.getElementById('vpills').innerHTML=cats.map(c=>`<button class="pill ${c===selCat?'on':''}" onclick="selCat='${c}';renderVocab()">${c}</button>`).join('');
+  const cats=['Tous',...new Set(VOCAB.map(v=>v.cat)),'── Verbes ──'];
+  document.getElementById('vtot').textContent=selCat==='── Verbes ──'?VERBS.length:VOCAB.length;
+  document.getElementById('vpills').innerHTML=cats.map(c=>`<button class="pill ${c===selCat?'on':''}" onclick="selCat='${c}';renderVocab()" ${c==='── Verbes ──'?'style="background:rgba(255,159,10,.15);color:#FF9F0A;border-color:#FF9F0A"':''}>${c}</button>`).join('');
+
+  // Mode Verbes infinitifs
+  if(selCat==='── Verbes ──'){
+    document.getElementById('vkc').textContent=knownVerbs.size;
+    document.getElementById('vtot').textContent=VERBS.length;
+    document.getElementById('vgrid').innerHTML=VERBS.map((v,i)=>{
+      const k=knownVerbs.has(i);
+      const ua=v.inf.replace(/'/g,"\\'");
+      return `<div class="wcard ${k?'known':''}">
+        <div class="wleft" onclick="toggleKnownVerb(${i})">
+          <span class="tag" style="background:rgba(255,159,10,.15);color:#FF9F0A">VERBE</span>
+          <div class="wua" style="margin-top:4px">${v.inf}</div>
+          <div class="wtr">${v.inf}</div>
+          <div class="wfr">${v.fr}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+          <button class="speak-btn" onclick="speak('${ua}',event)">🔊</button>
+          <div class="wchk" onclick="toggleKnownVerb(${i})">${k?'✓':''}</div>
+        </div>
+      </div>`;
+    }).join('');
+    return;
+  }
+
+  // Mode normal
+  document.getElementById('vkc').textContent=known.size;
   const list=selCat==='Tous'?VOCAB:VOCAB.filter(v=>v.cat===selCat);
   document.getElementById('vgrid').innerHTML=list.map(w=>{
     const i=VOCAB.indexOf(w),k=known.has(i);
@@ -2426,6 +2464,10 @@ function renderVocab(){
 }
 function toggleKnown(i){
   if(known.has(i))known.delete(i);else{known.add(i);addXP(2);}
+  saveData();renderVocab();updateAll();
+}
+function toggleKnownVerb(i){
+  if(knownVerbs.has(i))knownVerbs.delete(i);else{knownVerbs.add(i);addXP(2);}
   saveData();renderVocab();updateAll();
 }
 function speak(text,e){
