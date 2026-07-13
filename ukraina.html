@@ -1724,17 +1724,22 @@ function flipFlash(){
 function rateFlash(r){
   if(!flashFlipped)return;
   if(r>=2){flashOk++;addXP(4);}
-  // Facile (r===3) → coche le mot dans Vocabulaire
+  // Facile (r===3) → coche immédiatement le mot dans Vocabulaire
   if(r===3 && flashMode==='vocab'){
     const card=flashDeck[flashIdx];
     const i=VOCAB.findIndex(w=>w.ua===card.ua);
-    if(i!==-1 && !known.has(i)){known.add(i);saveData();}
+    if(i!==-1 && !known.has(i)){
+      known.add(i);
+      saveData();
+      updateAll();
+      // Re-render vocab si la page vocab est visible
+      if(document.getElementById('page-vocab').classList.contains('on')) renderVocab();
+    }
   }
   if(r===0){
     const c=flashDeck.splice(flashIdx,1)[0];
     flashDeck.splice(Math.min(flashIdx+3,flashDeck.length),0,c);
   } else { flashIdx++; }
-  updateAll();
   showFlashCard();
   haptic();
 }
@@ -1899,7 +1904,7 @@ function renderPhrases(){
   }).join('');
 }
 function renderConj(){
-  document.getElementById('verb-sel').innerHTML=VERBS.map((v,i)=>`<button class="vbtn ${i===selVerb?'on':''}" onclick="selVerb=${i};renderConj()">${v.inf}</button>`).join('');
+  document.getElementById('verb-sel').innerHTML=VERBS.map((v,i)=>`<button class="vbtn ${i===selVerb?'on':''}" onclick="selVerb=${i};renderConj()">${v.fr}</button>`).join('');
   const tenses=[{k:'pres',l:'Présent'},{k:'past',l:'Passé'},{k:'fut',l:'Futur'}];
   document.getElementById('tense-pills').innerHTML=tenses.map(t=>`<button class="pill ${t.k===selTense?'on':''}" onclick="selTense='${t.k}';renderConj()">${t.l}</button>`).join('');
   const v=VERBS[selVerb],rows=v[selTense];
