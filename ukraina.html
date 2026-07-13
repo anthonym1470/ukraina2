@@ -244,6 +244,8 @@ body{font-family:-apple-system,'SF Pro Text','Inter',system-ui,sans-serif;color:
 .gram-card.open .gram-body{display:block;}
 .gram-rule{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:12px;margin-top:12px;}
 .gram-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;}
+.gram-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0;border-radius:var(--radius);}
+.gram-table-wrap .gram-table{margin:0;min-width:420px;}
 .gram-table th{background:var(--surf2);color:var(--muted);font-weight:600;font-size:11px;letter-spacing:.3px;padding:8px 10px;text-align:left;}
 .gram-table td{padding:9px 10px;border-bottom:0.5px solid var(--brd);vertical-align:top;}
 .gram-table tr:last-child td{border-bottom:none;}
@@ -1628,8 +1630,8 @@ function renderGram(){
     const lvlColors={a1:'#30D158',a2:'#0A84FF',b1:'#FFD60A',b2:'#FF453A'};
     let tableHTML='';
     if(g.table){
-      tableHTML=`<table class="gram-table"><thead><tr>${g.table.heads.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>
-      ${g.table.rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+      tableHTML=`<div class="gram-table-wrap"><table class="gram-table"><thead><tr>${g.table.heads.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>
+      ${g.table.rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
     }
     const exHTML=g.examples?g.examples.map(e=>`<div class="gram-ex">
       <div class="gram-ex-ua">${e.ua}</div>
