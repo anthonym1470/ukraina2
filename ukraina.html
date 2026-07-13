@@ -1702,7 +1702,7 @@ function buildFlashCats(){
   let cats=['Tous'];
   if(flashMode==='vocab') cats=[...cats,...[...new Set(VOCAB.map(v=>v.cat))]];
   else if(flashMode==='phrases') cats=[...cats,...[...new Set(PHRASES.map(p=>p.cat))]];
-  else if(flashMode==='verbs') cats=['Tous','Présent','Passé','Futur'];
+  else if(flashMode==='verbs') cats=['Tous','Infinitif','Présent','Passé','Futur'];
   // trad : pas de sous-catégories
   document.getElementById('flash-cat-pills').innerHTML=cats.map(c=>`<button class="pill ${c===flashCatSel?'on':''}" onclick="selFlashCat('${c.replace(/'/g,"\\'")}')">${c}</button>`).join('');
 }
@@ -1729,6 +1729,15 @@ function buildFlashDeck(){
     return shuffle(pool).map(p=>({fr:p.fr,ua:p.ua,tr:p.tr,ctx:p.cat}));
   } else {
     // Verbes : une carte par pronom pour chaque verbe selon le temps sélectionné
+    if(flashCatSel==='Infinitif'){
+      // Mode infinitif : recto = FR, verso = infinitif ukrainien
+      return shuffle(VERBS.map(v=>({
+        fr:v.fr,
+        ua:v.inf,
+        tr:v.inf,
+        ctx:'Infinitif ukrainien'
+      })));
+    }
     const tenseKey=flashCatSel==='Passé'?'past':flashCatSel==='Futur'?'fut':'pres';
     const tenseLabel=flashCatSel==='Passé'?'Passé':flashCatSel==='Futur'?'Futur':'Présent';
     let cards=[];
@@ -1831,100 +1840,511 @@ let tradPending=null; // traduction en attente de sauvegarde
 function saveTradData(){ try{localStorage.setItem('uk_trad',JSON.stringify(tradList));}catch(e){} }
 function loadTradData(){ try{const d=localStorage.getItem('uk_trad');if(d)tradList=JSON.parse(d);}catch(e){} }
 
-async function translateInput(){
+// ── MOTEUR DE TRADUCTION INTELLIGENT ──────────────────
+const TRAD_DB={
+  // ── PHRASES COMPLÈTES (priorité max) ──
+  phrases:{
+    // Salutations & politesse
+    'bonjour tout le monde':{ua:'привіт усім',tr:'pryvit usim'},
+    'bonne nuit':{ua:'на добраніч',tr:'na dobranich'},
+    'bonne soirée':{ua:'гарного вечора',tr:'harnoho vechora'},
+    'bonne journée':{ua:'гарного дня',tr:'harnoho dnya'},
+    'bonne semaine':{ua:'гарного тижня',tr:'harnoho tyzhnya'},
+    'bon week-end':{ua:'гарних вихідних',tr:'harnykh vykidnykh'},
+    'bonne chance':{ua:'удачі',tr:'udachi'},
+    'bon courage':{ua:'тримайся',tr:'trymaysya'},
+    'félicitations':{ua:'вітаю',tr:'vitayu'},
+    'joyeux anniversaire':{ua:'з днем народження',tr:'z dnem narodzhennya'},
+    'bonne année':{ua:'з новим роком',tr:'z novym rokom'},
+    'joyeux noël':{ua:'з різдвом христовим',tr:'z rizdvom khrystovym'},
+    'joyeuses pâques':{ua:'христос воскрес',tr:'khrystos voskres'},
+    // Expressions courantes
+    'je t\'aime':{ua:'я тебе люблю',tr:'ya tebe lyublyu'},
+    'je vous aime':{ua:'я вас люблю',tr:'ya vas lyublyu'},
+    'je t\'adore':{ua:'я тебе обожнюю',tr:'ya tebe obozhnuyu'},
+    'je t\'en prie':{ua:'нема за що',tr:'nema za shcho'},
+    'de rien':{ua:'будь ласка / нема за що',tr:'bud laska / nema za shcho'},
+    'avec plaisir':{ua:'із задоволенням',tr:'iz zadovolennyam'},
+    'bien sûr':{ua:'звичайно',tr:'zvychayno'},
+    'bien entendu':{ua:'звісно',tr:'zvisno'},
+    'peut-être':{ua:'може бути',tr:'mozhe buty'},
+    'je ne sais pas':{ua:'я не знаю',tr:'ya ne znayu'},
+    'je ne comprends pas':{ua:'я не розумію',tr:'ya ne rozumiyu'},
+    'je ne parle pas ukrainien':{ua:'я не говорю по-українськи',tr:'ya ne hovoryu po-ukrayinsky'},
+    'je parle un peu ukrainien':{ua:'я трохи говорю по-українськи',tr:'ya trokhy hovoryu po-ukrayinsky'},
+    'répétez s\'il vous plaît':{ua:'повторіть будь ласка',tr:'povtority bud laska'},
+    'parlez plus lentement':{ua:'говоріть повільніше',tr:'hovoryt povilnishe'},
+    'je ne sais pas quoi faire':{ua:'я не знаю що робити',tr:'ya ne znayu shcho robyty'},
+    // Santé & état
+    'je suis content':{ua:'я задоволений',tr:'ya zadovolenyy',note:'Masc. / задоволена fém.'},
+    'je suis contente':{ua:'я задоволена',tr:'ya zadovolena'},
+    'je suis triste':{ua:'я сумний',tr:'ya sumnyy',note:'Masc. / сумна fém.'},
+    'je suis fatigué':{ua:'я втомився',tr:'ya vtomyvsya',note:'Masc. / втомилася fém.'},
+    'je suis fatiguée':{ua:'я втомилася',tr:'ya vtomylasya'},
+    'je suis malade':{ua:'я хворий',tr:'ya khvoryy',note:'Masc. / хвора fém.'},
+    'je suis en bonne santé':{ua:'я здоровий',tr:'ya zdorovyy'},
+    'je suis occupé':{ua:'я зайнятий',tr:'ya zayniatyy'},
+    'je suis libre':{ua:'я вільний',tr:'ya vilnyy'},
+    'je suis prêt':{ua:'я готовий',tr:'ya hotovyy'},
+    'j\'ai faim':{ua:'я хочу їсти',tr:'ya khochu yisty'},
+    'j\'ai soif':{ua:'я хочу пити',tr:'ya khochu pyty'},
+    'j\'ai froid':{ua:'мені холодно',tr:'meni kholodno'},
+    'j\'ai chaud':{ua:'мені спекотно',tr:'meni spekotno'},
+    'j\'ai mal à la tête':{ua:'у мене болить голова',tr:'u mene bolyt holova'},
+    'j\'ai mal au ventre':{ua:'у мене болить живіт',tr:'u mene bolyt zhyvit'},
+    'j\'ai mal au dos':{ua:'у мене болить спина',tr:'u mene bolyt spyna'},
+    'j\'ai mal à la gorge':{ua:'у мене болить горло',tr:'u mene bolyt horlo'},
+    'ça va bien':{ua:'все добре',tr:'vse dobre'},
+    'ça ne va pas':{ua:'все не добре',tr:'vse ne dobre'},
+    'pas très bien':{ua:'не дуже добре',tr:'ne duzhe dobre'},
+    // Navigation & lieu
+    'où est la gare':{ua:'де знаходиться вокзал',tr:'de znakhodytsia vokzal'},
+    'où est l\'hôtel':{ua:'де знаходиться готель',tr:'de znakhodytsia hotel'},
+    'où est la pharmacie':{ua:'де знаходиться аптека',tr:'de znakhodytsia apteka'},
+    'où est l\'hôpital':{ua:'де знаходиться лікарня',tr:'de znakhodytsia likarnya'},
+    'tournez à gauche':{ua:'поверніть ліворуч',tr:'povernit livoruch'},
+    'tournez à droite':{ua:'поверніть праворуч',tr:'povernit pravoruch'},
+    'tout droit':{ua:'прямо',tr:'pryamo'},
+    'c\'est loin':{ua:'це далеко',tr:'tse daleko'},
+    'c\'est près':{ua:'це близько',tr:'tse blyzko'},
+    // Commerce & restaurant
+    'combien ça coûte':{ua:'скільки це коштує',tr:'skilky tse koshtуye'},
+    'c\'est trop cher':{ua:'це занадто дорого',tr:'tse zanadto doroho'},
+    'avez-vous une table':{ua:'чи є у вас столик',tr:'chy ye u vas stolyk'},
+    'l\'addition s\'il vous plaît':{ua:'рахунок будь ласка',tr:'rakhunok bud laska'},
+    'c\'est délicieux':{ua:'це дуже смачно',tr:'tse duzhe smachno'},
+    'je voudrais commander':{ua:'я хочу замовити',tr:'ya khochu zamovyty'},
+    'sans gluten':{ua:'без глютену',tr:'bez hlyutenu'},
+    'je suis allergique':{ua:'я алергічний',tr:'ya alerhichnyy'},
+    'végétarien':{ua:'вегетаріанець',tr:'vehetarianets'},
+    // Travail & études
+    'je travaille à la maison':{ua:'я працюю вдома',tr:'ya pratsyuyu vdoma'},
+    'j\'ai une réunion':{ua:'у мене зустріч',tr:'u mene zustrich'},
+    'je suis en retard':{ua:'я запізнився',tr:'ya zapiznyvsya'},
+    'à quelle heure':{ua:'о котрій годині',tr:'o kotriy hodyni'},
+    'demain matin':{ua:'завтра вранці',tr:'zavtra vrantsi'},
+    'après-demain':{ua:'післязавтра',tr:'pislya zavtra'},
+    'la semaine prochaine':{ua:'наступного тижня',tr:'nastupnoho tyzhnya'},
+    'le mois prochain':{ua:'наступного місяця',tr:'nastupnoho misyatsya'},
+    // Émotions & opinions
+    'j\'aime beaucoup':{ua:'мені дуже подобається',tr:'meni duzhe podobayetsya'},
+    'je n\'aime pas':{ua:'мені не подобається',tr:'meni ne podobayetsya'},
+    'c\'est magnifique':{ua:'це чудово',tr:'tse chudovo'},
+    'c\'est intéressant':{ua:'це цікаво',tr:'tse tsikavo'},
+    'c\'est ennuyeux':{ua:'це нудно',tr:'tse nudno'},
+    'c\'est difficile':{ua:'це важко',tr:'tse vazhko'},
+    'c\'est facile':{ua:'це легко',tr:'tse lehko'},
+    'c\'est important':{ua:'це важливо',tr:'tse vazhlуvo'},
+    'je pense que':{ua:'я думаю що',tr:'ya dumayu shcho'},
+    'à mon avis':{ua:'на мою думку',tr:'na moyu dumku'},
+    'je suis d\'accord':{ua:'я згоден',tr:'ya zhoden'},
+    'je ne suis pas d\'accord':{ua:'я не згоден',tr:'ya ne zhoden'},
+    'tu as raison':{ua:'ти маєш рацію',tr:'ty mayesh ratsiyu'},
+    'tu as tort':{ua:'ти не маєш рації',tr:'ty ne mayesh ratsiyi'},
+    // Famille & relations
+    'comment va ta famille':{ua:'як поживає твоя родина',tr:'yak pozhyvaye tvoya rodyna'},
+    'j\'ai un frère':{ua:'у мене є брат',tr:'u mene ye brat'},
+    'j\'ai une sœur':{ua:'у мене є сестра',tr:'u mene ye sestra'},
+    'j\'ai deux enfants':{ua:'у мене двоє дітей',tr:'u mene dvoye ditey'},
+    // Transport
+    'je veux aller à':{ua:'я хочу поїхати до',tr:'ya khochu poyikhaty do'},
+    'un billet pour':{ua:'квиток до',tr:'kvytok do'},
+    'à quelle heure part le train':{ua:'о котрій відходить потяг',tr:'o kotriy vidkhodyt potyah'},
+    'je suis perdu':{ua:'я заблудився',tr:'ya zabludyvsya'},
+    'appelez la police':{ua:'викличте поліцію',tr:'vyklychte politsiyu'},
+    'au secours':{ua:'рятуйте',tr:'ryatуyte'},
+    'appelez une ambulance':{ua:'викличте швидку',tr:'vyklychte shvydku'},
+  },
+
+  // ── MOTS INDIVIDUELS (dictionnaire massif) ──
+  mots:{
+    // Articles & petits mots
+    'le':{ua:'(артикль — pas en ukrainien)',tr:'—'},
+    'la':{ua:'(артикль — pas en ukrainien)',tr:'—'},
+    'les':{ua:'(артикль — pas en ukrainien)',tr:'—'},
+    'un':{ua:'один',tr:'odyn'},'une':{ua:'одна',tr:'odna'},
+    'des':{ua:'декілька',tr:'dekilka'},
+    'ce':{ua:'цей',tr:'tsey'},'cette':{ua:'ця',tr:'tsya'},'ces':{ua:'ці',tr:'tsi'},
+    'mon':{ua:'мій',tr:'miy'},'ma':{ua:'моя',tr:'moya'},'mes':{ua:'мої',tr:'moyi'},
+    'ton':{ua:'твій',tr:'tviy'},'ta':{ua:'твоя',tr:'tvoya'},'tes':{ua:'твої',tr:'tvoyi'},
+    'son':{ua:'його / її',tr:'yoho / yiyi'},'sa':{ua:'його / її',tr:'yoho / yiyi'},
+    'notre':{ua:'наш / наша',tr:'nash / nasha'},'votre':{ua:'ваш / ваша',tr:'vash / vasha'},
+    'leur':{ua:'їхній',tr:'yikhniy'},'leurs':{ua:'їхні',tr:'yikhni'},
+    // Prépositions & conjonctions
+    'et':{ua:'і / та',tr:'i / ta'},'ou':{ua:'або',tr:'abo'},'mais':{ua:'але',tr:'ale'},
+    'donc':{ua:'тому',tr:'tomu'},'car':{ua:'тому що',tr:'tomu shcho'},
+    'parce que':{ua:'тому що',tr:'tomu shcho'},'si':{ua:'якщо',tr:'yakshcho'},
+    'quand':{ua:'коли',tr:'koly'},'pendant':{ua:'під час',tr:'pid chas'},
+    'avant':{ua:'до / перед',tr:'do / pered'},'après':{ua:'після',tr:'pislya'},
+    'avec':{ua:'з / із',tr:'z / iz'},'sans':{ua:'без',tr:'bez'},
+    'pour':{ua:'для',tr:'dlya'},'contre':{ua:'проти',tr:'proty'},
+    'dans':{ua:'в / у',tr:'v / u'},'sur':{ua:'на',tr:'na'},
+    'sous':{ua:'під',tr:'pid'},'entre':{ua:'між',tr:'mizh'},
+    'près de':{ua:'біля',tr:'bilya'},'loin de':{ua:'далеко від',tr:'daleko vid'},
+    'ici':{ua:'тут',tr:'tut'},'là':{ua:'там',tr:'tam'},
+    'partout':{ua:'скрізь',tr:'skriz'},'nulle part':{ua:'ніде',tr:'nide'},
+    'toujours':{ua:'завжди',tr:'zavzhdy'},'jamais':{ua:'ніколи',tr:'nikoly'},
+    'souvent':{ua:'часто',tr:'chasto'},'parfois':{ua:'іноді',tr:'inodi'},
+    'rarement':{ua:'рідко',tr:'ridko'},'maintenant':{ua:'зараз',tr:'zaraz'},
+    'bientôt':{ua:'скоро',tr:'skoro'},'déjà':{ua:'вже',tr:'vzhe'},
+    'encore':{ua:'ще',tr:'shche'},'aussi':{ua:'також',tr:'takozh'},
+    'seulement':{ua:'тільки',tr:'tilky'},'même':{ua:'навіть',tr:'navit'},
+    'très':{ua:'дуже',tr:'duzhe'},'trop':{ua:'занадто',tr:'zanadto'},
+    'assez':{ua:'досить',tr:'dosyt'},'peu':{ua:'мало',tr:'malo'},
+    'beaucoup':{ua:'багато',tr:'bahato'},'plus':{ua:'більше',tr:'bilshe'},
+    'moins':{ua:'менше',tr:'menshe'},'autant':{ua:'стільки ж',tr:'stilky zh'},
+    // Verbes courants (infinitif)
+    'être':{ua:'бути',tr:'buty'},'avoir':{ua:'мати',tr:'maty'},
+    'faire':{ua:'робити',tr:'robyty'},'dire':{ua:'говорити',tr:'hovoryty'},
+    'aller':{ua:'іти / їхати',tr:'ity / yikhaty'},'venir':{ua:'приходити',tr:'prykhodity'},
+    'voir':{ua:'бачити',tr:'bachyty'},'savoir':{ua:'знати',tr:'znaty'},
+    'vouloir':{ua:'хотіти',tr:'khotity'},'pouvoir':{ua:'могти',tr:'mohty'},
+    'devoir':{ua:'мусити',tr:'musyty'},'falloir':{ua:'треба',tr:'treba'},
+    'prendre':{ua:'брати',tr:'braty'},'donner':{ua:'давати',tr:'davaty'},
+    'parler':{ua:'говорити',tr:'hovoryty'},'écouter':{ua:'слухати',tr:'slukhaty'},
+    'lire':{ua:'читати',tr:'chytaty'},'écrire':{ua:'писати',tr:'pysaty'},
+    'manger':{ua:'їсти',tr:'yisty'},'boire':{ua:'пити',tr:'pyty'},
+    'dormir':{ua:'спати',tr:'spaty'},'travailler':{ua:'працювати',tr:'pratsyuvaty'},
+    'étudier':{ua:'вчитися',tr:'vchytysya'},'apprendre':{ua:'вивчати',tr:'vyvchaty'},
+    'comprendre':{ua:'розуміти',tr:'rozumity'},'aimer':{ua:'любити',tr:'lyubyty'},
+    'habiter':{ua:'жити',tr:'zhyty'},'acheter':{ua:'купувати',tr:'kupuvaty'},
+    'vendre':{ua:'продавати',tr:'prodavaty'},'payer':{ua:'платити',tr:'platyty'},
+    'chercher':{ua:'шукати',tr:'shukaty'},'trouver':{ua:'знаходити',tr:'znakhodyty'},
+    'perdre':{ua:'втрачати',tr:'vtrachaty'},'gagner':{ua:'перемагати',tr:'peremahaty'},
+    'ouvrir':{ua:'відкривати',tr:'vidkryvaty'},'fermer':{ua:'закривати',tr:'zakryvaty'},
+    'commencer':{ua:'починати',tr:'pochynaty'},'finir':{ua:'закінчувати',tr:'zakinchuvaty'},
+    'attendre':{ua:'чекати',tr:'chekaty'},'aider':{ua:'допомагати',tr:'dopomahaty'},
+    'demander':{ua:'запитувати',tr:'zapytuvaty'},'répondre':{ua:'відповідати',tr:'vidpovidaty'},
+    'penser':{ua:'думати',tr:'dumaty'},'croire':{ua:'вірити',tr:'viryty'},
+    'espérer':{ua:'сподіватися',tr:'spodivatsya'},'décider':{ua:'вирішувати',tr:'vyrishuvaty'},
+    'oublier':{ua:'забувати',tr:'zabuvaty'},'rappeler':{ua:'нагадувати',tr:'nahaduvaty'},
+    'expliquer':{ua:'пояснювати',tr:'poyasnyuvaty'},'raconter':{ua:'розповідати',tr:'rozpovidaty'},
+    'rire':{ua:'сміятися',tr:'smiyatysya'},'pleurer':{ua:'плакати',tr:'plakaty'},
+    'chanter':{ua:'співати',tr:'spivaty'},'danser':{ua:'танцювати',tr:'tantsyuvaty'},
+    'jouer':{ua:'грати',tr:'hraty'},'nager':{ua:'плавати',tr:'plavaty'},
+    'courir':{ua:'бігати',tr:'bihaty'},'marcher':{ua:'ходити',tr:'khodyty'},
+    'conduire':{ua:'водити машину',tr:'vodyty mashynu'},
+    'cuisiner':{ua:'готувати',tr:'hotuvaty'},'nettoyer':{ua:'прибирати',tr:'prybyraty'},
+    'laver':{ua:'мити',tr:'myty'},'habiller':{ua:'одягатися',tr:'odyahatysya'},
+    'se réveiller':{ua:'прокидатися',tr:'prokydatysya'},
+    'se coucher':{ua:'лягати спати',tr:'lyahaty spaty'},
+    'se lever':{ua:'вставати',tr:'vstavaty'},
+    'appeler':{ua:'телефонувати',tr:'telefonuvaty'},
+    'envoyer':{ua:'надсилати',tr:'nadsylaty'},
+    'recevoir':{ua:'отримувати',tr:'otrymuvaty'},
+    'sortir':{ua:'виходити',tr:'vykhodity'},
+    'entrer':{ua:'входити',tr:'vkhodity'},
+    'monter':{ua:'підніматися',tr:'pidnimatsya'},
+    'descendre':{ua:'спускатися',tr:'spuskatsya'},
+    'rentrer':{ua:'повертатися',tr:'povertatsya'},
+    'voyager':{ua:'подорожувати',tr:'podorozhuvaty'},
+    'visiter':{ua:'відвідувати',tr:'vidviduvaty'},
+    'rencontrer':{ua:'зустрічати',tr:'zustrichaty'},
+    'présenter':{ua:'представляти',tr:'predstavlyaty'},
+    'inviter':{ua:'запрошувати',tr:'zaproshuvaty'},
+    'accepter':{ua:'приймати',tr:'pryymaty'},
+    'refuser':{ua:'відмовляти',tr:'vidmovlyaty'},
+    'promettre':{ua:'обіцяти',tr:'obitsyaty'},
+    'essayer':{ua:'намагатися',tr:'namahatysya'},
+    'réussir':{ua:'вдаватися',tr:'vdavatysya'},
+    'échouer':{ua:'провалюватися',tr:'provalyuvatysya'},
+    'continuer':{ua:'продовжувати',tr:'prodovzhuvaty'},
+    'arrêter':{ua:'зупиняти',tr:'zupynyaty'},
+    'choisir':{ua:'вибирати',tr:'vybyraty'},
+    'préférer':{ua:'надавати перевагу',tr:'nadavaty perevahy'},
+    'partager':{ua:'ділитися',tr:'dilytysya'},
+    'changer':{ua:'змінювати',tr:'zminyuvaty'},
+    'utiliser':{ua:'використовувати',tr:'vykorystovuvaty'},
+    'créer':{ua:'створювати',tr:'stvoryuvaty'},
+    'construire':{ua:'будувати',tr:'buduvaty'},
+    'détruire':{ua:'руйнувати',tr:'ruynuvaty'},
+    'grandir':{ua:'рости',tr:'rosty'},
+    'vieillir':{ua:'старіти',tr:'starity'},
+    'naître':{ua:'народжуватися',tr:'narodzhuvatysya'},
+    'mourir':{ua:'вмирати',tr:'vmyraty'},
+    'sourire':{ua:'посміхатися',tr:'posmikhatysya'},
+    'embrasser':{ua:'обіймати',tr:'obiymaty'},
+    'respecter':{ua:'поважати',tr:'povazhaty'},
+    'admirer':{ua:'захоплюватися',tr:'zakhopluvatysya'},
+    'critiquer':{ua:'критикувати',tr:'krytykuvaty'},
+    'comparer':{ua:'порівнювати',tr:'porivnyuvaty'},
+    'mesurer':{ua:'вимірювати',tr:'vymіryuvaty'},
+    'peser':{ua:'важити',tr:'vazhyty'},
+    'compter':{ua:'рахувати',tr:'rakhuvaty'},
+    'calculer':{ua:'обчислювати',tr:'obchyslyuvaty'},
+    'saigner':{ua:'кровоточити',tr:'krovotochyty'},
+    'voler':{ua:'летіти / красти',tr:'lety / krасты'},
+    'tomber':{ua:'падати',tr:'padaty'},
+    'frapper':{ua:'бити',tr:'byty'},
+    'pousser':{ua:'штовхати',tr:'shtovkhaty'},
+    'tirer':{ua:'тягнути',tr:'tyahnuty'},
+    'porter':{ua:'нести / носити',tr:'nesty / nosyty'},
+    'mettre':{ua:'класти / ставити',tr:'klasty / stavyty'},
+    'enlever':{ua:'знімати',tr:'znimaty'},
+    'casser':{ua:'ламати',tr:'lamaty'},
+    'réparer':{ua:'ремонтувати',tr:'remontuvaty'},
+    'remplir':{ua:'заповнювати',tr:'zapovnyuvaty'},
+    'vider':{ua:'спустошувати',tr:'spustoshuvaty'},
+    'mélanger':{ua:'змішувати',tr:'zmishuvaty'},
+    'couper':{ua:'різати',tr:'rizaty'},
+    'cuire':{ua:'варити / пекти',tr:'varyty / pekty'},
+    // Adjectifs courants
+    'grand':{ua:'великий',tr:'velykyy'},'petit':{ua:'маленький',tr:'malenkiy'},
+    'long':{ua:'довгий',tr:'dovhyy'},'court':{ua:'короткий',tr:'korotkyy'},
+    'haut':{ua:'високий',tr:'vysokyy'},'bas':{ua:'низький',tr:'nyzkyy'},
+    'large':{ua:'широкий',tr:'shyrokyy'},'étroit':{ua:'вузький',tr:'vuzkyy'},
+    'lourd':{ua:'важкий',tr:'vazhkyy'},'léger':{ua:'легкий',tr:'lehkyy'},
+    'chaud':{ua:'гарячий',tr:'haryachyy'},'froid':{ua:'холодний',tr:'kholodnyy'},
+    'chaud (temps)':{ua:'жаркий',tr:'zharkyy'},'frais':{ua:'прохолодний',tr:'prokholodnyy'},
+    'beau':{ua:'гарний',tr:'harnyy'},'laid':{ua:'некрасивий',tr:'nekrasyvy'},
+    'propre':{ua:'чистий',tr:'chystyy'},'sale':{ua:'брудний',tr:'brudnyy'},
+    'nouveau':{ua:'новий',tr:'novyy'},'vieux':{ua:'старий',tr:'staryy'},
+    'jeune':{ua:'молодий',tr:'molodyy'},'âgé':{ua:'похилого віку',tr:'pokhyloho viku'},
+    'rapide':{ua:'швидкий',tr:'shvydkyy'},'lent':{ua:'повільний',tr:'povilnyy'},
+    'fort':{ua:'сильний',tr:'sylnyy'},'faible':{ua:'слабкий',tr:'slabkyy'},
+    'dur':{ua:'твердий / жорсткий',tr:'tverdyy / zhorstkyy'},'mou':{ua:'м\'який',tr:'myakiy'},
+    'plein':{ua:'повний',tr:'povnyy'},'vide':{ua:'порожній',tr:'porozhniy'},
+    'ouvert':{ua:'відкритий',tr:'vidkrytyy'},'fermé':{ua:'закритий',tr:'zakrytyy'},
+    'libre':{ua:'вільний',tr:'vilnyy'},'occupé':{ua:'зайнятий',tr:'zayniatyy'},
+    'possible':{ua:'можливий',tr:'mozhlyvyy'},'impossible':{ua:'неможливий',tr:'nemozhlyvyy'},
+    'vrai':{ua:'правдивий / справжній',tr:'pravdyvyy / spravzhniy'},
+    'faux':{ua:'неправдивий / помилковий',tr:'nepravdyvyy / pomylkovyy'},
+    'simple':{ua:'простий',tr:'prostyy'},'compliqué':{ua:'складний',tr:'skladnyy'},
+    'cher':{ua:'дорогий',tr:'dorohyy'},'bon marché':{ua:'дешевий',tr:'deshevyy'},
+    'intéressant':{ua:'цікавий',tr:'tsikavyy'},'ennuyeux':{ua:'нудний',tr:'nudnyy'},
+    'amusant':{ua:'веселий',tr:'veselyy'},'triste':{ua:'сумний',tr:'sumnyy'},
+    'heureux':{ua:'щасливий',tr:'shchaslyvyy'},'malheureux':{ua:'нещасний',tr:'neshchasnyy'},
+    'content':{ua:'задоволений',tr:'zadovolenyy'},'mécontent':{ua:'незадоволений',tr:'nezadovolenyy'},
+    'calme':{ua:'спокійний',tr:'spokiynyy'},'nerveux':{ua:'нервовий',tr:'nervovyy'},
+    'courageux':{ua:'сміливий',tr:'smilyvyy'},'peureux':{ua:'боязкий',tr:'boyazkyy'},
+    'généreux':{ua:'щедрий',tr:'shchedryy'},'avare':{ua:'скупий',tr:'skupyy'},
+    'gentil':{ua:'добрий',tr:'dobryy'},'méchant':{ua:'злий',tr:'zlyy'},
+    'honnête':{ua:'чесний',tr:'chesnyy'},'malhonnête':{ua:'нечесний',tr:'nechesnyy'},
+    'intelligent':{ua:'розумний',tr:'rozumnyy'},'stupide':{ua:'дурний',tr:'durnyy'},
+    'drôle':{ua:'смішний',tr:'smishnyy'},'sérieux':{ua:'серйозний',tr:'seryoznyy'},
+    'important':{ua:'важливий',tr:'vazhlyvyy'},'inutile':{ua:'непотрібний',tr:'nepotribnyy'},
+    'nécessaire':{ua:'необхідний',tr:'neobkhidnyy'},'suffisant':{ua:'достатній',tr:'dostatny'},
+    // Couleurs
+    'rouge':{ua:'червоний',tr:'chervonyy'},'bleu':{ua:'синій / блакитний',tr:'syniy / blakyty'},
+    'vert':{ua:'зелений',tr:'zelenyy'},'jaune':{ua:'жовтий',tr:'zhovtyy'},
+    'orange':{ua:'помаранчевий',tr:'pomarannevyy'},'violet':{ua:'фіолетовий',tr:'fioletovyy'},
+    'rose':{ua:'рожевий',tr:'rozhevyy'},'noir':{ua:'чорний',tr:'chornyy'},
+    'blanc':{ua:'білий',tr:'bilyy'},'gris':{ua:'сірий',tr:'sіryy'},
+    'marron':{ua:'коричневий',tr:'korychnevyy'},'beige':{ua:'бежевий',tr:'bezhevyy'},
+    'doré':{ua:'золотистий',tr:'zolotystyy'},'argenté':{ua:'срібний',tr:'sribnyy'},
+    // Nombres
+    'zéro':{ua:'нуль',tr:'nul'},'un':{ua:'один',tr:'odyn'},'deux':{ua:'два',tr:'dva'},
+    'trois':{ua:'три',tr:'try'},'quatre':{ua:'чотири',tr:'chotyry'},'cinq':{ua:'п\'ять',tr:'pyat'},
+    'six':{ua:'шість',tr:'shist'},'sept':{ua:'сім',tr:'sim'},'huit':{ua:'вісім',tr:'visim'},
+    'neuf':{ua:'дев\'ять',tr:'devyat'},'dix':{ua:'десять',tr:'desyat'},
+    'onze':{ua:'одинадцять',tr:'odynamtsyat'},'douze':{ua:'дванадцять',tr:'dvanadtsyat'},
+    'vingt':{ua:'двадцять',tr:'dvadtsyat'},'trente':{ua:'тридцять',tr:'trydtsyat'},
+    'quarante':{ua:'сорок',tr:'sorok'},'cinquante':{ua:'п\'ятдесят',tr:'pyatdesyat'},
+    'soixante':{ua:'шістдесят',tr:'shistdesyat'},'cent':{ua:'сто',tr:'sto'},
+    'mille':{ua:'тисяча',tr:'tysyacha'},'million':{ua:'мільйон',tr:'milyon'},
+    'premier':{ua:'перший',tr:'pershyy'},'deuxième':{ua:'другий',tr:'druhyy'},
+    'dernier':{ua:'останній',tr:'ostanniy'},
+    // Temps & météo
+    'aujourd\'hui':{ua:'сьогодні',tr:'sohodni'},'demain':{ua:'завтра',tr:'zavtra'},
+    'hier':{ua:'вчора',tr:'vchora'},'matin':{ua:'ранок',tr:'ranok'},
+    'midi':{ua:'полудень',tr:'poludne'},'après-midi':{ua:'день',tr:'den'},
+    'soir':{ua:'вечір',tr:'vechir'},'nuit':{ua:'ніч',tr:'nich'},
+    'lundi':{ua:'понеділок',tr:'ponedilok'},'mardi':{ua:'вівторок',tr:'vivtorok'},
+    'mercredi':{ua:'середа',tr:'sereda'},'jeudi':{ua:'четвер',tr:'chetver'},
+    'vendredi':{ua:'п\'ятниця',tr:'pyatnitsya'},'samedi':{ua:'субота',tr:'subota'},
+    'dimanche':{ua:'неділя',tr:'nedilya'},
+    'janvier':{ua:'січень',tr:'sichen'},'février':{ua:'лютий',tr:'lyutyy'},
+    'mars':{ua:'березень',tr:'berezen'},'avril':{ua:'квітень',tr:'kviten'},
+    'mai':{ua:'травень',tr:'traven'},'juin':{ua:'червень',tr:'cherven'},
+    'juillet':{ua:'липень',tr:'lypen'},'août':{ua:'серпень',tr:'serpen'},
+    'septembre':{ua:'вересень',tr:'veresen'},'octobre':{ua:'жовтень',tr:'zhovten'},
+    'novembre':{ua:'листопад',tr:'lystopad'},'décembre':{ua:'грудень',tr:'hruden'},
+    'printemps':{ua:'весна',tr:'vesna'},'été':{ua:'літо',tr:'lito'},
+    'automne':{ua:'осінь',tr:'osin'},'hiver':{ua:'зима',tr:'zyma'},
+    'soleil':{ua:'сонце',tr:'sontse'},'pluie':{ua:'дощ',tr:'doshch'},
+    'neige':{ua:'сніг',tr:'snih'},'vent':{ua:'вітер',tr:'viter'},
+    'nuage':{ua:'хмара',tr:'khmara'},'orage':{ua:'гроза',tr:'hroza'},
+    'brouillard':{ua:'туман',tr:'tuman'},'arc-en-ciel':{ua:'веселка',tr:'veselka'},
+    'il fait beau':{ua:'гарна погода',tr:'harna pohoda'},
+    'il fait mauvais':{ua:'погана погода',tr:'pohana pohoda'},
+    'il pleut':{ua:'іде дощ',tr:'ide doshch'},
+    'il neige':{ua:'іде сніг',tr:'ide snih'},
+    'il fait froid':{ua:'холодно',tr:'kholodno'},
+    'il fait chaud':{ua:'спекотно',tr:'spekotno'},
+    // Corps humain
+    'tête':{ua:'голова',tr:'holova'},'visage':{ua:'обличчя',tr:'oblychcha'},
+    'yeux':{ua:'очі',tr:'ochi'},'œil':{ua:'oko',tr:'oko'},
+    'nez':{ua:'ніс',tr:'nis'},'bouche':{ua:'рот',tr:'rot'},
+    'oreille':{ua:'вухо',tr:'vukho'},'cheveux':{ua:'волосся',tr:'volossia'},
+    'dent':{ua:'зуб',tr:'zub'},'lèvres':{ua:'губи',tr:'huby'},
+    'cou':{ua:'шия',tr:'shyya'},'épaule':{ua:'плече',tr:'pleche'},
+    'bras':{ua:'рука',tr:'ruka'},'main':{ua:'рука / долоня',tr:'ruka / dolona'},
+    'doigt':{ua:'палець',tr:'palets'},'jambe':{ua:'нога',tr:'noha'},
+    'pied':{ua:'стопа',tr:'stopa'},'genou':{ua:'коліно',tr:'kolino'},
+    'dos':{ua:'спина',tr:'spyna'},'ventre':{ua:'живіт',tr:'zhyvit'},
+    'cœur':{ua:'серце',tr:'sertse'},'poumon':{ua:'легені',tr:'leheni'},
+    'cerveau':{ua:'мозок',tr:'mozok'},'os':{ua:'кістка',tr:'kistka'},
+    'peau':{ua:'шкіра',tr:'shkira'},'sang':{ua:'кров',tr:'krov'},
+    // Nourriture
+    'eau':{ua:'вода',tr:'voda'},'pain':{ua:'хліб',tr:'khlib'},
+    'riz':{ua:'рис',tr:'rys'},'pâtes':{ua:'макарони',tr:'makarony'},
+    'soupe':{ua:'суп',tr:'sup'},'salade':{ua:'салат',tr:'salat'},
+    'viande':{ua:'м\'ясо',tr:'myaso'},'poulet':{ua:'курка',tr:'kurka'},
+    'poisson':{ua:'риба',tr:'ryba'},'œuf':{ua:'яйце',tr:'yaytse'},
+    'fromage':{ua:'сир',tr:'syr'},'lait':{ua:'молоко',tr:'moloko'},
+    'beurre':{ua:'масло',tr:'maslo'},'huile':{ua:'олія',tr:'oliya'},
+    'sel':{ua:'сіль',tr:'sil'},'sucre':{ua:'цукор',tr:'tsukor'},
+    'café':{ua:'кава',tr:'kava'},'thé':{ua:'чай',tr:'chay'},
+    'jus':{ua:'сік',tr:'sik'},'vin':{ua:'вино',tr:'vyno'},
+    'bière':{ua:'пиво',tr:'pyvo'},'pomme':{ua:'яблуко',tr:'yabluko'},
+    'tomate':{ua:'помідор',tr:'pomidor'},'carotte':{ua:'морква',tr:'morkva'},
+    'oignon':{ua:'цибуля',tr:'tsybulya'},'ail':{ua:'часник',tr:'chasnyk'},
+    'chocolat':{ua:'шоколад',tr:'shokolad'},'gâteau':{ua:'торт',tr:'tort'},
+    'glace':{ua:'морозиво',tr:'morozyvo'},'biscuit':{ua:'печиво',tr:'pechyvo'},
+    // Lieux
+    'maison':{ua:'будинок / дім',tr:'budynok / dim'},'appartement':{ua:'квартира',tr:'kvartyra'},
+    'rue':{ua:'вулиця',tr:'vulitsya'},'ville':{ua:'місто',tr:'misto'},
+    'village':{ua:'село',tr:'selo'},'pays':{ua:'країна',tr:'krayna'},
+    'école':{ua:'школа',tr:'shkola'},'université':{ua:'університет',tr:'universytet'},
+    'hôpital':{ua:'лікарня',tr:'likarnya'},'pharmacie':{ua:'аптека',tr:'apteka'},
+    'magasin':{ua:'магазин',tr:'mahazyn'},'marché':{ua:'ринок',tr:'rynok'},
+    'restaurant':{ua:'ресторан',tr:'restoran'},'hôtel':{ua:'готель',tr:'hotel'},
+    'gare':{ua:'вокзал',tr:'vokzal'},'aéroport':{ua:'аéропорт',tr:'aeroport'},
+    'banque':{ua:'банк',tr:'bank'},'bureau':{ua:'офіс',tr:'ofis'},
+    'parc':{ua:'парк',tr:'park'},'plage':{ua:'пляж',tr:'plyazh'},
+    'forêt':{ua:'ліс',tr:'lis'},'mer':{ua:'море',tr:'more'},
+    'montagne':{ua:'гора',tr:'hora'},'rivière':{ua:'річка',tr:'richka'},
+    // Famille
+    'père':{ua:'батько',tr:'batko'},'mère':{ua:'мати',tr:'maty'},
+    'frère':{ua:'брат',tr:'brat'},'sœur':{ua:'сестра',tr:'sestra'},
+    'fils':{ua:'син',tr:'syn'},'fille':{ua:'дочка',tr:'dochka'},
+    'enfant':{ua:'дитина',tr:'dytyna'},'bébé':{ua:'немовля',tr:'nemovlya'},
+    'mari':{ua:'чоловік',tr:'cholovik'},'femme (épouse)':{ua:'дружина',tr:'druzhyna'},
+    'ami':{ua:'друг',tr:'druh'},'amie':{ua:'подруга',tr:'podruga'},
+    'voisin':{ua:'сусід',tr:'susid'},'collègue':{ua:'колега',tr:'kolega'},
+    // Objets quotidiens
+    'clé':{ua:'ключ',tr:'klyuch'},'téléphone':{ua:'телефон',tr:'telefon'},
+    'ordinateur':{ua:'комп\'ютер',tr:'kompyuter'},'livre':{ua:'книга',tr:'knyha'},
+    'stylo':{ua:'ручка',tr:'ruchka'},'sac':{ua:'сумка',tr:'sumka'},
+    'argent':{ua:'гроші',tr:'hroshi'},'carte':{ua:'картка',tr:'kartka'},
+    'montre':{ua:'годинник',tr:'hodynyk'},'lunettes':{ua:'окуляри',tr:'okulyary'},
+    'parapluie':{ua:'парасолька',tr:'parasolka'},'ticket':{ua:'квиток',tr:'kvytok'},
+    // Santé
+    'médecin':{ua:'лікар',tr:'likar'},'infirmier':{ua:'медбрат / медсестра',tr:'medbrat'},
+    'médicament':{ua:'ліки',tr:'liky'},'douleur':{ua:'біль',tr:'bil'},
+    'fièvre':{ua:'температура',tr:'temperatura'},'rhume':{ua:'застуда',tr:'zastuda'},
+    'toux':{ua:'кашель',tr:'kashel'},'allergie':{ua:'алергія',tr:'alerhiya'},
+    'urgence':{ua:'швидка допомога',tr:'shvydka dopomоha'},
+    // Transports
+    'voiture':{ua:'машина',tr:'mashyna'},'bus':{ua:'автобус',tr:'avtobus'},
+    'train':{ua:'потяг',tr:'potyah'},'avion':{ua:'літак',tr:'litak'},
+    'vélo':{ua:'велосипед',tr:'velosyped'},'taxi':{ua:'таксі',tr:'taksi'},
+    'métro':{ua:'метро',tr:'metro'},'bateau':{ua:'корабель',tr:'korabel'},
+    // Vêtements
+    'chemise':{ua:'сорочка',tr:'sorochka'},'pantalon':{ua:'штани',tr:'shtany'},
+    'robe':{ua:'сукня',tr:'suknya'},'jupe':{ua:'спідниця',tr:'spidnytsya'},
+    'veste':{ua:'куртка',tr:'kurtka'},'manteau':{ua:'пальто',tr:'palto'},
+    'chaussures':{ua:'черевики',tr:'cherevyky'},'chaussettes':{ua:'шкарпетки',tr:'shkarpetky'},
+    'chapeau':{ua:'шапка / капелюх',tr:'shapka / kapelyukh'},
+    // Travail
+    'travail':{ua:'робота',tr:'robota'},'salaire':{ua:'зарплата',tr:'zarplata'},
+    'réunion':{ua:'зустріч',tr:'zustrich'},'projet':{ua:'проект',tr:'proekt'},
+    'vacances':{ua:'відпустка',tr:'vidpustka'},'congé':{ua:'вихідний',tr:'vykidnyy'},
+    // Émotions
+    'joie':{ua:'радість',tr:'radist'},'tristesse':{ua:'сум',tr:'sum'},
+    'peur':{ua:'страх',tr:'strakh'},'colère':{ua:'злість',tr:'zlist'},
+    'amour':{ua:'любов',tr:'lyubov'},'haine':{ua:'ненависть',tr:'nenavist'},
+    'espoir':{ua:'надія',tr:'nadiya'},'désespoir':{ua:'відчай',tr:'vidchay'},
+    'surprise':{ua:'здивування',tr:'zdyvuvannya'},'fierté':{ua:'гордість',tr:'hordist'},
+    'honte':{ua:'сором',tr:'sorom'},'jalousie':{ua:'заздрість',tr:'zazdrist'},
+    'nostalgie':{ua:'ностальгія',tr:'nostalhiya'},'confiance':{ua:'довіра',tr:'dovira'},
+    // Mots abstraits
+    'vie':{ua:'життя',tr:'zhyttya'},'mort':{ua:'смерть',tr:'smert'},
+    'temps':{ua:'час',tr:'chas'},'espace':{ua:'простір',tr:'prostir'},
+    'monde':{ua:'світ',tr:'svit'},'nature':{ua:'природа',tr:'pryroda'},
+    'liberté':{ua:'свобода',tr:'svoboda'},'paix':{ua:'мир',tr:'myr'},
+    'guerre':{ua:'війна',tr:'viyna'},'amitié':{ua:'дружба',tr:'druzhba'},
+    'bonheur':{ua:'щастя',tr:'shchastya'},'malheur':{ua:'нещастя',tr:'neshchastya'},
+    'vérité':{ua:'правда',tr:'pravda'},'mensonge':{ua:'брехня',tr:'brekhnya'},
+    'problème':{ua:'проблема',tr:'problema'},'solution':{ua:'рішення',tr:'rishennya'},
+    'idée':{ua:'ідея',tr:'ideya'},'rêve':{ua:'мрія / сон',tr:'mriya / son'},
+    'question':{ua:'питання',tr:'pytannya'},'réponse':{ua:'відповідь',tr:'vidpovid'},
+    'début':{ua:'початок',tr:'pochatok'},'fin':{ua:'кінець',tr:'kinets'},
+    'histoire':{ua:'історія',tr:'istoriya'},'futur':{ua:'майбутнє',tr:'maybutnye'},
+    'passé':{ua:'минуле',tr:'mynule'},'présent':{ua:'теперішнє',tr:'tperishnye'},
+  }
+};
+
+function smartTranslate(input){
+  const low=input.toLowerCase().trim().replace(/[?!.,;:]/g,'');
+  
+  // 1. Correspondance exacte dans phrases
+  if(TRAD_DB.phrases[low]) return {...TRAD_DB.phrases[low],type:'Phrase'};
+  
+  // 2. Correspondance exacte dans mots
+  if(TRAD_DB.mots[low]) return {...TRAD_DB.mots[low],type:'Mot'};
+  
+  // 3. Cherche dans VOCAB (app)
+  const vExact=VOCAB.find(w=>w.fr.toLowerCase()===low);
+  if(vExact) return {ua:vExact.ua,tr:vExact.tr,type:'Vocabulaire · '+vExact.cat};
+  
+  // 4. Cherche dans PHRASES (app)
+  const pExact=PHRASES.find(p=>p.fr.toLowerCase()===low);
+  if(pExact) return {ua:pExact.ua,tr:pExact.tr,type:'Phrase · '+pExact.cat};
+  
+  // 5. Correspondance partielle dans phrases (la phrase contient le mot cherché)
+  const phraseKey=Object.keys(TRAD_DB.phrases).find(k=>low.includes(k)||k.includes(low));
+  if(phraseKey) return {...TRAD_DB.phrases[phraseKey],type:'Correspondance approchée'};
+  
+  // 6. Construction mot à mot pour les phrases
+  const words=low.split(/\s+/).filter(w=>w.length>1);
+  if(words.length>1){
+    const translations=words.map(w=>{
+      const m=TRAD_DB.mots[w]||VOCAB.find(v=>v.fr.toLowerCase()===w);
+      return m?{fr:w,ua:m.ua,tr:m.tr}:null;
+    }).filter(Boolean);
+    if(translations.length>=Math.ceil(words.length*0.5)){
+      const ua=translations.map(t=>t.ua).join(' ');
+      const tr=translations.map(t=>t.tr).join(' ');
+      const missing=words.filter(w=>!translations.find(t=>t.fr===w));
+      const note=missing.length?'Traduction approchée. Mots non traduits : '+missing.join(', '):'Traduction mot à mot';
+      return {ua,tr,type:note};
+    }
+  }
+  
+  // 7. Correspondance partielle dans mots
+  const motKey=Object.keys(TRAD_DB.mots).find(k=>low.includes(k)&&k.length>3);
+  if(motKey) return {...TRAD_DB.mots[motKey],type:'Correspondance partielle : "'+motKey+'"'};
+  
+  // 8. Recherche dans VOCAB par inclusion
+  const vPartial=VOCAB.find(w=>low.includes(w.fr.toLowerCase())&&w.fr.length>3);
+  if(vPartial) return {ua:vPartial.ua,tr:vPartial.tr,type:'Correspondance partielle · '+vPartial.cat};
+  
+  return null;
+}
+
+function translateInput(){
   const input=document.getElementById('trad-input').value.trim();
   if(!input)return;
   document.getElementById('trad-result').style.display='none';
   document.getElementById('trad-error').style.display='none';
   document.getElementById('trad-loading').style.display='block';
   haptic();
-
-  // Cherche d'abord dans VOCAB et PHRASES
-  const inputLow=input.toLowerCase().trim();
-  let found=null;
-
-  // Recherche dans VOCAB (FR → UA)
-  const vMatch=VOCAB.find(w=>w.fr.toLowerCase()===inputLow||w.fr.toLowerCase().includes(inputLow)||inputLow.includes(w.fr.toLowerCase()));
-  if(vMatch) found={ua:vMatch.ua,tr:vMatch.tr,note:'Vocabulaire · '+vMatch.cat+' · '+vMatch.lvl.toUpperCase()};
-
-  // Recherche dans PHRASES
-  if(!found){
-    const pMatch=PHRASES.find(p=>p.fr.toLowerCase()===inputLow||p.fr.toLowerCase().includes(inputLow)||inputLow.includes(p.fr.toLowerCase()));
-    if(pMatch) found={ua:pMatch.ua,tr:pMatch.tr,note:'Phrase · '+pMatch.cat};
-  }
-
-  // Dictionnaire de traduction rapide FR→UA
-  if(!found){
-    const DICT={
-      'bonjour':{ua:'привіт',tr:'pryvit',note:'Salutation informelle'},
-      'merci':{ua:'дякую',tr:'dyakuyu',note:'Remerciement'},
-      'oui':{ua:'так',tr:'tak',note:'Affirmation'},
-      'non':{ua:'ні',tr:'ni',note:'Négation'},
-      'je t\'aime':{ua:'я тебе люблю',tr:'ya tebe lyublyu',note:'Déclaration d\'amour'},
-      'je vous aime':{ua:'я вас люблю',tr:'ya vas lyublyu',note:'Formel / pluriel'},
-      'bonne nuit':{ua:'на добраніч',tr:'na dobranich',note:'Pour se coucher'},
-      'bonne chance':{ua:'удачі',tr:'udachi',note:'Souhait de bonne chance'},
-      'félicitations':{ua:'вітаю',tr:'vitayu',note:'Pour féliciter'},
-      'joyeux anniversaire':{ua:'з днем народження',tr:'z dnem narodzhennya',note:'Anniversaire'},
-      'bonne année':{ua:'з новим роком',tr:'z novym rokom',note:'Nouvel an'},
-      'joyeux noël':{ua:'з різдвом',tr:'z rizdvom',note:'Noël'},
-      's\'il vous plaît':{ua:'будь ласка',tr:'bud laska',note:'Formule de politesse'},
-      'excusez-moi':{ua:'вибачте',tr:'vybachte',note:'Pour s\'excuser'},
-      'pardon':{ua:'пробачте',tr:'probachte',note:'Demander pardon'},
-      'je ne comprends pas':{ua:'я не розумію',tr:'ya ne rozumiyu',note:'Très utile pour apprenant'},
-      'je ne parle pas ukrainien':{ua:'я не говорю по-українськи',tr:'ya ne hovoryu po-ukrayinsky',note:'Utile en voyage'},
-      'où est':{ua:'де знаходиться',tr:'de znakhodytsia',note:'Pour demander un lieu'},
-      'comment tu t\'appelles':{ua:'як тебе звуть',tr:'yak tebe zvut',note:'Informel'},
-      'quel âge as-tu':{ua:'скільки тобі років',tr:'skilky tobi rokiv',note:'Informel'},
-      'où habites-tu':{ua:'де ти живеш',tr:'de ty zhyvesh',note:'Informel'},
-      'je suis français':{ua:'я француз',tr:'ya frantsuz',note:'Masc. / Ya frantsuzhenka = Fém.'},
-      'je suis suisse':{ua:'я швейцарець',tr:'ya shveytarets',note:'Masc. / швейцарка = Fém.'},
-      'je suis content':{ua:'я задоволений',tr:'ya zadovolenyy',note:'Masc. / задоволена = Fém.'},
-      'je suis triste':{ua:'я сумний',tr:'ya sumnyy',note:'Masc. / сумна = Fém.'},
-      'je suis fatigué':{ua:'я втомився',tr:'ya vtomyvsya',note:'Masc. / втомилася = Fém.'},
-      'j\'ai faim':{ua:'я хочу їсти',tr:'ya khochu yisty',note:'Litt. "je veux manger"'},
-      'j\'ai soif':{ua:'я хочу пити',tr:'ya khochu pyty',note:'Litt. "je veux boire"'},
-      'j\'ai froid':{ua:'мені холодно',tr:'meni kholodno',note:'Structure impersonnelle'},
-      'j\'ai chaud':{ua:'мені спекотно',tr:'meni spekotno',note:'Structure impersonnelle'},
-      'ça va':{ua:'все добре',tr:'vse dobre',note:'Litt. "tout va bien"'},
-      'au revoir':{ua:'до побачення',tr:'do pobachennya',note:'Formel'},
-      'à bientôt':{ua:'до скорого',tr:'do skoroho',note:'Informel'},
-      'bonne journée':{ua:'гарного дня',tr:'harnoho dnya',note:'Souhait génitif'},
-      'c\'est délicieux':{ua:'це смачно',tr:'tse smachno',note:'Pour la nourriture'},
-      'c\'est beau':{ua:'це красиво',tr:'tse krasyvo',note:'Neutre'},
-      'c\'est bien':{ua:'це добре',tr:'tse dobre',note:'Approbation'},
-      'c\'est mal':{ua:'це погано',tr:'tse pohano',note:'Désapprobation'},
-      'aide-moi':{ua:'допоможи мені',tr:'dopomozhy meni',note:'Informel urgent'},
-      'aidez-moi':{ua:'допоможіть мені',tr:'dopomozit meni',note:'Formel urgent'},
-      'attention':{ua:'обережно',tr:'oberezhno',note:'Avertissement'},
-      'je t\'en prie':{ua:'будь ласка / нема за що',tr:'bud laska / nema za shcho',note:'"De rien" ou "SVP"'},
-    };
-    const key=Object.keys(DICT).find(k=>inputLow===k||inputLow.includes(k)||k.includes(inputLow));
-    if(key) found={ua:DICT[key].ua,tr:DICT[key].tr,note:DICT[key].note};
-  }
-
-  // Si pas trouvé, génère une traduction approximative à partir du vocabulaire connu
-  if(!found){
-    // Recherche par mots-clés
-    const words=inputLow.split(/\s+/);
-    const partialMatch=VOCAB.find(w=>words.some(word=>w.fr.toLowerCase().includes(word)&&word.length>3));
-    if(partialMatch){
-      found={ua:partialMatch.ua,tr:partialMatch.tr,note:'Correspondance partielle · '+partialMatch.cat};
+  
+  setTimeout(()=>{
+    const result=smartTranslate(input);
+    document.getElementById('trad-loading').style.display='none';
+    if(result){
+      tradPending={fr:input,ua:result.ua,tr:result.tr||'',note:result.type||'',known:false};
+      document.getElementById('trad-ua').textContent=result.ua;
+      document.getElementById('trad-tr').textContent=result.tr||'';
+      document.getElementById('trad-note').textContent=result.type||'';
+      document.getElementById('trad-result').style.display='block';
     } else {
-      // Message d'erreur utile
-      document.getElementById('trad-loading').style.display='none';
-      document.getElementById('trad-error').textContent='Expression non trouvée dans le dictionnaire. Essayez avec un mot plus simple ou cherchez dans Vocabulaire.';
+      document.getElementById('trad-error').textContent='Expression non trouvée. Essayez avec des mots plus simples ou consultez l\'onglet Vocabulaire.';
       document.getElementById('trad-error').style.display='block';
-      return;
     }
-  }
-
-  tradPending={fr:input,ua:found.ua,tr:found.tr,note:found.note,known:false};
-  document.getElementById('trad-ua').textContent=found.ua;
-  document.getElementById('trad-tr').textContent=found.tr;
-  document.getElementById('trad-note').textContent=found.note||'';
-  document.getElementById('trad-loading').style.display='none';
-  document.getElementById('trad-result').style.display='block';
+  },300);
 }
 
 function saveTrad(){
