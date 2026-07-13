@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Україна">
+<meta name="theme-color" content="#111113">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Україна — Apprendre l'ukrainien</title>
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIj48cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgcng9IjI2IiBmaWxsPSIjMTExMTEzIi8+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSI2MCIgcng9IjI2IiBmaWxsPSIjMDA1QkJCIi8+PHJlY3QgeD0iMCIgeT0iMzAiIHdpZHRoPSIxMjAiIGhlaWdodD0iNjAiIGZpbGw9IiMwMDVCQkIiLz48cmVjdCB4PSIwIiB5PSI2MCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSI2MCIgcng9IjI2IiBmaWxsPSIjRkZENTAwIi8+PHJlY3QgeD0iMCIgeT0iNjAiIHdpZHRoPSIxMjAiIGhlaWdodD0iMzAiIGZpbGw9IiNGRkQ1MDAiLz48dGV4dCB4PSI2MCIgeT0iNDQiIGZvbnQtZmFtaWx5PSJzeXN0ZW0tdWkiIGZvbnQtc2l6ZT0iMzIiIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIj7Rg9C6PC90ZXh0PjxyZWN0IHg9IjAiIHk9IjU2IiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjgiIGZpbGw9IndoaXRlIi8+PC9zdmc+">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+:root{
+  --bg:#000000;--surf:#1c1c1e;--surf2:#2c2c2e;--surf3:#3a3a3c;
+  --acc:#FFD500;--acc2:#0A84FF;--acc3:#30D158;--acc4:#FF9F0A;
+  --text:#FFFFFF;--text2:#EBEBF5;--muted:rgba(235,235,245,0.6);--muted2:rgba(235,235,245,0.3);
+  --danger:#FF453A;--brd:rgba(255,255,255,0.08);
+  --safe-top:env(safe-area-inset-top);--safe-bot:env(safe-area-inset-bottom);
+  --radius:12px;--radius-lg:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;}
+html,body{height:100%;overflow:hidden;background:var(--bg);}
+body{font-family:-apple-system,'SF Pro Text','Inter',system-ui,sans-serif;color:var(--text);overscroll-behavior:none;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+.app{display:flex;flex-direction:column;height:100vh;height:100dvh;background:var(--bg);}
+
+/* TOPBAR — iOS style with blur */
+.topbar{
+  padding:calc(var(--safe-top) + 8px) 20px 10px;
+  background:rgba(0,0,0,0.85);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:0.5px solid rgba(255,255,255,0.12);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+  position:sticky;top:0;z-index:10;
+}
+.brand{font-size:17px;font-weight:700;letter-spacing:-.5px;color:var(--text);display:flex;align-items:center;gap:6px;}
+.brand-flag{font-size:16px;}
+.xp-wrap{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);}
+.xp-badge{background:var(--surf2);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;color:var(--acc);letter-spacing:.2px;}
+.xp-track{width:48px;height:3px;background:var(--surf3);border-radius:2px;overflow:hidden;}
+.xp-fill{height:100%;background:var(--acc);border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1);}
+
+.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scroll-behavior:smooth;}
+.page{display:none;padding:16px 16px;padding-bottom:calc(var(--safe-bot) + 84px);}
+.page.on{display:block;animation:fadeIn .2s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* BOTTOM NAV — iOS Tab Bar style */
+.bottomnav{
+  flex-shrink:0;display:flex;
+  background:rgba(28,28,30,0.92);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  backdrop-filter:blur(20px) saturate(180%);
+  border-top:0.5px solid rgba(255,255,255,0.12);
+  padding-bottom:calc(var(--safe-bot) + 2px);
+}
+.bnav-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  padding:8px 2px 5px;cursor:pointer;border:none;background:transparent;
+  color:var(--muted);font-family:-apple-system,'SF Pro Text','Inter',system-ui,sans-serif;
+  transition:color .2s,transform .1s;
+  -webkit-tap-highlight-color:transparent;
+}
+.bnav-item:active{transform:scale(.92);}
+.bnav-item.on{color:var(--acc2);}
+.bnav-ico{font-size:22px;margin-bottom:2px;line-height:1;display:block;}
+.bnav-lbl{font-size:9px;font-weight:500;letter-spacing:.2px;}
+.bnav-dot{width:4px;height:4px;border-radius:50%;background:var(--acc2);margin:1px auto 0;opacity:0;}
+.bnav-item.on .bnav-dot{opacity:1;}
+
+/* COMMON */
+.section-title{font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;margin-top:24px;padding:0 2px;}
+.section-title:first-child{margin-top:0;}
+.card{background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);}
+.pills{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.pills::-webkit-scrollbar{display:none;}
+.pill{flex-shrink:0;padding:6px 14px;border-radius:20px;border:0.5px solid var(--brd);cursor:pointer;font-size:13px;font-weight:500;color:var(--muted);background:var(--surf2);font-family:-apple-system,system-ui,sans-serif;transition:all .2s;}
+.pill:active{transform:scale(.95);}
+.pill.on{background:var(--acc2);border-color:var(--acc2);color:#fff;}
+.tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;letter-spacing:.5px;text-transform:uppercase;}
+.tag-a1{background:rgba(48,209,88,.15);color:#30D158;}
+.tag-a2{background:rgba(10,132,255,.15);color:#0A84FF;}
+.tag-b1{background:rgba(255,214,10,.15);color:#FFD60A;}
+.tag-b2{background:rgba(255,69,58,.15);color:#FF453A;}
+
+/* HOME */
+.hero{background:linear-gradient(135deg,#0A84FF18,#30D15810);border:0.5px solid rgba(10,132,255,.2);border-radius:var(--radius-lg);padding:18px;margin-bottom:16px;}
+.hero-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px;}
+.hero-flag{font-size:32px;line-height:1;}
+.hero-info{flex:1;}
+.hero-info h2{font-size:17px;font-weight:700;margin-bottom:3px;letter-spacing:-.3px;}
+.hero-info p{font-size:13px;color:var(--muted);}
+.hero-kc{text-align:right;font-size:12px;color:var(--muted);line-height:1.6;}
+.hero-kc strong{display:block;font-size:26px;font-weight:700;color:var(--acc);line-height:1;letter-spacing:-1px;}
+.pbar{height:4px;background:var(--surf2);border-radius:4px;overflow:hidden;}
+.pfill{height:100%;background:linear-gradient(90deg,var(--acc2),var(--acc3));border-radius:4px;transition:width .6s cubic-bezier(.4,0,.2,1);}
+.cards2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.mcard{background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);padding:16px;cursor:pointer;transition:transform .15s,opacity .15s;position:relative;overflow:hidden;}
+.mcard:active{transform:scale(.96);opacity:.85;}
+.mcard-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.mcard-ico{font-size:24px;}
+.mcard-badge{font-size:10px;font-weight:600;color:var(--muted);background:var(--surf2);padding:3px 8px;border-radius:20px;letter-spacing:.2px;}
+.mcard-ttl{font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px;letter-spacing:-.2px;}
+.mcard-sub{font-size:12px;color:var(--muted);}
+.stats3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.scard{background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);padding:14px;text-align:center;}
+.snum{font-size:26px;font-weight:700;color:var(--text);letter-spacing:-1px;}
+.slbl{font-size:10px;font-weight:500;color:var(--muted);margin-top:3px;letter-spacing:.3px;}
+
+/* VOCAB */
+.hrow{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.hrow-title{font-size:20px;font-weight:700;letter-spacing:-.5px;}
+.hrow-sub{font-size:13px;color:var(--muted);}
+.vlist{display:flex;flex-direction:column;gap:8px;}
+.wcard{background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:14px;transition:transform .15s,border-color .2s;}
+.wcard.known{border-color:rgba(48,209,88,.35);background:rgba(48,209,88,.04);}
+.wcard:active{transform:scale(.98);}
+.wleft{flex:1;min-width:0;}
+.wua{font-size:17px;font-weight:600;color:var(--text);margin-bottom:1px;letter-spacing:-.2px;}
+.wtr{font-size:12px;color:var(--acc4);font-style:italic;margin-bottom:4px;}
+.wfr{font-size:13px;color:var(--muted);}
+.wchk{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--surf3);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;transition:all .2s;}
+.wcard.known .wchk{background:var(--acc3);border-color:var(--acc3);color:#fff;}
+
+/* QUIZ */
+.qprog{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
+.qbar{flex:1;height:4px;background:var(--surf2);border-radius:4px;overflow:hidden;}
+.qbf{height:100%;background:var(--acc2);border-radius:4px;transition:width .4s cubic-bezier(.4,0,.2,1);}
+.qnum{font-size:12px;color:var(--muted);font-weight:600;}
+.qscore{font-size:12px;color:var(--acc3);font-weight:700;}
+.qcard{background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);padding:28px 20px;margin-bottom:16px;text-align:center;}
+.qbadge{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:4px 12px;border-radius:20px;background:rgba(10,132,255,.15);color:var(--acc2);margin-bottom:16px;}
+.qq{font-size:32px;font-weight:700;margin-bottom:8px;line-height:1.2;letter-spacing:-.5px;}
+.qhint{font-size:13px;color:var(--muted);font-style:italic;}
+.qopts{display:flex;flex-direction:column;gap:8px;}
+.qopt{background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);padding:15px 18px;cursor:pointer;font-size:15px;font-weight:500;text-align:left;color:var(--text);font-family:-apple-system,system-ui,sans-serif;width:100%;transition:transform .1s,border-color .2s;}
+.qopt:active:not([disabled]){transform:scale(.97);}
+.qopt.ok{border-color:var(--acc3);background:rgba(48,209,88,.1);color:var(--acc3);}
+.qopt.no{border-color:var(--danger);background:rgba(255,69,58,.1);color:var(--danger);}
+.qfb{text-align:center;padding:12px 16px;border-radius:var(--radius);margin:10px 0;font-size:13px;font-weight:500;display:none;}
+.qfb.show{display:block;}
+.qfb.g{background:rgba(48,209,88,.12);color:var(--acc3);}
+.qfb.b{background:rgba(255,69,58,.12);color:var(--danger);}
+.qnext-btn{width:100%;padding:15px;border-radius:var(--radius-lg);border:none;background:var(--acc2);color:#fff;font-family:-apple-system,system-ui,sans-serif;font-size:15px;font-weight:600;cursor:pointer;display:none;margin-top:8px;transition:opacity .15s,transform .1s;}
+.qnext-btn.show{display:block;}
+.qnext-btn:active{opacity:.85;transform:scale(.98);}
+.qres{text-align:center;padding:40px 20px;}
+.rsc{font-size:64px;font-weight:700;color:var(--text);margin-bottom:8px;letter-spacing:-2px;}
+.rsc span{color:var(--muted);font-size:36px;font-weight:400;}
+.rmsg{font-size:15px;color:var(--muted);margin-bottom:32px;}
+.btn-outline{padding:14px 32px;border-radius:var(--radius-lg);border:0.5px solid var(--brd);background:var(--surf);color:var(--text);font-family:-apple-system,system-ui,sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:opacity .15s;}
+.btn-outline:active{opacity:.7;}
+
+/* ANKI */
+.anki-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.ast{background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);padding:14px;text-align:center;}
+.astn{font-size:24px;font-weight:700;color:var(--text);letter-spacing:-.5px;}
+.astl{font-size:10px;font-weight:500;color:var(--muted);margin-top:3px;letter-spacing:.3px;}
+.anki-card{background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);padding:36px 24px;text-align:center;cursor:pointer;min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:14px;transition:transform .15s;}
+.anki-card:active{transform:scale(.97);}
+.anki-ua{font-size:38px;font-weight:700;color:var(--text);letter-spacing:-.5px;}
+.anki-tr{font-size:13px;color:var(--acc4);font-style:italic;margin-top:8px;}
+.anki-back{display:none;margin-top:16px;border-top:0.5px solid var(--brd);padding-top:16px;width:100%;animation:fadeIn .2s ease;}
+.anki-back.show{display:block;}
+.anki-fr{font-size:22px;font-weight:600;color:var(--text);}
+.anki-cat{font-size:12px;color:var(--muted);margin-top:6px;}
+.anki-hint{text-align:center;font-size:13px;color:var(--muted);margin-bottom:12px;}
+.anki-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;display:none;}
+.anki-btns.show{display:grid;}
+.anki-btn{padding:13px 4px;border-radius:var(--radius-lg);border:none;cursor:pointer;font-size:12px;font-weight:600;font-family:-apple-system,system-ui,sans-serif;letter-spacing:.2px;transition:transform .1s,opacity .15s;}
+.anki-btn:active{transform:scale(.95);opacity:.85;}
+.anki-btn.again{background:rgba(255,69,58,.18);color:#FF453A;}
+.anki-btn.hard{background:rgba(255,214,10,.18);color:#FFD60A;}
+.anki-btn.good{background:rgba(48,209,88,.18);color:#30D158;}
+.anki-btn.easy{background:rgba(10,132,255,.18);color:#0A84FF;}
+.anki-queue{font-size:12px;color:var(--muted);text-align:center;font-weight:500;}
+.anki-done{text-align:center;padding:48px 24px;}
+.anki-done h3{font-size:20px;font-weight:700;margin-bottom:10px;}
+
+/* PHRASES */
+.phr-list{display:flex;flex-direction:column;gap:8px;}
+.phr-card{background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);padding:16px;cursor:pointer;transition:transform .15s,border-color .2s;}
+.phr-card:active{transform:scale(.98);}
+.phr-card.open{border-color:rgba(255,214,10,.25);background:rgba(255,214,10,.04);}
+.phr-ua{font-size:16px;font-weight:600;margin-bottom:4px;letter-spacing:-.2px;}
+.phr-tr{font-size:12px;color:var(--acc4);font-style:italic;margin-bottom:5px;}
+.phr-fr{font-size:13px;color:var(--muted);}
+.phr-note{font-size:12px;color:var(--acc2);margin-top:12px;padding-top:12px;border-top:0.5px solid var(--brd);display:none;font-weight:500;}
+.phr-card.open .phr-note{display:block;}
+
+/* CONJ */
+.verb-scroll{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.verb-scroll::-webkit-scrollbar{display:none;}
+.vbtn{flex-shrink:0;padding:7px 16px;border-radius:20px;border:0.5px solid var(--brd);cursor:pointer;font-size:13px;font-weight:500;background:var(--surf2);color:var(--muted);font-family:-apple-system,system-ui,sans-serif;transition:all .2s;}
+.vbtn:active{transform:scale(.95);}
+.vbtn.on{background:var(--acc2);border-color:var(--acc2);color:#fff;}
+.conj-wrap{background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);overflow:hidden;}
+.conj-head{padding:16px;border-bottom:0.5px solid var(--brd);display:flex;align-items:baseline;gap:10px;}
+.conj-head h3{font-size:20px;font-weight:700;letter-spacing:-.5px;}
+.conj-head span{font-size:13px;color:var(--muted);}
+.conj-table{width:100%;border-collapse:collapse;}
+.conj-table td{padding:12px 16px;border-bottom:0.5px solid var(--brd);vertical-align:top;}
+.conj-table tr:last-child td{border-bottom:none;}
+.cpro{font-size:12px;color:var(--muted);font-weight:600;padding-right:10px;white-space:nowrap;width:30%;}
+.cua{font-size:16px;font-weight:600;color:var(--text);}
+.ctr{font-size:11px;color:var(--acc4);font-style:italic;margin-top:2px;}
+.conj-note{padding:14px 16px;font-size:12px;color:var(--acc2);border-top:0.5px solid var(--brd);font-weight:500;background:rgba(10,132,255,.06);}
+
+/* ALPHA */
+.agrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:16px;}
+.acard{background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius);padding:12px 4px;text-align:center;cursor:pointer;transition:transform .15s,border-color .2s;}
+.acard:active{transform:scale(.92);}
+.acard.sel{border-color:var(--acc);background:rgba(255,214,10,.08);}
+.aletter{font-size:24px;font-weight:700;color:var(--text);letter-spacing:-.5px;}
+.atrans{font-size:10px;color:var(--muted);margin-top:2px;font-weight:500;}
+.adetail{background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);padding:18px;display:none;}
+.adetail.show{display:block;animation:fadeIn .2s ease;}
+.abig{font-size:64px;font-weight:700;color:var(--text);line-height:1;}
+.aex{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:0.5px solid var(--brd);}
+.aex:last-child{border-bottom:none;}
+.aex-ua{font-size:15px;font-weight:600;min-width:80px;}
+.aex-tr{font-size:12px;color:var(--acc4);font-style:italic;min-width:70px;}
+.aex-fr{font-size:13px;color:var(--muted);}
+.speak-btn{
+  width:32px;height:32px;border-radius:50%;border:none;
+  background:rgba(10,132,255,.15);color:#0A84FF;
+  font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:transform .1s,background .15s;font-family:system-ui;
+}
+.speak-btn:active{transform:scale(.85);background:rgba(10,132,255,.3);}
+
+/* GRAMMAIRE */
+.gram-card{background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);margin-bottom:10px;overflow:hidden;}
+.gram-head{padding:16px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.gram-head:active{opacity:.75;}
+.gram-icon{font-size:22px;flex-shrink:0;}
+.gram-title{font-size:15px;font-weight:600;flex:1;letter-spacing:-.2px;}
+.gram-lvl{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;letter-spacing:.3px;}
+.gram-arrow{font-size:12px;color:var(--muted);transition:transform .25s;}
+.gram-card.open .gram-arrow{transform:rotate(90deg);}
+.gram-body{display:none;padding:0 16px 16px;border-top:0.5px solid var(--brd);}
+.gram-card.open .gram-body{display:block;}
+.gram-rule{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:12px;margin-top:12px;}
+.gram-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;}
+.gram-table th{background:var(--surf2);color:var(--muted);font-weight:600;font-size:11px;letter-spacing:.3px;padding:8px 10px;text-align:left;}
+.gram-table td{padding:9px 10px;border-bottom:0.5px solid var(--brd);vertical-align:top;}
+.gram-table tr:last-child td{border-bottom:none;}
+.gram-ua{font-size:14px;font-weight:600;color:var(--text);}
+.gram-tr{font-size:11px;color:var(--acc4);font-style:italic;}
+.gram-fr{font-size:12px;color:var(--muted);}
+.gram-tip{background:rgba(10,132,255,.08);border-left:3px solid var(--acc2);border-radius:0 8px 8px 0;padding:10px 12px;margin:10px 0;font-size:12px;color:var(--text2);line-height:1.6;}
+.gram-ex{background:var(--surf2);border-radius:var(--radius);padding:12px;margin:8px 0;}
+.gram-ex-ua{font-size:14px;font-weight:600;margin-bottom:3px;}
+.gram-ex-tr{font-size:11px;color:var(--acc4);font-style:italic;margin-bottom:3px;}
+.gram-ex-fr{font-size:12px;color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="app">
+
+<div class="topbar">
+  <div class="brand"><span class="brand-flag">🇺🇦</span> Україна</div>
+  <div class="xp-wrap">
+    <div class="xp-badge" id="xp-lbl">0 XP</div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- HOME -->
+  <div class="page on" id="page-home">
+    <div class="hero">
+      <div class="hero-top">
+        <div class="hero-flag">🇺🇦</div>
+        <div class="hero-info">
+          <h2>Niveau A1 → Objectif B2</h2>
+          <p>Progression globale</p>
+          <div class="pbar" style="margin-top:6px"><div class="pfill" id="gp" style="width:5%"></div></div>
+        </div>
+        <div class="hero-kc"><strong id="kc">0</strong>mots appris</div>
+      </div>
+    </div>
+    <div class="section-title">Modules</div>
+    <div class="cards2">
+      <div class="mcard" onclick="go('vocab')">
+        <div class="mcard-top"><div class="mcard-ico">📚</div><div class="mcard-badge">300+ mots</div></div>
+        <div class="mcard-ttl">Vocabulaire</div><div class="mcard-sub">A1 → B2 par thème</div>
+      </div>
+      <div class="mcard" onclick="go('quiz')">
+        <div class="mcard-top"><div class="mcard-ico">⚡</div><div class="mcard-badge">Pratique</div></div>
+        <div class="mcard-ttl">Quiz</div><div class="mcard-sub">10 questions</div>
+      </div>
+      <div class="mcard" onclick="go('anki')">
+        <div class="mcard-top"><div class="mcard-ico">🔄</div><div class="mcard-badge">SRS</div></div>
+        <div class="mcard-ttl">Répétition</div><div class="mcard-sub">Méthode Anki</div>
+      </div>
+      <div class="mcard" onclick="go('phrases')">
+        <div class="mcard-top"><div class="mcard-ico">💬</div><div class="mcard-badge">80+ phrases</div></div>
+        <div class="mcard-ttl">Phrases</div><div class="mcard-sub">Situations réelles</div>
+      </div>
+      <div class="mcard" onclick="go('flash')">
+        <div class="mcard-top"><div class="mcard-ico">🃏</div><div class="mcard-badge">FR → UA</div></div>
+        <div class="mcard-ttl">Flashcards</div><div class="mcard-sub">Français → Ukrainien</div>
+      </div>
+      <div class="mcard" onclick="go('conj')">
+        <div class="mcard-top"><div class="mcard-ico">📝</div><div class="mcard-badge">40 verbes</div></div>
+        <div class="mcard-ttl">Conjugaison</div><div class="mcard-sub">Présent · Passé · Futur</div>
+      </div>
+      <div class="mcard" onclick="go('gram')">
+        <div class="mcard-top"><div class="mcard-ico">📖</div><div class="mcard-badge">12 règles</div></div>
+        <div class="mcard-ttl">Grammaire</div><div class="mcard-sub">Cas · Aspects · Accord</div>
+      </div>
+      <div class="mcard" onclick="go('alpha')">
+        <div class="mcard-top"><div class="mcard-ico">🔤</div><div class="mcard-badge">33 lettres</div></div>
+        <div class="mcard-ttl">Alphabet</div><div class="mcard-sub">Cyrillique ukrainien</div>
+      </div>
+    </div>
+    <div class="section-title">Statistiques</div>
+    <div class="stats3">
+      <div class="scard"><div class="snum" id="s1">0</div><div class="slbl">Mots appris</div></div>
+      <div class="scard"><div class="snum" id="s2">0</div><div class="slbl">Anki faits</div></div>
+      <div class="scard"><div class="snum" id="s3">0</div><div class="slbl">XP total</div></div>
+    </div>
+  </div>
+
+  <!-- FLASHCARDS FR→UA -->
+  <div class="page" id="page-flash">
+    <div class="hrow"><div class="hrow-title">Flashcards</div></div>
+    <div class="pills" id="flash-mode-pills" style="margin-bottom:10px">
+      <button class="pill on" id="fpill-vocab" onclick="setFlashMode('vocab')">Vocabulaire</button>
+      <button class="pill" id="fpill-phrases" onclick="setFlashMode('phrases')">Phrases</button>
+      <button class="pill" id="fpill-verbs" onclick="setFlashMode('verbs')">Verbes</button>
+    </div>
+    <div class="pills" id="flash-cat-pills"></div>
+    <div class="anki-stats" style="margin-bottom:14px">
+      <div class="ast"><div class="astn" id="fl-rem">0</div><div class="astl">Restantes</div></div>
+      <div class="ast"><div class="astn" id="fl-ok">0</div><div class="astl">Correctes</div></div>
+      <div class="ast"><div class="astn" id="fl-tot">0</div><div class="astl">Total</div></div>
+    </div>
+    <div id="flash-main">
+      <!-- Carte FR (recto) -->
+      <div class="anki-card" id="flash-card" onclick="flipFlash()" style="cursor:pointer">
+        <div style="font-size:11px;font-weight:600;letter-spacing:.5px;color:var(--muted);margin-bottom:10px;text-transform:uppercase">Français</div>
+        <div style="font-size:30px;font-weight:700;color:var(--text);letter-spacing:-.5px;text-align:center;line-height:1.3" id="fl-fr"></div>
+        <div style="font-size:13px;color:var(--muted);margin-top:10px;font-style:italic" id="fl-ctx"></div>
+        <!-- Verso UA (caché) -->
+        <div class="anki-back" id="flash-back">
+          <div style="font-size:11px;font-weight:600;letter-spacing:.5px;color:var(--muted);margin-bottom:8px;text-transform:uppercase">Ukrainien</div>
+          <div style="font-size:32px;font-weight:700;color:var(--text);letter-spacing:-.5px" id="fl-ua"></div>
+          <div style="font-size:13px;color:var(--acc4);font-style:italic;margin-top:6px" id="fl-tr"></div>
+          <button class="speak-btn" id="fl-speak" onclick="speak(document.getElementById('fl-ua').textContent,event)" style="margin:12px auto 0">🔊</button>
+        </div>
+      </div>
+      <div style="text-align:center;font-size:13px;color:var(--muted);margin-bottom:12px" id="flash-hint">Appuyez pour révéler la réponse</div>
+      <div class="anki-btns" id="flash-btns">
+        <button class="anki-btn again" onclick="rateFlash(0)">Encore<br><span style="font-size:10px;opacity:.6">À revoir</span></button>
+        <button class="anki-btn hard" onclick="rateFlash(1)">Difficile<br><span style="font-size:10px;opacity:.6">Presque</span></button>
+        <button class="anki-btn good" onclick="rateFlash(2)">Bien<br><span style="font-size:10px;opacity:.6">Correct</span></button>
+        <button class="anki-btn easy" onclick="rateFlash(3)">Facile<br><span style="font-size:10px;opacity:.6">Parfait</span></button>
+      </div>
+      <div style="text-align:center;font-size:12px;color:var(--muted);font-weight:500;margin-top:6px" id="flash-queue"></div>
+    </div>
+    <div id="flash-done" style="display:none;text-align:center;padding:48px 20px">
+      <div style="font-size:40px;margin-bottom:12px">🎉</div>
+      <h3 style="font-size:20px;font-weight:700;margin-bottom:8px">Session terminée !</h3>
+      <div style="font-size:15px;color:var(--muted);margin-bottom:24px" id="flash-score"></div>
+      <button class="btn-outline" onclick="initFlash()" style="margin-right:8px">Recommencer</button>
+    </div>
+  </div>
+
+  <!-- VOCAB -->
+  <div class="page" id="page-vocab">
+    <div class="hrow">
+      <div class="hrow-title">Vocabulaire</div>
+      <div class="hrow-sub"><span id="vkc">0</span> / <span id="vtot"></span> appris</div>
+    </div>
+    <div class="pills" id="vpills"></div>
+    <div class="vlist" id="vgrid"></div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="page" id="page-quiz">
+    <div id="qmain">
+      <div class="qprog">
+        <div class="qbar"><div class="qbf" id="qbf" style="width:0%"></div></div>
+        <div class="qnum" id="qn">0 / 10</div>
+        <div class="qscore" id="qsl">0 ✓</div>
+      </div>
+      <div class="qcard">
+        <div class="qbadge" id="qbadge">UA → FR</div>
+        <div class="qq" id="qq">—</div>
+        <div class="qhint" id="qhint"></div>
+      </div>
+      <div class="qopts" id="qopts"></div>
+      <div class="qfb" id="qfb"></div>
+      <button class="qnext-btn" id="qnext" onclick="nextQ()">Question suivante</button>
+    </div>
+    <div class="qres" id="qres" style="display:none">
+      <div class="rsc" id="rsc"></div>
+      <div class="rmsg" id="rmsg"></div>
+      <button class="btn-outline" onclick="startQuiz()">Recommencer</button>
+    </div>
+  </div>
+
+  <!-- ANKI -->
+  <div class="page" id="page-anki">
+    <div class="anki-stats">
+      <div class="ast"><div class="astn" id="an-due">0</div><div class="astl">À réviser</div></div>
+      <div class="ast"><div class="astn" id="an-new">0</div><div class="astl">Nouveaux</div></div>
+      <div class="ast"><div class="astn" id="an-done">0</div><div class="astl">Faits</div></div>
+    </div>
+    <div id="anki-main">
+      <div class="anki-card" id="anki-card" onclick="flipAnki()">
+        <div class="anki-ua" id="af-ua"></div>
+        <div class="anki-tr" id="af-tr"></div>
+        <button class="speak-btn" id="anki-speak" onclick="speak(document.getElementById('af-ua').textContent,event)" style="margin:10px auto 0">🔊</button>
+        <div class="anki-back" id="anki-back">
+          <div class="anki-fr" id="af-fr"></div>
+          <div class="anki-cat" id="af-cat"></div>
+        </div>
+      </div>
+      <div class="anki-hint" id="anki-hint">Appuyez sur la carte pour révéler</div>
+      <div class="anki-btns" id="anki-btns">
+        <button class="anki-btn again" onclick="rateAnki(0)">Encore<br><span style="font-size:10px;opacity:.6">&lt;1 min</span></button>
+        <button class="anki-btn hard" onclick="rateAnki(1)">Difficile<br><span style="font-size:10px;opacity:.6">1 jour</span></button>
+        <button class="anki-btn good" onclick="rateAnki(2)">Bien<br><span style="font-size:10px;opacity:.6">3 jours</span></button>
+        <button class="anki-btn easy" onclick="rateAnki(3)">Facile<br><span style="font-size:10px;opacity:.6">7 jours</span></button>
+      </div>
+      <div class="anki-queue" id="anki-queue"></div>
+    </div>
+    <div class="anki-done" id="anki-done" style="display:none">
+      <div style="font-size:40px;margin-bottom:12px">✓</div>
+      <h3>Session terminée</h3>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:20px">Revenez demain pour la prochaine révision.</p>
+      <button class="btn-outline" onclick="resetAnki()">Nouvelle session</button>
+    </div>
+  </div>
+
+  <!-- PHRASES -->
+  <div class="page" id="page-phrases">
+    <div class="hrow"><div class="hrow-title">Phrases courantes</div></div>
+    <div class="pills" id="phr-cats"></div>
+    <div class="phr-list" id="phr-grid"></div>
+  </div>
+
+  <!-- CONJ -->
+  <div class="page" id="page-conj">
+    <div class="hrow"><div class="hrow-title">Conjugaison</div></div>
+    <div class="verb-scroll" id="verb-sel"></div>
+    <div class="pills" id="tense-pills"></div>
+    <div class="conj-wrap" id="conj-wrap"></div>
+  </div>
+
+  <!-- ALPHA -->
+  <div class="page" id="page-alpha">
+    <div class="hrow"><div class="hrow-title">Alphabet cyrillique</div></div>
+    <div class="agrid" id="agrid"></div>
+    <div class="adetail" id="adetail">
+      <div style="display:flex;align-items:flex-end;gap:14px;margin-bottom:12px">
+        <div class="abig" id="abig"></div>
+        <div style="flex:1">
+          <div style="font-size:13px;color:var(--muted);margin-bottom:2px" id="asmall"></div>
+          <div style="font-size:13px;color:var(--acc);font-weight:500" id="asnd"></div>
+          <div style="font-size:11px;color:var(--muted);margin-top:3px" id="atip"></div>
+        </div>
+        <button class="speak-btn" onclick="speak(document.getElementById('abig').textContent,event)" style="flex-shrink:0;margin-bottom:4px">🔊</button>
+      </div>
+      <div id="aexs"></div>
+    </div>
+  </div>
+
+  <!-- GRAMMAIRE -->
+  <div class="page" id="page-gram">
+    <div class="hrow"><div class="hrow-title">Grammaire</div></div>
+    <div class="pills" id="gram-cats"></div>
+    <div id="gram-list"></div>
+  </div>
+
+</div>
+
+<nav class="bottomnav">
+  <button class="bnav-item on" id="bnav-home" onclick="go('home')"><div class="bnav-ico">🏠</div><div class="bnav-lbl">Accueil</div><div class="bnav-dot"></div></button>
+  <button class="bnav-item" id="bnav-vocab" onclick="go('vocab')"><div class="bnav-ico">📚</div><div class="bnav-lbl">Vocab</div><div class="bnav-dot"></div></button>
+  <button class="bnav-item" id="bnav-flash" onclick="go('flash')"><div class="bnav-ico">🃏</div><div class="bnav-lbl">Cartes</div><div class="bnav-dot"></div></button>
+  <button class="bnav-item" id="bnav-quiz" onclick="go('quiz')"><div class="bnav-ico">⚡</div><div class="bnav-lbl">Quiz</div><div class="bnav-dot"></div></button>
+  <button class="bnav-item" id="bnav-anki" onclick="go('anki')"><div class="bnav-ico">🔄</div><div class="bnav-lbl">Révision</div><div class="bnav-dot"></div></button>
+  <button class="bnav-item" id="bnav-phrases" onclick="go('phrases')"><div class="bnav-ico">💬</div><div class="bnav-lbl">Phrases</div><div class="bnav-dot"></div></button>
+  <button class="bnav-item" id="bnav-conj" onclick="go('conj')"><div class="bnav-ico">📝</div><div class="bnav-lbl">Verbes</div><div class="bnav-dot"></div></button>
+  <button class="bnav-item" id="bnav-gram" onclick="go('gram')"><div class="bnav-ico">📖</div><div class="bnav-lbl">Gramm.</div><div class="bnav-dot"></div></button>
+  <button class="bnav-item" id="bnav-alpha" onclick="go('alpha')"><div class="bnav-ico">🔤</div><div class="bnav-lbl">Alphabet</div><div class="bnav-dot"></div></button>
+</nav>
+</div>
+
+<script>
+const VOCAB=[
+  // Salutations
+  {ua:'привіт',tr:'pryvit',fr:'bonjour / salut',cat:'Salutations',lvl:'a1'},
+  {ua:'дякую',tr:'dyakuyu',fr:'merci',cat:'Salutations',lvl:'a1'},
+  {ua:'будь ласка',tr:'bud laska',fr:'s\'il vous plaît',cat:'Salutations',lvl:'a1'},
+  {ua:'так',tr:'tak',fr:'oui',cat:'Salutations',lvl:'a1'},
+  {ua:'ні',tr:'ni',fr:'non',cat:'Salutations',lvl:'a1'},
+  {ua:'вибачте',tr:'vybachte',fr:'excusez-moi / pardon',cat:'Salutations',lvl:'a1'},
+  {ua:'до побачення',tr:'do pobachennya',fr:'au revoir',cat:'Salutations',lvl:'a1'},
+  {ua:'добрий ранок',tr:'dobryy ranok',fr:'bonjour (matin)',cat:'Salutations',lvl:'a1'},
+  {ua:'добрий день',tr:'dobryy den',fr:'bonjour (journée)',cat:'Salutations',lvl:'a1'},
+  {ua:'добрий вечір',tr:'dobryy vechir',fr:'bonsoir',cat:'Salutations',lvl:'a1'},
+  {ua:'на здоров\'я',tr:'na zdorovya',fr:'à votre santé / de rien',cat:'Salutations',lvl:'a1'},
+  {ua:'як справи',tr:'yak spravy',fr:'comment ça va ?',cat:'Salutations',lvl:'a1'},
+  {ua:'дуже добре',tr:'duzhe dobre',fr:'très bien',cat:'Salutations',lvl:'a1'},
+  {ua:'не погано',tr:'ne pohano',fr:'pas mal',cat:'Salutations',lvl:'a1'},
+  // Pronoms
+  {ua:'я',tr:'ya',fr:'je / moi',cat:'Pronoms',lvl:'a1'},
+  {ua:'ти',tr:'ty',fr:'tu (informel)',cat:'Pronoms',lvl:'a1'},
+  {ua:'він',tr:'vin',fr:'il',cat:'Pronoms',lvl:'a1'},
+  {ua:'вона',tr:'vona',fr:'elle',cat:'Pronoms',lvl:'a1'},
+  {ua:'воно',tr:'vono',fr:'il / elle (neutre)',cat:'Pronoms',lvl:'a1'},
+  {ua:'ми',tr:'my',fr:'nous',cat:'Pronoms',lvl:'a1'},
+  {ua:'ви',tr:'vy',fr:'vous (formel / pluriel)',cat:'Pronoms',lvl:'a1'},
+  {ua:'вони',tr:'vony',fr:'ils / elles',cat:'Pronoms',lvl:'a1'},
+  {ua:'мій / моя',tr:'miy / moya',fr:'mon / ma',cat:'Pronoms',lvl:'a1'},
+  {ua:'твій / твоя',tr:'tviy / tvoya',fr:'ton / ta',cat:'Pronoms',lvl:'a2'},
+  {ua:'наш / наша',tr:'nash / nasha',fr:'notre',cat:'Pronoms',lvl:'a2'},
+  // Chiffres
+  {ua:'нуль',tr:'nul',fr:'zéro',cat:'Chiffres',lvl:'a1'},
+  {ua:'один',tr:'odyn',fr:'un',cat:'Chiffres',lvl:'a1'},
+  {ua:'два',tr:'dva',fr:'deux',cat:'Chiffres',lvl:'a1'},
+  {ua:'три',tr:'try',fr:'trois',cat:'Chiffres',lvl:'a1'},
+  {ua:'чотири',tr:'chotyry',fr:'quatre',cat:'Chiffres',lvl:'a1'},
+  {ua:'п\'ять',tr:'pyat',fr:'cinq',cat:'Chiffres',lvl:'a1'},
+  {ua:'шість',tr:'shist',fr:'six',cat:'Chiffres',lvl:'a1'},
+  {ua:'сім',tr:'sim',fr:'sept',cat:'Chiffres',lvl:'a1'},
+  {ua:'вісім',tr:'visim',fr:'huit',cat:'Chiffres',lvl:'a1'},
+  {ua:'дев\'ять',tr:'devyat',fr:'neuf',cat:'Chiffres',lvl:'a1'},
+  {ua:'десять',tr:'desyat',fr:'dix',cat:'Chiffres',lvl:'a1'},
+  {ua:'двадцять',tr:'dvadtsyat',fr:'vingt',cat:'Chiffres',lvl:'a1'},
+  {ua:'п\'ятдесят',tr:'pyatdesyat',fr:'cinquante',cat:'Chiffres',lvl:'a2'},
+  {ua:'сто',tr:'sto',fr:'cent',cat:'Chiffres',lvl:'a1'},
+  {ua:'тисяча',tr:'tysyacha',fr:'mille',cat:'Chiffres',lvl:'a2'},
+  {ua:'перший',tr:'pershyy',fr:'premier',cat:'Chiffres',lvl:'a2'},
+  {ua:'другий',tr:'druhyy',fr:'deuxième',cat:'Chiffres',lvl:'a2'},
+  // Alimentation
+  {ua:'вода',tr:'voda',fr:'eau',cat:'Alimentation',lvl:'a1'},
+  {ua:'хліб',tr:'khlib',fr:'pain',cat:'Alimentation',lvl:'a1'},
+  {ua:'кава',tr:'kava',fr:'café',cat:'Alimentation',lvl:'a1'},
+  {ua:'чай',tr:'chay',fr:'thé',cat:'Alimentation',lvl:'a1'},
+  {ua:'молоко',tr:'moloko',fr:'lait',cat:'Alimentation',lvl:'a1'},
+  {ua:'м\'ясо',tr:'myaso',fr:'viande',cat:'Alimentation',lvl:'a1'},
+  {ua:'риба',tr:'ryba',fr:'poisson',cat:'Alimentation',lvl:'a1'},
+  {ua:'яйце',tr:'yaytse',fr:'œuf',cat:'Alimentation',lvl:'a1'},
+  {ua:'сир',tr:'syr',fr:'fromage',cat:'Alimentation',lvl:'a1'},
+  {ua:'масло',tr:'maslo',fr:'beurre / huile',cat:'Alimentation',lvl:'a1'},
+  {ua:'цукор',tr:'tsukor',fr:'sucre',cat:'Alimentation',lvl:'a1'},
+  {ua:'сіль',tr:'sil',fr:'sel',cat:'Alimentation',lvl:'a1'},
+  {ua:'рис',tr:'rys',fr:'riz',cat:'Alimentation',lvl:'a1'},
+  {ua:'суп',tr:'sup',fr:'soupe',cat:'Alimentation',lvl:'a1'},
+  {ua:'борщ',tr:'borshch',fr:'bortsch',cat:'Alimentation',lvl:'a1'},
+  {ua:'салат',tr:'salat',fr:'salade',cat:'Alimentation',lvl:'a1'},
+  {ua:'овочі',tr:'ovochi',fr:'légumes',cat:'Alimentation',lvl:'a1'},
+  {ua:'фрукти',tr:'frukty',fr:'fruits',cat:'Alimentation',lvl:'a1'},
+  {ua:'яблуко',tr:'yabluko',fr:'pomme',cat:'Alimentation',lvl:'a1'},
+  {ua:'банан',tr:'banan',fr:'banane',cat:'Alimentation',lvl:'a1'},
+  {ua:'помідор',tr:'pomidor',fr:'tomate',cat:'Alimentation',lvl:'a1'},
+  {ua:'картопля',tr:'kartoplya',fr:'pomme de terre',cat:'Alimentation',lvl:'a1'},
+  {ua:'цибуля',tr:'tsybulya',fr:'oignon',cat:'Alimentation',lvl:'a2'},
+  {ua:'часник',tr:'chasnyk',fr:'ail',cat:'Alimentation',lvl:'a2'},
+  {ua:'вино',tr:'vyno',fr:'vin',cat:'Alimentation',lvl:'a2'},
+  {ua:'пиво',tr:'pyvo',fr:'bière',cat:'Alimentation',lvl:'a2'},
+  // Corps humain
+  {ua:'голова',tr:'holova',fr:'tête',cat:'Corps',lvl:'a1'},
+  {ua:'обличчя',tr:'oblychcha',fr:'visage',cat:'Corps',lvl:'a1'},
+  {ua:'очі',tr:'ochi',fr:'yeux',cat:'Corps',lvl:'a1'},
+  {ua:'вухо',tr:'vukho',fr:'oreille',cat:'Corps',lvl:'a1'},
+  {ua:'ніс',tr:'nis',fr:'nez',cat:'Corps',lvl:'a1'},
+  {ua:'рот',tr:'rot',fr:'bouche',cat:'Corps',lvl:'a1'},
+  {ua:'зуб',tr:'zub',fr:'dent',cat:'Corps',lvl:'a1'},
+  {ua:'рука',tr:'ruka',fr:'main / bras',cat:'Corps',lvl:'a1'},
+  {ua:'нога',tr:'noha',fr:'jambe / pied',cat:'Corps',lvl:'a1'},
+  {ua:'серце',tr:'sertse',fr:'cœur',cat:'Corps',lvl:'a1'},
+  {ua:'спина',tr:'spyna',fr:'dos',cat:'Corps',lvl:'a2'},
+  {ua:'живіт',tr:'zhyvit',fr:'ventre',cat:'Corps',lvl:'a2'},
+  {ua:'шия',tr:'shyya',fr:'cou',cat:'Corps',lvl:'a2'},
+  {ua:'плече',tr:'pleche',fr:'épaule',cat:'Corps',lvl:'a2'},
+  // Lieux
+  {ua:'будинок',tr:'budynok',fr:'maison / immeuble',cat:'Lieux',lvl:'a1'},
+  {ua:'квартира',tr:'kvartyra',fr:'appartement',cat:'Lieux',lvl:'a1'},
+  {ua:'місто',tr:'misto',fr:'ville',cat:'Lieux',lvl:'a1'},
+  {ua:'село',tr:'selo',fr:'village',cat:'Lieux',lvl:'a1'},
+  {ua:'вулиця',tr:'vulitsya',fr:'rue',cat:'Lieux',lvl:'a1'},
+  {ua:'площа',tr:'ploshcha',fr:'place (publique)',cat:'Lieux',lvl:'a1'},
+  {ua:'парк',tr:'park',fr:'parc',cat:'Lieux',lvl:'a1'},
+  {ua:'школа',tr:'shkola',fr:'école',cat:'Lieux',lvl:'a1'},
+  {ua:'університет',tr:'universytet',fr:'université',cat:'Lieux',lvl:'a1'},
+  {ua:'лікарня',tr:'likarnya',fr:'hôpital',cat:'Lieux',lvl:'a1'},
+  {ua:'аптека',tr:'apteka',fr:'pharmacie',cat:'Lieux',lvl:'a1'},
+  {ua:'магазин',tr:'mahazyn',fr:'magasin',cat:'Lieux',lvl:'a1'},
+  {ua:'ринок',tr:'rynok',fr:'marché',cat:'Lieux',lvl:'a1'},
+  {ua:'ресторан',tr:'restoran',fr:'restaurant',cat:'Lieux',lvl:'a1'},
+  {ua:'готель',tr:'hotel',fr:'hôtel',cat:'Lieux',lvl:'a1'},
+  {ua:'банк',tr:'bank',fr:'banque',cat:'Lieux',lvl:'a1'},
+  {ua:'вокзал',tr:'vokzal',fr:'gare',cat:'Lieux',lvl:'a1'},
+  {ua:'аеропорт',tr:'aeroport',fr:'aéroport',cat:'Lieux',lvl:'a2'},
+  {ua:'бібліотека',tr:'biblioteka',fr:'bibliothèque',cat:'Lieux',lvl:'a2'},
+  {ua:'музей',tr:'muzey',fr:'musée',cat:'Lieux',lvl:'a2'},
+  {ua:'театр',tr:'teatr',fr:'théâtre',cat:'Lieux',lvl:'a2'},
+  {ua:'церква',tr:'tserkva',fr:'église',cat:'Lieux',lvl:'a2'},
+  // Transport
+  {ua:'автобус',tr:'avtobus',fr:'bus',cat:'Transport',lvl:'a1'},
+  {ua:'метро',tr:'metro',fr:'métro',cat:'Transport',lvl:'a1'},
+  {ua:'таксі',tr:'taksi',fr:'taxi',cat:'Transport',lvl:'a1'},
+  {ua:'поїзд',tr:'poyizd',fr:'train',cat:'Transport',lvl:'a1'},
+  {ua:'літак',tr:'litak',fr:'avion',cat:'Transport',lvl:'a1'},
+  {ua:'машина',tr:'mashyna',fr:'voiture',cat:'Transport',lvl:'a1'},
+  {ua:'велосипед',tr:'velosyped',fr:'vélo',cat:'Transport',lvl:'a1'},
+  {ua:'корабель',tr:'korabel',fr:'bateau',cat:'Transport',lvl:'a2'},
+  {ua:'квиток',tr:'kvytok',fr:'billet / ticket',cat:'Transport',lvl:'a2'},
+  {ua:'зупинка',tr:'zupynka',fr:'arrêt (bus)',cat:'Transport',lvl:'a2'},
+  // Temps
+  {ua:'сьогодні',tr:'sohodni',fr:'aujourd\'hui',cat:'Temps',lvl:'a1'},
+  {ua:'завтра',tr:'zavtra',fr:'demain',cat:'Temps',lvl:'a1'},
+  {ua:'вчора',tr:'vchora',fr:'hier',cat:'Temps',lvl:'a1'},
+  {ua:'зараз',tr:'zaraz',fr:'maintenant',cat:'Temps',lvl:'a1'},
+  {ua:'потім',tr:'potim',fr:'ensuite / après',cat:'Temps',lvl:'a1'},
+  {ua:'раніше',tr:'ranishe',fr:'avant / auparavant',cat:'Temps',lvl:'a2'},
+  {ua:'завжди',tr:'zavzhdy',fr:'toujours',cat:'Temps',lvl:'a1'},
+  {ua:'ніколи',tr:'nikoly',fr:'jamais',cat:'Temps',lvl:'a1'},
+  {ua:'іноді',tr:'inodi',fr:'parfois',cat:'Temps',lvl:'a2'},
+  {ua:'часто',tr:'chasto',fr:'souvent',cat:'Temps',lvl:'a2'},
+  {ua:'рідко',tr:'ridko',fr:'rarement',cat:'Temps',lvl:'a2'},
+  {ua:'хвилина',tr:'khvylyna',fr:'minute',cat:'Temps',lvl:'a1'},
+  {ua:'година',tr:'hodyna',fr:'heure',cat:'Temps',lvl:'a1'},
+  {ua:'день',tr:'den',fr:'jour',cat:'Temps',lvl:'a1'},
+  {ua:'тиждень',tr:'tyzhen',fr:'semaine',cat:'Temps',lvl:'a1'},
+  {ua:'місяць',tr:'misyats',fr:'mois',cat:'Temps',lvl:'a1'},
+  {ua:'рік',tr:'rik',fr:'année',cat:'Temps',lvl:'a1'},
+  {ua:'понеділок',tr:'ponedilok',fr:'lundi',cat:'Temps',lvl:'a2'},
+  {ua:'вівторок',tr:'vivtorok',fr:'mardi',cat:'Temps',lvl:'a2'},
+  {ua:'середа',tr:'sereda',fr:'mercredi',cat:'Temps',lvl:'a2'},
+  {ua:'четвер',tr:'chetver',fr:'jeudi',cat:'Temps',lvl:'a2'},
+  {ua:'п\'ятниця',tr:'pyatnitsya',fr:'vendredi',cat:'Temps',lvl:'a2'},
+  {ua:'субота',tr:'subota',fr:'samedi',cat:'Temps',lvl:'a2'},
+  {ua:'неділя',tr:'nedilya',fr:'dimanche',cat:'Temps',lvl:'a2'},
+  {ua:'весна',tr:'vesna',fr:'printemps',cat:'Temps',lvl:'a2'},
+  {ua:'літо',tr:'lito',fr:'été',cat:'Temps',lvl:'a2'},
+  {ua:'осінь',tr:'osin',fr:'automne',cat:'Temps',lvl:'a2'},
+  {ua:'зима',tr:'zyma',fr:'hiver',cat:'Temps',lvl:'a2'},
+  // Famille
+  {ua:'мати',tr:'maty',fr:'mère',cat:'Famille',lvl:'a1'},
+  {ua:'батько',tr:'batko',fr:'père',cat:'Famille',lvl:'a1'},
+  {ua:'брат',tr:'brat',fr:'frère',cat:'Famille',lvl:'a1'},
+  {ua:'сестра',tr:'sestra',fr:'sœur',cat:'Famille',lvl:'a1'},
+  {ua:'дитина',tr:'dytyna',fr:'enfant',cat:'Famille',lvl:'a1'},
+  {ua:'син',tr:'syn',fr:'fils',cat:'Famille',lvl:'a1'},
+  {ua:'дочка',tr:'dochka',fr:'fille',cat:'Famille',lvl:'a1'},
+  {ua:'дідусь',tr:'didus',fr:'grand-père',cat:'Famille',lvl:'a1'},
+  {ua:'бабуся',tr:'babusya',fr:'grand-mère',cat:'Famille',lvl:'a1'},
+  {ua:'дядько',tr:'dyadko',fr:'oncle',cat:'Famille',lvl:'a2'},
+  {ua:'тітка',tr:'titka',fr:'tante',cat:'Famille',lvl:'a2'},
+  {ua:'дружина',tr:'druzhyna',fr:'femme (épouse)',cat:'Famille',lvl:'a2'},
+  {ua:'чоловік',tr:'cholovik',fr:'mari',cat:'Famille',lvl:'a2'},
+  {ua:'друг',tr:'druh',fr:'ami (masc.)',cat:'Famille',lvl:'a1'},
+  {ua:'подруга',tr:'podruga',fr:'amie (fém.)',cat:'Famille',lvl:'a1'},
+  {ua:'сусід',tr:'susid',fr:'voisin',cat:'Famille',lvl:'a2'},
+  {ua:'колега',tr:'kolega',fr:'collègue',cat:'Famille',lvl:'a2'},
+  // Adjectifs
+  {ua:'великий',tr:'velykyy',fr:'grand',cat:'Adjectifs',lvl:'a1'},
+  {ua:'маленький',tr:'malenkiy',fr:'petit',cat:'Adjectifs',lvl:'a1'},
+  {ua:'гарний',tr:'harnyy',fr:'beau',cat:'Adjectifs',lvl:'a1'},
+  {ua:'поганий',tr:'pohanyy',fr:'mauvais / laid',cat:'Adjectifs',lvl:'a1'},
+  {ua:'добрий',tr:'dobryy',fr:'bon / gentil',cat:'Adjectifs',lvl:'a1'},
+  {ua:'злий',tr:'zlyy',fr:'méchant',cat:'Adjectifs',lvl:'a1'},
+  {ua:'новий',tr:'novyy',fr:'nouveau',cat:'Adjectifs',lvl:'a1'},
+  {ua:'старий',tr:'staryy',fr:'vieux / ancien',cat:'Adjectifs',lvl:'a1'},
+  {ua:'молодий',tr:'molodyy',fr:'jeune',cat:'Adjectifs',lvl:'a1'},
+  {ua:'швидкий',tr:'shvydkyy',fr:'rapide',cat:'Adjectifs',lvl:'a2'},
+  {ua:'повільний',tr:'povilnyy',fr:'lent',cat:'Adjectifs',lvl:'a2'},
+  {ua:'сильний',tr:'sylnyy',fr:'fort / puissant',cat:'Adjectifs',lvl:'a2'},
+  {ua:'слабкий',tr:'slabkyy',fr:'faible',cat:'Adjectifs',lvl:'a2'},
+  {ua:'дорогий',tr:'dorohy',fr:'cher / précieux',cat:'Adjectifs',lvl:'a2'},
+  {ua:'дешевий',tr:'deshevyy',fr:'bon marché',cat:'Adjectifs',lvl:'a2'},
+  {ua:'важкий',tr:'vazhkyy',fr:'lourd / difficile',cat:'Adjectifs',lvl:'a2'},
+  {ua:'легкий',tr:'lehkyy',fr:'léger / facile',cat:'Adjectifs',lvl:'a2'},
+  {ua:'цікавий',tr:'tsikavyy',fr:'intéressant',cat:'Adjectifs',lvl:'a2'},
+  {ua:'нудний',tr:'nudnyy',fr:'ennuyeux',cat:'Adjectifs',lvl:'a2'},
+  {ua:'важливий',tr:'vazhlyvyy',fr:'important',cat:'Adjectifs',lvl:'b1'},
+  {ua:'складний',tr:'skladnyy',fr:'complexe',cat:'Adjectifs',lvl:'b1'},
+  {ua:'простий',tr:'prostyy',fr:'simple',cat:'Adjectifs',lvl:'b1'},
+  {ua:'правильний',tr:'pravylnyy',fr:'correct',cat:'Adjectifs',lvl:'b1'},
+  {ua:'неправильний',tr:'nepravylnyy',fr:'incorrect',cat:'Adjectifs',lvl:'b1'},
+  // Questions
+  {ua:'де',tr:'de',fr:'où',cat:'Questions',lvl:'a1'},
+  {ua:'коли',tr:'koly',fr:'quand',cat:'Questions',lvl:'a1'},
+  {ua:'чому',tr:'chomu',fr:'pourquoi',cat:'Questions',lvl:'a1'},
+  {ua:'як',tr:'yak',fr:'comment',cat:'Questions',lvl:'a1'},
+  {ua:'скільки',tr:'skilky',fr:'combien',cat:'Questions',lvl:'a1'},
+  {ua:'хто',tr:'khto',fr:'qui',cat:'Questions',lvl:'a1'},
+  {ua:'що',tr:'shcho',fr:'quoi / que',cat:'Questions',lvl:'a1'},
+  {ua:'який',tr:'yakyy',fr:'quel / lequel',cat:'Questions',lvl:'a1'},
+  {ua:'чи',tr:'chy',fr:'est-ce que (oui/non)',cat:'Questions',lvl:'a1'},
+  {ua:'звідки',tr:'zvidky',fr:'d\'où',cat:'Questions',lvl:'a2'},
+  {ua:'куди',tr:'kudy',fr:'vers où',cat:'Questions',lvl:'a2'},
+  // B1-B2
+  {ua:'свобода',tr:'svoboda',fr:'liberté',cat:'B1–B2',lvl:'b1'},
+  {ua:'суспільство',tr:'suspilstvo',fr:'société',cat:'B1–B2',lvl:'b1'},
+  {ua:'освіта',tr:'osvita',fr:'éducation',cat:'B1–B2',lvl:'b1'},
+  {ua:'охорона здоров\'я',tr:'okhorona zdorovya',fr:'santé publique',cat:'B1–B2',lvl:'b1'},
+  {ua:'закон',tr:'zakon',fr:'loi',cat:'B1–B2',lvl:'b1'},
+  {ua:'уряд',tr:'uryad',fr:'gouvernement',cat:'B1–B2',lvl:'b1'},
+  {ua:'технологія',tr:'tekhnolohiya',fr:'technologie',cat:'B1–B2',lvl:'b1'},
+  {ua:'економіка',tr:'ekonomika',fr:'économie',cat:'B1–B2',lvl:'b1'},
+  {ua:'культура',tr:'kultura',fr:'culture',cat:'B1–B2',lvl:'b1'},
+  {ua:'мистецтво',tr:'mystetstvo',fr:'art',cat:'B1–B2',lvl:'b1'},
+  {ua:'наука',tr:'nauka',fr:'science',cat:'B1–B2',lvl:'b1'},
+  {ua:'дослідження',tr:'doslidzhennya',fr:'recherche',cat:'B1–B2',lvl:'b2'},
+  {ua:'підприємство',tr:'pidpryyemstvo',fr:'entreprise',cat:'B1–B2',lvl:'b2'},
+  {ua:'навколишнє середовище',tr:'navkolyshnye seredovyshche',fr:'environnement',cat:'B1–B2',lvl:'b2'},
+  {ua:'зміна клімату',tr:'zmina klimatu',fr:'changement climatique',cat:'B1–B2',lvl:'b2'},
+  {ua:'сталий розвиток',tr:'staly rozvytok',fr:'développement durable',cat:'B1–B2',lvl:'b2'},
+  {ua:'права людини',tr:'prava lyudyny',fr:'droits de l\'homme',cat:'B1–B2',lvl:'b2'},
+  {ua:'демократія',tr:'demokratiya',fr:'démocratie',cat:'B1–B2',lvl:'b2'},
+  {ua:'глобалізація',tr:'hlobalizatsiya',fr:'mondialisation',cat:'B1–B2',lvl:'b2'},
+  {ua:'нерівність',tr:'nerivnist',fr:'inégalité',cat:'B1–B2',lvl:'b2'},
+  // Connecteurs
+  {ua:'і / та',tr:'i / ta',fr:'et',cat:'Connecteurs',lvl:'a1'},
+  {ua:'але',tr:'ale',fr:'mais',cat:'Connecteurs',lvl:'a1'},
+  {ua:'або',tr:'abo',fr:'ou',cat:'Connecteurs',lvl:'a1'},
+  {ua:'тому що',tr:'tomu shcho',fr:'parce que',cat:'Connecteurs',lvl:'a1'},
+  {ua:'тому',tr:'tomu',fr:'donc / c\'est pourquoi',cat:'Connecteurs',lvl:'a1'},
+  {ua:'якщо',tr:'yakshcho',fr:'si (condition)',cat:'Connecteurs',lvl:'a2'},
+  {ua:'коли',tr:'koly',fr:'quand / lorsque',cat:'Connecteurs',lvl:'a1'},
+  {ua:'хоча',tr:'khocha',fr:'bien que / quoique',cat:'Connecteurs',lvl:'b1'},
+  {ua:'проте',tr:'prote',fr:'cependant / pourtant',cat:'Connecteurs',lvl:'b1'},
+  {ua:'однак',tr:'odnak',fr:'toutefois / néanmoins',cat:'Connecteurs',lvl:'b1'},
+  {ua:'крім того',tr:'krim toho',fr:'de plus / en outre',cat:'Connecteurs',lvl:'b1'},
+  {ua:'по-перше',tr:'po-pershe',fr:'premièrement',cat:'Connecteurs',lvl:'b1'},
+  {ua:'по-друге',tr:'po-druhe',fr:'deuxièmement',cat:'Connecteurs',lvl:'b1'},
+  {ua:'нарешті',tr:'nareshti',fr:'enfin / finalement',cat:'Connecteurs',lvl:'b1'},
+  {ua:'наприклад',tr:'napryklad',fr:'par exemple',cat:'Connecteurs',lvl:'a2'},
+  {ua:'тобто',tr:'tobto',fr:'c\'est-à-dire',cat:'Connecteurs',lvl:'b1'},
+  {ua:'взагалі',tr:'vzahali',fr:'en général / d\'ailleurs',cat:'Connecteurs',lvl:'b1'},
+  {ua:'зокрема',tr:'zokrema',fr:'notamment / en particulier',cat:'Connecteurs',lvl:'b2'},
+  {ua:'навпаки',tr:'navpaky',fr:'au contraire',cat:'Connecteurs',lvl:'b1'},
+  {ua:'завдяки',tr:'zavdyaky',fr:'grâce à',cat:'Connecteurs',lvl:'b1'},
+  {ua:'незважаючи на',tr:'nezvazhayuchy na',fr:'malgré',cat:'Connecteurs',lvl:'b2'},
+  {ua:'щоб',tr:'shchob',fr:'pour que / afin de',cat:'Connecteurs',lvl:'a2'},
+  {ua:'після того як',tr:'pislya toho yak',fr:'après que',cat:'Connecteurs',lvl:'b1'},
+  {ua:'до того як',tr:'do toho yak',fr:'avant que',cat:'Connecteurs',lvl:'b1'},
+  {ua:'поки',tr:'poky',fr:'pendant que / tant que',cat:'Connecteurs',lvl:'b1'},
+  // Émotions
+  {ua:'радість',tr:'radist',fr:'joie',cat:'Émotions',lvl:'a2'},
+  {ua:'сум',tr:'sum',fr:'tristesse',cat:'Émotions',lvl:'a2'},
+  {ua:'страх',tr:'strakh',fr:'peur',cat:'Émotions',lvl:'a2'},
+  {ua:'злість',tr:'zlist',fr:'colère',cat:'Émotions',lvl:'a2'},
+  {ua:'любов',tr:'lyubov',fr:'amour',cat:'Émotions',lvl:'a1'},
+  {ua:'щастя',tr:'shchastya',fr:'bonheur',cat:'Émotions',lvl:'a2'},
+  {ua:'хвилювання',tr:'khvylyuvannya',fr:'anxiété / émotion',cat:'Émotions',lvl:'b1'},
+  {ua:'здивування',tr:'zdyvuvannya',fr:'étonnement / surprise',cat:'Émotions',lvl:'b1'},
+  {ua:'розчарування',tr:'rozcharuvannya',fr:'déception',cat:'Émotions',lvl:'b1'},
+  {ua:'гордість',tr:'hordist',fr:'fierté',cat:'Émotions',lvl:'b1'},
+  {ua:'сором',tr:'sorom',fr:'honte',cat:'Émotions',lvl:'b1'},
+  {ua:'заздрість',tr:'zazdrist',fr:'jalousie / envie',cat:'Émotions',lvl:'b1'},
+  {ua:'спокій',tr:'spokiy',fr:'calme / sérénité',cat:'Émotions',lvl:'b1'},
+  {ua:'самотність',tr:'samotnist',fr:'solitude',cat:'Émotions',lvl:'b1'},
+  {ua:'натхнення',tr:'natkhnennya',fr:'inspiration',cat:'Émotions',lvl:'b2'},
+  {ua:'ностальгія',tr:'nostalhhiya',fr:'nostalgie',cat:'Émotions',lvl:'b2'},
+  {ua:'роздратування',tr:'rozdratuvannya',fr:'irritation / agacement',cat:'Émotions',lvl:'b2'},
+  // Travail
+  {ua:'робота',tr:'robota',fr:'travail',cat:'Travail',lvl:'a1'},
+  {ua:'офіс',tr:'ofis',fr:'bureau',cat:'Travail',lvl:'a1'},
+  {ua:'зустріч',tr:'zustrich',fr:'réunion / rencontre',cat:'Travail',lvl:'a2'},
+  {ua:'проект',tr:'proekt',fr:'projet',cat:'Travail',lvl:'a2'},
+  {ua:'дедлайн',tr:'dedlayn',fr:'délai / deadline',cat:'Travail',lvl:'b1'},
+  {ua:'зарплата',tr:'zarplata',fr:'salaire',cat:'Travail',lvl:'a2'},
+  {ua:'відпустка',tr:'vidpustka',fr:'congé / vacances',cat:'Travail',lvl:'a2'},
+  {ua:'звільнення',tr:'zvilnennya',fr:'licenciement',cat:'Travail',lvl:'b1'},
+  {ua:'підвищення',tr:'pidvyshchennya',fr:'promotion',cat:'Travail',lvl:'b1'},
+  {ua:'резюме',tr:'rezyume',fr:'CV',cat:'Travail',lvl:'b1'},
+  {ua:'співбесіда',tr:'spivbesida',fr:'entretien d\'embauche',cat:'Travail',lvl:'b1'},
+  {ua:'начальник',tr:'nachalnyk',fr:'chef / patron',cat:'Travail',lvl:'a2'},
+  {ua:'підлеглий',tr:'pidleglyy',fr:'subordonné',cat:'Travail',lvl:'b2'},
+  {ua:'відповідальність',tr:'vidpovidalnist',fr:'responsabilité',cat:'Travail',lvl:'b1'},
+  {ua:'досвід',tr:'dosvid',fr:'expérience',cat:'Travail',lvl:'b1'},
+  {ua:'навички',tr:'navychky',fr:'compétences',cat:'Travail',lvl:'b1'},
+  // Maison
+  {ua:'кімната',tr:'kimnata',fr:'chambre / pièce',cat:'Maison',lvl:'a1'},
+  {ua:'кухня',tr:'kukhnya',fr:'cuisine',cat:'Maison',lvl:'a1'},
+  {ua:'вітальня',tr:'vitalna',fr:'salon',cat:'Maison',lvl:'a1'},
+  {ua:'спальня',tr:'spalnya',fr:'chambre à coucher',cat:'Maison',lvl:'a1'},
+  {ua:'ванна',tr:'vanna',fr:'salle de bain',cat:'Maison',lvl:'a1'},
+  {ua:'туалет',tr:'tualet',fr:'toilettes',cat:'Maison',lvl:'a1'},
+  {ua:'балкон',tr:'balkon',fr:'balcon',cat:'Maison',lvl:'a2'},
+  {ua:'ліжко',tr:'lizhko',fr:'lit',cat:'Maison',lvl:'a1'},
+  {ua:'стіл',tr:'stil',fr:'table',cat:'Maison',lvl:'a1'},
+  {ua:'стілець',tr:'stilets',fr:'chaise',cat:'Maison',lvl:'a1'},
+  {ua:'диван',tr:'dyvan',fr:'canapé',cat:'Maison',lvl:'a1'},
+  {ua:'вікно',tr:'vikno',fr:'fenêtre',cat:'Maison',lvl:'a1'},
+  {ua:'двері',tr:'dveri',fr:'porte',cat:'Maison',lvl:'a1'},
+  {ua:'холодильник',tr:'kholodylnyk',fr:'réfrigérateur',cat:'Maison',lvl:'a2'},
+  {ua:'пральна машина',tr:'pralna mashyna',fr:'machine à laver',cat:'Maison',lvl:'a2'},
+  {ua:'мікрохвильова піч',tr:'mikrokhvylova pich',fr:'micro-ondes',cat:'Maison',lvl:'a2'},
+  {ua:'посуд',tr:'posud',fr:'vaisselle',cat:'Maison',lvl:'a2'},
+  {ua:'лампа',tr:'lampa',fr:'lampe',cat:'Maison',lvl:'a1'},
+  // Santé
+  {ua:'лікар',tr:'likar',fr:'médecin',cat:'Santé',lvl:'a1'},
+  {ua:'хвороба',tr:'khvoroba',fr:'maladie',cat:'Santé',lvl:'a2'},
+  {ua:'біль',tr:'bil',fr:'douleur',cat:'Santé',lvl:'a2'},
+  {ua:'температура',tr:'temperatura',fr:'fièvre / température',cat:'Santé',lvl:'a2'},
+  {ua:'застуда',tr:'zastuda',fr:'rhume',cat:'Santé',lvl:'a2'},
+  {ua:'кашель',tr:'kashel',fr:'toux',cat:'Santé',lvl:'a2'},
+  {ua:'ліки',tr:'liky',fr:'médicaments',cat:'Santé',lvl:'a2'},
+  {ua:'рецепт',tr:'retsept',fr:'ordonnance / recette',cat:'Santé',lvl:'b1'},
+  {ua:'операція',tr:'operatsiya',fr:'opération',cat:'Santé',lvl:'b1'},
+  {ua:'алергія',tr:'alerhiya',fr:'allergie',cat:'Santé',lvl:'b1'},
+  {ua:'щеплення',tr:'shcheplennya',fr:'vaccin',cat:'Santé',lvl:'b1'},
+  {ua:'вагітність',tr:'vahitnist',fr:'grossesse',cat:'Santé',lvl:'b1'},
+  // Nature
+  {ua:'небо',tr:'nebo',fr:'ciel',cat:'Nature',lvl:'a1'},
+  {ua:'сонце',tr:'sontse',fr:'soleil',cat:'Nature',lvl:'a1'},
+  {ua:'місяць',tr:'misyats',fr:'lune / mois',cat:'Nature',lvl:'a1'},
+  {ua:'зірка',tr:'zirka',fr:'étoile',cat:'Nature',lvl:'a1'},
+  {ua:'дощ',tr:'doshch',fr:'pluie',cat:'Nature',lvl:'a1'},
+  {ua:'сніг',tr:'snig',fr:'neige',cat:'Nature',lvl:'a1'},
+  {ua:'вітер',tr:'viter',fr:'vent',cat:'Nature',lvl:'a1'},
+  {ua:'хмара',tr:'khmara',fr:'nuage',cat:'Nature',lvl:'a1'},
+  {ua:'дерево',tr:'derevo',fr:'arbre',cat:'Nature',lvl:'a1'},
+  {ua:'квітка',tr:'kvitka',fr:'fleur',cat:'Nature',lvl:'a1'},
+  {ua:'ліс',tr:'lis',fr:'forêt',cat:'Nature',lvl:'a1'},
+  {ua:'річка',tr:'richka',fr:'rivière',cat:'Nature',lvl:'a1'},
+  {ua:'море',tr:'more',fr:'mer',cat:'Nature',lvl:'a1'},
+  {ua:'гора',tr:'hora',fr:'montagne',cat:'Nature',lvl:'a1'},
+  {ua:'поле',tr:'pole',fr:'champ',cat:'Nature',lvl:'a2'},
+  {ua:'тварина',tr:'tvaryna',fr:'animal',cat:'Nature',lvl:'a1'},
+  {ua:'собака',tr:'sobaka',fr:'chien',cat:'Nature',lvl:'a1'},
+  {ua:'кіт',tr:'kit',fr:'chat',cat:'Nature',lvl:'a1'},
+  {ua:'птах',tr:'ptakh',fr:'oiseau',cat:'Nature',lvl:'a2'},
+  // Technologie
+  {ua:'телефон',tr:'telefon',fr:'téléphone',cat:'Technologie',lvl:'a1'},
+  {ua:'комп\'ютер',tr:'kompyuter',fr:'ordinateur',cat:'Technologie',lvl:'a1'},
+  {ua:'інтернет',tr:'internet',fr:'internet',cat:'Technologie',lvl:'a1'},
+  {ua:'застосунок',tr:'zastosunok',fr:'application',cat:'Technologie',lvl:'a2'},
+  {ua:'сайт',tr:'sayt',fr:'site web',cat:'Technologie',lvl:'a1'},
+  {ua:'пошта',tr:'poshta',fr:'email / courrier',cat:'Technologie',lvl:'a1'},
+  {ua:'повідомлення',tr:'povidomlennya',fr:'message',cat:'Technologie',lvl:'a2'},
+  {ua:'соціальні мережі',tr:'sotsialni merezhi',fr:'réseaux sociaux',cat:'Technologie',lvl:'b1'},
+  {ua:'пароль',tr:'parol',fr:'mot de passe',cat:'Technologie',lvl:'a2'},
+  {ua:'зарядка',tr:'zaryadka',fr:'chargeur',cat:'Technologie',lvl:'a2'},
+  {ua:'екран',tr:'ekran',fr:'écran',cat:'Technologie',lvl:'a2'},
+  {ua:'камера',tr:'kamera',fr:'caméra / appareil photo',cat:'Technologie',lvl:'a2'},
+  {ua:'навушники',tr:'navushnyky',fr:'écouteurs / casque',cat:'Technologie',lvl:'a2'},
+  {ua:'штучний інтелект',tr:'shtuchnyy intelekt',fr:'intelligence artificielle',cat:'Technologie',lvl:'b2'},
+  // Quotidien
+  {ua:'ранок',tr:'ranok',fr:'matin',cat:'Quotidien',lvl:'a1'},
+  {ua:'вечір',tr:'vechir',fr:'soir',cat:'Quotidien',lvl:'a1'},
+  {ua:'ніч',tr:'nich',fr:'nuit',cat:'Quotidien',lvl:'a1'},
+  {ua:'сніданок',tr:'snidanok',fr:'petit-déjeuner',cat:'Quotidien',lvl:'a1'},
+  {ua:'обід',tr:'obid',fr:'déjeuner / repas',cat:'Quotidien',lvl:'a1'},
+  {ua:'вечеря',tr:'vechera',fr:'dîner / souper',cat:'Quotidien',lvl:'a1'},
+  {ua:'прогулянка',tr:'prohulyanka',fr:'promenade',cat:'Quotidien',lvl:'a2'},
+  {ua:'покупки',tr:'pokupky',fr:'courses / achats',cat:'Quotidien',lvl:'a2'},
+  {ua:'черга',tr:'cherha',fr:'file d\'attente',cat:'Quotidien',lvl:'a2'},
+  {ua:'розклад',tr:'rozklad',fr:'emploi du temps / horaire',cat:'Quotidien',lvl:'b1'},
+  {ua:'звичка',tr:'zvychka',fr:'habitude',cat:'Quotidien',lvl:'b1'},
+  {ua:'відпочинок',tr:'vidpochynok',fr:'repos / détente',cat:'Quotidien',lvl:'a2'},
+  {ua:'спорт',tr:'sport',fr:'sport',cat:'Quotidien',lvl:'a1'},
+  {ua:'музика',tr:'muzyka',fr:'musique',cat:'Quotidien',lvl:'a1'},
+  {ua:'кіно',tr:'kino',fr:'cinéma',cat:'Quotidien',lvl:'a1'},
+  {ua:'книга',tr:'knyha',fr:'livre',cat:'Quotidien',lvl:'a1'},
+  {ua:'подорож',tr:'podorozh',fr:'voyage',cat:'Quotidien',lvl:'a2'},
+  {ua:'гроші',tr:'hroshi',fr:'argent',cat:'Quotidien',lvl:'a1'},
+  {ua:'ціна',tr:'tsina',fr:'prix',cat:'Quotidien',lvl:'a1'},
+  {ua:'знижка',tr:'znyzhka',fr:'réduction / solde',cat:'Quotidien',lvl:'a2'},
+  // Alimentation étendue
+  {ua:'сніданок',tr:'snidanok',fr:'petit-déjeuner',cat:'Alimentation',lvl:'a1'},
+  {ua:'обід',tr:'obid',fr:'déjeuner',cat:'Alimentation',lvl:'a1'},
+  {ua:'вечеря',tr:'vechera',fr:'dîner',cat:'Alimentation',lvl:'a1'},
+  {ua:'страва',tr:'strava',fr:'plat / mets',cat:'Alimentation',lvl:'a2'},
+  {ua:'меню',tr:'menyu',fr:'menu',cat:'Alimentation',lvl:'a1'},
+  {ua:'апельсин',tr:'apelsyn',fr:'orange',cat:'Alimentation',lvl:'a1'},
+  {ua:'лимон',tr:'lymon',fr:'citron',cat:'Alimentation',lvl:'a1'},
+  {ua:'виноград',tr:'vynograd',fr:'raisin',cat:'Alimentation',lvl:'a2'},
+  {ua:'полуниця',tr:'polunytsya',fr:'fraise',cat:'Alimentation',lvl:'a2'},
+  {ua:'кавун',tr:'kavun',fr:'pastèque',cat:'Alimentation',lvl:'a2'},
+  {ua:'диня',tr:'dynya',fr:'melon',cat:'Alimentation',lvl:'a2'},
+  {ua:'черешня',tr:'chereshnya',fr:'cerise',cat:'Alimentation',lvl:'a2'},
+  {ua:'морква',tr:'morkva',fr:'carotte',cat:'Alimentation',lvl:'a1'},
+  {ua:'огірок',tr:'ohirok',fr:'concombre',cat:'Alimentation',lvl:'a1'},
+  {ua:'перець',tr:'perets',fr:'poivron / poivre',cat:'Alimentation',lvl:'a2'},
+  {ua:'капуста',tr:'kapusta',fr:'chou',cat:'Alimentation',lvl:'a2'},
+  {ua:'гриби',tr:'hryby',fr:'champignons',cat:'Alimentation',lvl:'a2'},
+  {ua:'кукурудза',tr:'kukurudza',fr:'maïs',cat:'Alimentation',lvl:'a2'},
+  {ua:'баклажан',tr:'baklazhаn',fr:'aubergine',cat:'Alimentation',lvl:'b1'},
+  {ua:'кабачок',tr:'kabachok',fr:'courgette',cat:'Alimentation',lvl:'b1'},
+  {ua:'курка',tr:'kurka',fr:'poulet',cat:'Alimentation',lvl:'a1'},
+  {ua:'свинина',tr:'svynyna',fr:'porc',cat:'Alimentation',lvl:'a2'},
+  {ua:'яловичина',tr:'yalovychyna',fr:'bœuf',cat:'Alimentation',lvl:'a2'},
+  {ua:'ковбаса',tr:'kovbasa',fr:'saucisson / saucisse',cat:'Alimentation',lvl:'a2'},
+  {ua:'шинка',tr:'shynka',fr:'jambon',cat:'Alimentation',lvl:'a2'},
+  {ua:'бекон',tr:'bekon',fr:'bacon',cat:'Alimentation',lvl:'a2'},
+  {ua:'морепродукти',tr:'moreprodukty',fr:'fruits de mer',cat:'Alimentation',lvl:'b1'},
+  {ua:'креветки',tr:'krevetky',fr:'crevettes',cat:'Alimentation',lvl:'b1'},
+  {ua:'тунець',tr:'tunets',fr:'thon',cat:'Alimentation',lvl:'b1'},
+  {ua:'оселедець',tr:'oseledets',fr:'hareng',cat:'Alimentation',lvl:'b1'},
+  {ua:'макарони',tr:'makarony',fr:'pâtes',cat:'Alimentation',lvl:'a1'},
+  {ua:'вареники',tr:'vareŋky',fr:'raviolis ukrainiens',cat:'Alimentation',lvl:'a2'},
+  {ua:'галушки',tr:'halushky',fr:'gnocchis ukrainiens',cat:'Alimentation',lvl:'b1'},
+  {ua:'піца',tr:'pitsa',fr:'pizza',cat:'Alimentation',lvl:'a1'},
+  {ua:'бутерброд',tr:'buterbrod',fr:'sandwich',cat:'Alimentation',lvl:'a1'},
+  {ua:'торт',tr:'tort',fr:'gâteau',cat:'Alimentation',lvl:'a1'},
+  {ua:'печиво',tr:'pechyvo',fr:'biscuit / cookie',cat:'Alimentation',lvl:'a1'},
+  {ua:'морозиво',tr:'morozyvo',fr:'glace',cat:'Alimentation',lvl:'a1'},
+  {ua:'шоколад',tr:'shokolad',fr:'chocolat',cat:'Alimentation',lvl:'a1'},
+  {ua:'мед',tr:'med',fr:'miel',cat:'Alimentation',lvl:'a2'},
+  {ua:'варення',tr:'varennya',fr:'confiture',cat:'Alimentation',lvl:'a2'},
+  {ua:'борошно',tr:'boroshno',fr:'farine',cat:'Alimentation',lvl:'a2'},
+  {ua:'оцет',tr:'otset',fr:'vinaigre',cat:'Alimentation',lvl:'b1'},
+  {ua:'соняшникова олія',tr:'sonyashnykova oliya',fr:'huile de tournesol',cat:'Alimentation',lvl:'b1'},
+  {ua:'сметана',tr:'smetana',fr:'crème aigre',cat:'Alimentation',lvl:'a2'},
+  {ua:'кефір',tr:'kefir',fr:'kéfir',cat:'Alimentation',lvl:'a2'},
+  {ua:'сік',tr:'sik',fr:'jus',cat:'Alimentation',lvl:'a1'},
+  {ua:'газована вода',tr:'hazovana voda',fr:'eau gazeuse',cat:'Alimentation',lvl:'a2'},
+  {ua:'кава з молоком',tr:'kava z molokom',fr:'café au lait',cat:'Alimentation',lvl:'a1'},
+  {ua:'каструля',tr:'kastrulya',fr:'casserole',cat:'Alimentation',lvl:'a2'},
+  {ua:'сковорода',tr:'skovoroda',fr:'poêle',cat:'Alimentation',lvl:'a2'},
+  {ua:'тарілка',tr:'tarilka',fr:'assiette',cat:'Alimentation',lvl:'a1'},
+  {ua:'чашка',tr:'chashka',fr:'tasse',cat:'Alimentation',lvl:'a1'},
+  {ua:'склянка',tr:'sklyanка',fr:'verre',cat:'Alimentation',lvl:'a1'},
+  {ua:'виделка',tr:'vydelka',fr:'fourchette',cat:'Alimentation',lvl:'a1'},
+  {ua:'ніж',tr:'nizh',fr:'couteau',cat:'Alimentation',lvl:'a1'},
+  {ua:'ложка',tr:'lozhka',fr:'cuillère',cat:'Alimentation',lvl:'a1'},
+  // Corps humain étendu
+  {ua:'лоб',tr:'lob',fr:'front',cat:'Corps',lvl:'a2'},
+  {ua:'щока',tr:'shchoka',fr:'joue',cat:'Corps',lvl:'a2'},
+  {ua:'підборіддя',tr:'pidboriддya',fr:'menton',cat:'Corps',lvl:'b1'},
+  {ua:'брова',tr:'brova',fr:'sourcil',cat:'Corps',lvl:'b1'},
+  {ua:'вія',tr:'viya',fr:'cil',cat:'Corps',lvl:'b1'},
+  {ua:'губи',tr:'huby',fr:'lèvres',cat:'Corps',lvl:'a2'},
+  {ua:'язик',tr:'yazyk',fr:'langue',cat:'Corps',lvl:'a2'},
+  {ua:'горло',tr:'horlo',fr:'gorge',cat:'Corps',lvl:'a2'},
+  {ua:'ніготь',tr:'nihot',fr:'ongle',cat:'Corps',lvl:'b1'},
+  {ua:'кулак',tr:'kulak',fr:'poing',cat:'Corps',lvl:'b1'},
+  {ua:'коліно',tr:'kolino',fr:'genou',cat:'Corps',lvl:'a2'},
+  {ua:'лікоть',tr:'likot',fr:'coude',cat:'Corps',lvl:'b1'},
+  {ua:'п\'ята',tr:'pyata',fr:'talon',cat:'Corps',lvl:'b1'},
+  {ua:'палець',tr:'palets',fr:'doigt',cat:'Corps',lvl:'a2'},
+  {ua:'м\'яз',tr:'myaz',fr:'muscle',cat:'Corps',lvl:'b1'},
+  {ua:'кістка',tr:'kistka',fr:'os',cat:'Corps',lvl:'b1'},
+  {ua:'шкіра',tr:'shkira',fr:'peau',cat:'Corps',lvl:'b1'},
+  {ua:'кров',tr:'krov',fr:'sang',cat:'Corps',lvl:'b1'},
+  {ua:'мозок',tr:'mozok',fr:'cerveau',cat:'Corps',lvl:'b1'},
+  {ua:'легені',tr:'leheni',fr:'poumons',cat:'Corps',lvl:'b1'},
+  {ua:'шлунок',tr:'shlunok',fr:'estomac',cat:'Corps',lvl:'b1'},
+  {ua:'печінка',tr:'pechinka',fr:'foie',cat:'Corps',lvl:'b1'},
+  // Objets du quotidien
+  {ua:'ключ',tr:'klyuch',fr:'clé',cat:'Objets',lvl:'a1'},
+  {ua:'гаманець',tr:'hamanets',fr:'portefeuille',cat:'Objets',lvl:'a1'},
+  {ua:'сумка',tr:'sumka',fr:'sac',cat:'Objets',lvl:'a1'},
+  {ua:'рюкзак',tr:'ryukzak',fr:'sac à dos',cat:'Objets',lvl:'a1'},
+  {ua:'парасолька',tr:'parasolka',fr:'parapluie',cat:'Objets',lvl:'a2'},
+  {ua:'окуляри',tr:'okulyary',fr:'lunettes',cat:'Objets',lvl:'a2'},
+  {ua:'годинник',tr:'hodynyk',fr:'montre / horloge',cat:'Objets',lvl:'a1'},
+  {ua:'ручка',tr:'ruchka',fr:'stylo',cat:'Objets',lvl:'a1'},
+  {ua:'олівець',tr:'olivets',fr:'crayon',cat:'Objets',lvl:'a1'},
+  {ua:'зошит',tr:'zoshyt',fr:'cahier',cat:'Objets',lvl:'a1'},
+  {ua:'папір',tr:'papir',fr:'papier',cat:'Objets',lvl:'a1'},
+  {ua:'конверт',tr:'konvert',fr:'enveloppe',cat:'Objets',lvl:'a2'},
+  {ua:'марка',tr:'marka',fr:'timbre',cat:'Objets',lvl:'a2'},
+  {ua:'зарядний пристрій',tr:'zaryadnyy prystriy',fr:'chargeur',cat:'Objets',lvl:'a2'},
+  {ua:'навушники',tr:'navushnyky',fr:'écouteurs',cat:'Objets',lvl:'a2'},
+  {ua:'пульт',tr:'pult',fr:'télécommande',cat:'Objets',lvl:'a2'},
+  {ua:'батарейка',tr:'batareyka',fr:'pile / batterie',cat:'Objets',lvl:'a2'},
+  {ua:'свічка',tr:'svichka',fr:'bougie',cat:'Objets',lvl:'a2'},
+  {ua:'ліхтарик',tr:'likhtaryk',fr:'lampe de poche',cat:'Objets',lvl:'a2'},
+  {ua:'ніж',tr:'nizh',fr:'couteau',cat:'Objets',lvl:'a1'},
+  {ua:'ножиці',tr:'nozhytsi',fr:'ciseaux',cat:'Objets',lvl:'a2'},
+  {ua:'скотч',tr:'skotch',fr:'scotch / ruban adhésif',cat:'Objets',lvl:'a2'},
+  {ua:'клей',tr:'kley',fr:'colle',cat:'Objets',lvl:'a2'},
+  {ua:'дзеркало',tr:'dzerkalo',fr:'miroir',cat:'Objets',lvl:'a2'},
+  {ua:'рушник',tr:'rushnyk',fr:'serviette',cat:'Objets',lvl:'a2'},
+  {ua:'мило',tr:'mylo',fr:'savon',cat:'Objets',lvl:'a1'},
+  {ua:'шампунь',tr:'shampun',fr:'shampoing',cat:'Objets',lvl:'a2'},
+  {ua:'зубна щітка',tr:'zubna shchitka',fr:'brosse à dents',cat:'Objets',lvl:'a1'},
+  {ua:'зубна паста',tr:'zubna pasta',fr:'dentifrice',cat:'Objets',lvl:'a1'},
+  {ua:'гребінець',tr:'hrebinets',fr:'peigne',cat:'Objets',lvl:'a2'},
+  {ua:'бритва',tr:'brytva',fr:'rasoir',cat:'Objets',lvl:'a2'},
+  {ua:'парфуми',tr:'parfumy',fr:'parfum',cat:'Objets',lvl:'a2'},
+  {ua:'крем',tr:'krem',fr:'crème',cat:'Objets',lvl:'a2'},
+  // Vêtements
+  {ua:'одяг',tr:'odyah',fr:'vêtements',cat:'Vêtements',lvl:'a1'},
+  {ua:'сорочка',tr:'sorochka',fr:'chemise',cat:'Vêtements',lvl:'a1'},
+  {ua:'штани',tr:'shtany',fr:'pantalon',cat:'Vêtements',lvl:'a1'},
+  {ua:'спідниця',tr:'spidnytsya',fr:'jupe',cat:'Vêtements',lvl:'a1'},
+  {ua:'сукня',tr:'suknya',fr:'robe',cat:'Vêtements',lvl:'a1'},
+  {ua:'светр',tr:'svetr',fr:'pull / sweater',cat:'Vêtements',lvl:'a1'},
+  {ua:'куртка',tr:'kurtka',fr:'veste / blouson',cat:'Vêtements',lvl:'a1'},
+  {ua:'пальто',tr:'palto',fr:'manteau',cat:'Vêtements',lvl:'a1'},
+  {ua:'шапка',tr:'shapka',fr:'bonnet / chapeau',cat:'Vêtements',lvl:'a1'},
+  {ua:'шарф',tr:'sharf',fr:'écharpe',cat:'Vêtements',lvl:'a1'},
+  {ua:'рукавиці',tr:'rukavytsi',fr:'gants / moufles',cat:'Vêtements',lvl:'a2'},
+  {ua:'черевики',tr:'cherevyky',fr:'chaussures / bottines',cat:'Vêtements',lvl:'a1'},
+  {ua:'кросівки',tr:'krosivky',fr:'baskets / sneakers',cat:'Vêtements',lvl:'a1'},
+  {ua:'чоботи',tr:'choboty',fr:'bottes',cat:'Vêtements',lvl:'a2'},
+  {ua:'капці',tr:'kaptsi',fr:'pantoufles',cat:'Vêtements',lvl:'a2'},
+  {ua:'шкарпетки',tr:'shkarpetky',fr:'chaussettes',cat:'Vêtements',lvl:'a1'},
+  {ua:'нижня білизна',tr:'nyzhnya bilyzna',fr:'sous-vêtements',cat:'Vêtements',lvl:'a2'},
+  {ua:'піжама',tr:'pizhama',fr:'pyjama',cat:'Vêtements',lvl:'a2'},
+  {ua:'купальник',tr:'kupalʼnyk',fr:'maillot de bain',cat:'Vêtements',lvl:'a2'},
+  {ua:'ремінь',tr:'remin',fr:'ceinture',cat:'Vêtements',lvl:'a2'},
+  {ua:'краватка',tr:'kravatka',fr:'cravate',cat:'Vêtements',lvl:'b1'},
+  {ua:'розмір',tr:'rozmir',fr:'taille / pointure',cat:'Vêtements',lvl:'a2'},
+  // Maison étendue
+  {ua:'підлога',tr:'pidloha',fr:'sol / plancher',cat:'Maison',lvl:'a2'},
+  {ua:'стеля',tr:'stelya',fr:'plafond',cat:'Maison',lvl:'a2'},
+  {ua:'стіна',tr:'stina',fr:'mur / paroi',cat:'Maison',lvl:'a1'},
+  {ua:'сходи',tr:'skhody',fr:'escalier',cat:'Maison',lvl:'a2'},
+  {ua:'ліфт',tr:'lift',fr:'ascenseur',cat:'Maison',lvl:'a1'},
+  {ua:'підвал',tr:'pidval',fr:'cave / sous-sol',cat:'Maison',lvl:'a2'},
+  {ua:'горище',tr:'horyshche',fr:'grenier',cat:'Maison',lvl:'b1'},
+  {ua:'гараж',tr:'harazh',fr:'garage',cat:'Maison',lvl:'a2'},
+  {ua:'двір',tr:'dvir',fr:'cour',cat:'Maison',lvl:'a2'},
+  {ua:'сад',tr:'sad',fr:'jardin',cat:'Maison',lvl:'a1'},
+  {ua:'замок',tr:'zamok',fr:'serrure',cat:'Maison',lvl:'a2'},
+  {ua:'штора',tr:'shtora',fr:'rideau',cat:'Maison',lvl:'a2'},
+  {ua:'килим',tr:'kylym',fr:'tapis',cat:'Maison',lvl:'a2'},
+  {ua:'полиця',tr:'polytsya',fr:'étagère',cat:'Maison',lvl:'a2'},
+  {ua:'шафа',tr:'shafa',fr:'armoire',cat:'Maison',lvl:'a2'},
+  {ua:'комод',tr:'komod',fr:'commode',cat:'Maison',lvl:'b1'},
+  {ua:'вішалка',tr:'vishalka',fr:'cintre / porte-manteau',cat:'Maison',lvl:'a2'},
+  {ua:'смітник',tr:'smitnyk',fr:'poubelle',cat:'Maison',lvl:'a2'},
+  {ua:'кран',tr:'kran',fr:'robinet',cat:'Maison',lvl:'a2'},
+  {ua:'душ',tr:'dush',fr:'douche',cat:'Maison',lvl:'a1'},
+  {ua:'ванна',tr:'vanna',fr:'baignoire',cat:'Maison',lvl:'a2'},
+  {ua:'унітаз',tr:'unitaz',fr:'toilettes / WC',cat:'Maison',lvl:'a2'},
+  {ua:'праска',tr:'praska',fr:'fer à repasser',cat:'Maison',lvl:'a2'},
+  {ua:'пилосос',tr:'pylososk',fr:'aspirateur',cat:'Maison',lvl:'a2'},
+  {ua:'посудомийна машина',tr:'posudomyna mashyna',fr:'lave-vaisselle',cat:'Maison',lvl:'b1'},
+  {ua:'тостер',tr:'toster',fr:'grille-pain',cat:'Maison',lvl:'a2'},
+  {ua:'чайник',tr:'chaynyk',fr:'bouilloire',cat:'Maison',lvl:'a1'},
+  {ua:'блендер',tr:'blender',fr:'mixeur',cat:'Maison',lvl:'b1'},
+  {ua:'духовка',tr:'dukhovka',fr:'four',cat:'Maison',lvl:'a2'},
+  {ua:'плита',tr:'plyta',fr:'cuisinière / plaque',cat:'Maison',lvl:'a2'},
+  // Animaux
+  {ua:'кінь',tr:'kin',fr:'cheval',cat:'Animaux',lvl:'a2'},
+  {ua:'корова',tr:'korova',fr:'vache',cat:'Animaux',lvl:'a1'},
+  {ua:'свиня',tr:'svynya',fr:'cochon',cat:'Animaux',lvl:'a2'},
+  {ua:'вівця',tr:'vivtsya',fr:'mouton',cat:'Animaux',lvl:'a2'},
+  {ua:'коза',tr:'koza',fr:'chèvre',cat:'Animaux',lvl:'a2'},
+  {ua:'кролик',tr:'krolik',fr:'lapin',cat:'Animaux',lvl:'a1'},
+  {ua:'хом\'як',tr:'khomyak',fr:'hamster',cat:'Animaux',lvl:'a2'},
+  {ua:'черепаха',tr:'cherepakha',fr:'tortue',cat:'Animaux',lvl:'a2'},
+  {ua:'змія',tr:'zmiya',fr:'serpent',cat:'Animaux',lvl:'a2'},
+  {ua:'жаба',tr:'zhaba',fr:'grenouille',cat:'Animaux',lvl:'a2'},
+  {ua:'риба',tr:'ryba',fr:'poisson',cat:'Animaux',lvl:'a1'},
+  {ua:'лев',tr:'lev',fr:'lion',cat:'Animaux',lvl:'a2'},
+  {ua:'слон',tr:'slon',fr:'éléphant',cat:'Animaux',lvl:'a2'},
+  {ua:'жираф',tr:'zhyraf',fr:'girafe',cat:'Animaux',lvl:'a2'},
+  {ua:'ведмідь',tr:'vedmid',fr:'ours',cat:'Animaux',lvl:'a2'},
+  {ua:'вовк',tr:'vovk',fr:'loup',cat:'Animaux',lvl:'a2'},
+  {ua:'лисиця',tr:'lysytsya',fr:'renard',cat:'Animaux',lvl:'a2'},
+  {ua:'заєць',tr:'zayets',fr:'lièvre',cat:'Animaux',lvl:'a2'},
+  {ua:'орел',tr:'orel',fr:'aigle',cat:'Animaux',lvl:'b1'},
+  {ua:'горобець',tr:'horobets',fr:'moineau',cat:'Animaux',lvl:'b1'},
+  {ua:'голуб',tr:'holub',fr:'pigeon',cat:'Animaux',lvl:'a2'},
+  {ua:'курка',tr:'kurka',fr:'poule',cat:'Animaux',lvl:'a1'},
+  {ua:'качка',tr:'kachka',fr:'canard',cat:'Animaux',lvl:'a2'},
+  // École / Études
+  {ua:'клас',tr:'klas',fr:'classe',cat:'École',lvl:'a1'},
+  {ua:'урок',tr:'urok',fr:'leçon / cours',cat:'École',lvl:'a1'},
+  {ua:'домашнє завдання',tr:'domashne zavdannya',fr:'devoir',cat:'École',lvl:'a1'},
+  {ua:'оцінка',tr:'otsinka',fr:'note',cat:'École',lvl:'a1'},
+  {ua:'іспит',tr:'ispyt',fr:'examen',cat:'École',lvl:'a1'},
+  {ua:'каблук',tr:'kabluk',fr:'tableau noir',cat:'École',lvl:'a2'},
+  {ua:'дошка',tr:'doshka',fr:'tableau',cat:'École',lvl:'a1'},
+  {ua:'крейда',tr:'kreyda',fr:'craie',cat:'École',lvl:'a2'},
+  {ua:'підручник',tr:'pidruchnyk',fr:'manuel',cat:'École',lvl:'a1'},
+  {ua:'словник',tr:'slovnyk',fr:'dictionnaire',cat:'École',lvl:'a1'},
+  {ua:'учитель',tr:'uchytel',fr:'professeur (m.)',cat:'École',lvl:'a1'},
+  {ua:'учителька',tr:'uchytelka',fr:'professeure (f.)',cat:'École',lvl:'a1'},
+  {ua:'учень',tr:'uchen',fr:'élève (m.)',cat:'École',lvl:'a1'},
+  {ua:'учениця',tr:'uchenytsia',fr:'élève (f.)',cat:'École',lvl:'a1'},
+  {ua:'студент',tr:'student',fr:'étudiant',cat:'École',lvl:'a1'},
+  {ua:'диплом',tr:'dyplom',fr:'diplôme',cat:'École',lvl:'b1'},
+  {ua:'стипендія',tr:'stypendiya',fr:'bourse d\'études',cat:'École',lvl:'b1'},
+];
+
+const PHRASES=[
+  {ua:'Мене звуть ...',tr:'Mene zvut ...',fr:'Je m\'appelle ...',cat:'Se présenter',note:'Lit. "On m\'appelle". Plus courant que "Я — ..."',lvl:'a1'},
+  {ua:'Скільки вам років?',tr:'Skilky vam rokiv?',fr:'Quel âge avez-vous ?',cat:'Se présenter',note:'Informel : скільки тобі років?',lvl:'a1'},
+  {ua:'Я з Франції',tr:'Ya z Frantsiyi',fr:'Je viens de France',cat:'Se présenter',note:'"з" = "de" (origine)',lvl:'a1'},
+  {ua:'Я вчу українську',tr:'Ya vchu ukrayinsku',fr:'J\'apprends l\'ukrainien',cat:'Se présenter',note:'Excellent brise-glace !',lvl:'a1'},
+  {ua:'Приємно познайомитися',tr:'Pryyemno poznayomytysya',fr:'Enchanté(e)',cat:'Se présenter',note:'À dire en serrant la main',lvl:'a1'},
+  {ua:'Де знаходиться ...?',tr:'De znakhodytsia ...?',fr:'Où se trouve ... ?',cat:'Se repérer',note:'Ex. : Де знаходиться вокзал?',lvl:'a1'},
+  {ua:'Поверніть ліворуч / праворуч',tr:'Povernitʼ livoruch / pravoruch',fr:'Tournez à gauche / droite',cat:'Se repérer',note:'Pravouch = droite, Livoruch = gauche',lvl:'a2'},
+  {ua:'Ідіть прямо',tr:'Iditʼ pryamo',fr:'Allez tout droit',cat:'Se repérer',note:'Pour donner une direction',lvl:'a2'},
+  {ua:'Як дістатися до ...?',tr:'Yak distatysya do ...?',fr:'Comment aller à ... ?',cat:'Se repérer',note:'Très utile en voyage',lvl:'a2'},
+  {ua:'Скільки це коштує?',tr:'Skilky tse koshtuye?',fr:'Combien ça coûte ?',cat:'Commerce',note:'Question de base pour tout achat',lvl:'a1'},
+  {ua:'Я хочу це купити',tr:'Ya khochu tse kupyty',fr:'Je veux acheter ceci',cat:'Commerce',note:'Montrez l\'objet pour plus de clarté',lvl:'a1'},
+  {ua:'Чи є у вас ...?',tr:'Chy ye u vas ...?',fr:'Avez-vous ... ?',cat:'Commerce',note:'Utile en magasin ou restaurant',lvl:'a2'},
+  {ua:'Можна мені ..., будь ласка?',tr:'Mozhna meni ..., bud laska?',fr:'Puis-je avoir ... ?',cat:'Commerce',note:'"Можна" = "est-il possible"',lvl:'a2'},
+  {ua:'Принесіть рахунок, будь ласка',tr:'Prynositʼ rakhunok, bud laska',fr:'L\'addition, s\'il vous plaît',cat:'Restaurant',note:'Au restaurant, à la fin du repas',lvl:'a2'},
+  {ua:'Я — вегетаріанець / вегетаріанка',tr:'Ya — vehetarianets / vehetarianka',fr:'Je suis végétarien(ne)',cat:'Restaurant',note:'Masc. / Fém.',lvl:'a2'},
+  {ua:'Що ви рекомендуєте?',tr:'Shcho vy rekomenduete?',fr:'Que recommandez-vous ?',cat:'Restaurant',note:'Pour demander un conseil',lvl:'a2'},
+  {ua:'Я алергічний на ...',tr:'Ya alerhichnyy na ...',fr:'Je suis allergique à ...',cat:'Restaurant',note:'Fém. : алергічна',lvl:'b1'},
+  {ua:'Мені погано',tr:'Meni pohano',fr:'Je ne me sens pas bien',cat:'Santé',note:'Pour signaler un malaise',lvl:'a1'},
+  {ua:'Викличте швидку допомогу',tr:'Vyklychte shvydku dopomohu',fr:'Appelez une ambulance',cat:'Santé',note:'Urgence absolue',lvl:'a1'},
+  {ua:'Де найближча аптека?',tr:'De nayblyzhcha apteka?',fr:'Où est la pharmacie la plus proche ?',cat:'Santé',note:'Utile en cas de besoin',lvl:'a2'},
+  {ua:'У мене болить голова',tr:'U mene bolyt holova',fr:'J\'ai mal à la tête',cat:'Santé',note:'Remplacez "голова" par toute partie du corps',lvl:'a2'},
+  {ua:'Я не розумію',tr:'Ya ne rozumiyu',fr:'Je ne comprends pas',cat:'Communication',note:'La phrase la plus utile pour un débutant',lvl:'a1'},
+  {ua:'Говоріть повільніше, будь ласка',tr:'Hovoritʼ povilnishe, bud laska',fr:'Parlez plus lentement, s\'il vous plaît',cat:'Communication',note:'Indispensable au début',lvl:'a1'},
+  {ua:'Як це буде по-українськи?',tr:'Yak tse bude po-ukrayinsky?',fr:'Comment dit-on ça en ukrainien ?',cat:'Communication',note:'La clé de tout apprenant !',lvl:'a2'},
+  {ua:'Повторіть, будь ласка',tr:'Povtoritʼ, bud laska',fr:'Répétez, s\'il vous plaît',cat:'Communication',note:'En classe ou conversation',lvl:'a1'},
+  {ua:'Напишіть це, будь ласка',tr:'Napyshitʼ tse, bud laska',fr:'Écrivez cela, s\'il vous plaît',cat:'Communication',note:'Pour mieux comprendre',lvl:'a2'},
+  {ua:'Я думаю, що...',tr:'Ya dumayu, shcho...',fr:'Je pense que...',cat:'Opinions',note:'Introduit une opinion',lvl:'b1'},
+  {ua:'На мою думку...',tr:'Na moyu dumku...',fr:'À mon avis...',cat:'Opinions',note:'Registre soutenu',lvl:'b1'},
+  {ua:'Я згоден / згодна',tr:'Ya zhoden / zhodna',fr:'Je suis d\'accord',cat:'Opinions',note:'Masc. / Fém.',lvl:'b1'},
+  {ua:'Я не згоден / не згодна',tr:'Ya ne zhoden / ne zhodna',fr:'Je ne suis pas d\'accord',cat:'Opinions',note:'Pour exprimer un désaccord poliment',lvl:'b1'},
+  {ua:'Це залежить від...',tr:'Tse zalezhyt vid...',fr:'Cela dépend de...',cat:'Opinions',note:'Pour nuancer',lvl:'b2'},
+  {ua:'З одного боку... з іншого боку...',tr:'Z odnoho boku... z inshoho boku...',fr:'D\'un côté... de l\'autre...',cat:'Opinions',note:'Structure pour un argument équilibré',lvl:'b2'},
+];
+
+const VERBS=[
+  // ── VERBES ESSENTIELS ─────────────────────────────
+  {inf:'бути',fr:'être',pres:[{pro:'я',ua:'є / —',tr:'ye'},{pro:'ти',ua:'є / —',tr:'ye'},{pro:'він / вона',ua:'є',tr:'ye'},{pro:'ми',ua:'є / —',tr:'ye'},{pro:'ви',ua:'є / —',tr:'ye'},{pro:'вони',ua:'є',tr:'ye'}],past:[{pro:'він',ua:'був',tr:'buv'},{pro:'вона',ua:'була',tr:'bula'},{pro:'воно',ua:'було',tr:'bulo'},{pro:'вони',ua:'були',tr:'buly'}],fut:[{pro:'я',ua:'буду',tr:'budu'},{pro:'ти',ua:'будеш',tr:'budesh'},{pro:'він / вона',ua:'буде',tr:'bude'},{pro:'ми',ua:'будемо',tr:'budemo'},{pro:'ви',ua:'будете',tr:'budete'},{pro:'вони',ua:'будуть',tr:'budut'}],note:'Au présent, "є" est souvent omis dans la langue parlée.'},
+  {inf:'мати',fr:'avoir',pres:[{pro:'я',ua:'маю',tr:'mayu'},{pro:'ти',ua:'маєш',tr:'mayesh'},{pro:'він / вона',ua:'має',tr:'maye'},{pro:'ми',ua:'маємо',tr:'mayemo'},{pro:'ви',ua:'маєте',tr:'mayete'},{pro:'вони',ua:'мають',tr:'mayut'}],past:[{pro:'він',ua:'мав',tr:'mav'},{pro:'вона',ua:'мала',tr:'mala'},{pro:'воно',ua:'мало',tr:'malo'},{pro:'вони',ua:'мали',tr:'maly'}],fut:[{pro:'я',ua:'матиму',tr:'matymu'},{pro:'ти',ua:'матимеш',tr:'matymesh'},{pro:'він / вона',ua:'матиме',tr:'matyme'},{pro:'ми',ua:'матимемо',tr:'matymemo'},{pro:'ви',ua:'матимете',tr:'matymete'},{pro:'вони',ua:'матимуть',tr:'matymut'}],note:'Souvent remplacé par "у мене є" (chez moi il y a).'},
+  {inf:'говорити',fr:'parler',pres:[{pro:'я',ua:'говорю',tr:'hovoryu'},{pro:'ти',ua:'говориш',tr:'hovorysh'},{pro:'він / вона',ua:'говорить',tr:'hovoryt'},{pro:'ми',ua:'говоримо',tr:'hovorymo'},{pro:'ви',ua:'говорите',tr:'hovoryte'},{pro:'вони',ua:'говорять',tr:'hovoryat'}],past:[{pro:'він',ua:'говорив',tr:'hovoryv'},{pro:'вона',ua:'говорила',tr:'hovoryla'},{pro:'воно',ua:'говорило',tr:'hovorylo'},{pro:'вони',ua:'говорили',tr:'hovoryly'}],fut:[{pro:'я',ua:'буду говорити',tr:'budu hovoryty'},{pro:'ти',ua:'будеш говорити',tr:'budesh hovoryty'},{pro:'він / вона',ua:'буде говорити',tr:'bude hovoryty'},{pro:'ми',ua:'будемо говорити',tr:'budemo hovoryty'},{pro:'ви',ua:'будете говорити',tr:'budete hovoryty'},{pro:'вони',ua:'будуть говорити',tr:'budut hovoryty'}],note:'Terminaisons en -ити très fréquentes en ukrainien.'},
+  {inf:'розуміти',fr:'comprendre',pres:[{pro:'я',ua:'розумію',tr:'rozumiyu'},{pro:'ти',ua:'розумієш',tr:'rozumiyesh'},{pro:'він / вона',ua:'розуміє',tr:'rozumiye'},{pro:'ми',ua:'розуміємо',tr:'rozumiyemo'},{pro:'ви',ua:'розумієте',tr:'rozumiyete'},{pro:'вони',ua:'розуміють',tr:'rozumiyut'}],past:[{pro:'він',ua:'розумів',tr:'rozumiv'},{pro:'вона',ua:'розуміла',tr:'rozumila'},{pro:'воно',ua:'розуміло',tr:'rozumilo'},{pro:'вони',ua:'розуміли',tr:'rozumily'}],fut:[{pro:'я',ua:'буду розуміти',tr:'budu rozumity'},{pro:'ти',ua:'будеш розуміти',tr:'budesh rozumity'},{pro:'він / вона',ua:'буде розуміти',tr:'bude rozumity'},{pro:'ми',ua:'будемо розуміти',tr:'budemo rozumity'},{pro:'ви',ua:'будете розуміти',tr:'budete rozumity'},{pro:'вони',ua:'будуть розуміти',tr:'budut rozumity'}],note:'Verbe clé pour l\'apprentissage. Radical -ум- = "esprit".'},
+  {inf:'іти',fr:'aller (à pied)',pres:[{pro:'я',ua:'іду',tr:'idu'},{pro:'ти',ua:'ідеш',tr:'idesh'},{pro:'він / вона',ua:'іде',tr:'ide'},{pro:'ми',ua:'ідемо',tr:'idemo'},{pro:'ви',ua:'ідете',tr:'idete'},{pro:'вони',ua:'ідуть',tr:'idut'}],past:[{pro:'він',ua:'ішов',tr:'ishov'},{pro:'вона',ua:'ішла',tr:'ishla'},{pro:'воно',ua:'ішло',tr:'ishlo'},{pro:'вони',ua:'ішли',tr:'ishly'}],fut:[{pro:'я',ua:'піду',tr:'pidu'},{pro:'ти',ua:'підеш',tr:'pidesh'},{pro:'він / вона',ua:'піде',tr:'pide'},{pro:'ми',ua:'підемо',tr:'pidemo'},{pro:'ви',ua:'підете',tr:'pidete'},{pro:'вони',ua:'підуть',tr:'pidut'}],note:'Futur perfectif avec le préfixe "пі-". Différent de "їхати" (en véhicule).'},
+  {inf:'їхати',fr:'aller (en véhicule)',pres:[{pro:'я',ua:'їду',tr:'yidu'},{pro:'ти',ua:'їдеш',tr:'yidesh'},{pro:'він / вона',ua:'їде',tr:'yide'},{pro:'ми',ua:'їдемо',tr:'yidemo'},{pro:'ви',ua:'їдете',tr:'yidete'},{pro:'вони',ua:'їдуть',tr:'yidut'}],past:[{pro:'він',ua:'їхав',tr:'yikhav'},{pro:'вона',ua:'їхала',tr:'yikhala'},{pro:'воно',ua:'їхало',tr:'yikhalo'},{pro:'вони',ua:'їхали',tr:'yikhaly'}],fut:[{pro:'я',ua:'буду їхати',tr:'budu yikhaty'},{pro:'ти',ua:'будеш їхати',tr:'budesh yikhaty'},{pro:'він / вона',ua:'буде їхати',tr:'bude yikhaty'},{pro:'ми',ua:'будемо їхати',tr:'budemo yikhaty'},{pro:'ви',ua:'будете їхати',tr:'budete yikhaty'},{pro:'вони',ua:'будуть їхати',tr:'budut yikhaty'}],note:'Mouvement en véhicule (bus, train, voiture). Opposé à "іти" (à pied).'},
+  {inf:'їсти',fr:'manger',pres:[{pro:'я',ua:'їм',tr:'yim'},{pro:'ти',ua:'їси',tr:'yisy'},{pro:'він / вона',ua:'їсть',tr:'yist'},{pro:'ми',ua:'їмо',tr:'yimo'},{pro:'ви',ua:'їсте',tr:'yiste'},{pro:'вони',ua:'їдять',tr:'yidyat'}],past:[{pro:'він',ua:'їв',tr:'yiv'},{pro:'вона',ua:'їла',tr:'yila'},{pro:'воно',ua:'їло',tr:'yilo'},{pro:'вони',ua:'їли',tr:'yily'}],fut:[{pro:'я',ua:'буду їсти',tr:'budu yisty'},{pro:'ти',ua:'будеш їсти',tr:'budesh yisty'},{pro:'він / вона',ua:'буде їсти',tr:'bude yisty'},{pro:'ми',ua:'будемо їсти',tr:'budemo yisty'},{pro:'ви',ua:'будете їсти',tr:'budete yisty'},{pro:'вони',ua:'будуть їсти',tr:'budut yisty'}],note:'Verbe irrégulier avec des formes très variées. À mémoriser absolument.'},
+  {inf:'пити',fr:'boire',pres:[{pro:'я',ua:'п\'ю',tr:'pyu'},{pro:'ти',ua:'п\'єш',tr:'pyesh'},{pro:'він / вона',ua:'п\'є',tr:'pye'},{pro:'ми',ua:'п\'ємо',tr:'pyemo'},{pro:'ви',ua:'п\'єте',tr:'pyete'},{pro:'вони',ua:'п\'ють',tr:'pyut'}],past:[{pro:'він',ua:'пив',tr:'pyv'},{pro:'вона',ua:'пила',tr:'pyla'},{pro:'воно',ua:'пило',tr:'pylo'},{pro:'вони',ua:'пили',tr:'pyly'}],fut:[{pro:'я',ua:'буду пити',tr:'budu pyty'},{pro:'ти',ua:'будеш пити',tr:'budesh pyty'},{pro:'він / вона',ua:'буде пити',tr:'bude pyty'},{pro:'ми',ua:'будемо пити',tr:'budemo pyty'},{pro:'ви',ua:'будете пити',tr:'budete pyty'},{pro:'вони',ua:'будуть пити',tr:'budut pyty'}],note:'Le signe apostrophe indique un son "y" intercalé.'},
+  {inf:'читати',fr:'lire',pres:[{pro:'я',ua:'читаю',tr:'chytayu'},{pro:'ти',ua:'читаєш',tr:'chytayesh'},{pro:'він / вона',ua:'читає',tr:'chytaye'},{pro:'ми',ua:'читаємо',tr:'chytayemo'},{pro:'ви',ua:'читаєте',tr:'chytayete'},{pro:'вони',ua:'читають',tr:'chytayut'}],past:[{pro:'він',ua:'читав',tr:'chytav'},{pro:'вона',ua:'читала',tr:'chytala'},{pro:'воно',ua:'читало',tr:'chytalo'},{pro:'вони',ua:'читали',tr:'chytaly'}],fut:[{pro:'я',ua:'буду читати',tr:'budu chytaty'},{pro:'ти',ua:'будеш читати',tr:'budesh chytaty'},{pro:'він / вона',ua:'буде читати',tr:'bude chytaty'},{pro:'ми',ua:'будемо читати',tr:'budemo chytaty'},{pro:'ви',ua:'будете читати',tr:'budete chytaty'},{pro:'вони',ua:'будуть читати',tr:'budut chytaty'}],note:'Terminaisons en -аю/-аєш très régulières et fréquentes.'},
+  {inf:'писати',fr:'écrire',pres:[{pro:'я',ua:'пишу',tr:'pyshu'},{pro:'ти',ua:'пишеш',tr:'pyshesh'},{pro:'він / вона',ua:'пише',tr:'pyshe'},{pro:'ми',ua:'пишемо',tr:'pyshemo'},{pro:'ви',ua:'пишете',tr:'pyshete'},{pro:'вони',ua:'пишуть',tr:'pyshut'}],past:[{pro:'він',ua:'писав',tr:'pysav'},{pro:'вона',ua:'писала',tr:'pysala'},{pro:'воно',ua:'писало',tr:'pysalo'},{pro:'вони',ua:'писали',tr:'pysaly'}],fut:[{pro:'я',ua:'буду писати',tr:'budu pysaty'},{pro:'ти',ua:'будеш писати',tr:'budesh pysaty'},{pro:'він / вона',ua:'буде писати',tr:'bude pysaty'},{pro:'ми',ua:'будемо писати',tr:'budemo pysaty'},{pro:'ви',ua:'будете писати',tr:'budete pysaty'},{pro:'вони',ua:'будуть писати',tr:'budut pysaty'}],note:'Alternance с → ш au présent (писати → пишу). Fréquent en ukrainien.'},
+  {inf:'знати',fr:'savoir / connaître',pres:[{pro:'я',ua:'знаю',tr:'znayu'},{pro:'ти',ua:'знаєш',tr:'znayesh'},{pro:'він / вона',ua:'знає',tr:'znaye'},{pro:'ми',ua:'знаємо',tr:'znayemo'},{pro:'ви',ua:'знаєте',tr:'znayete'},{pro:'вони',ua:'знають',tr:'znayut'}],past:[{pro:'він',ua:'знав',tr:'znav'},{pro:'вона',ua:'знала',tr:'znala'},{pro:'воно',ua:'знало',tr:'znalo'},{pro:'вони',ua:'знали',tr:'znaly'}],fut:[{pro:'я',ua:'буду знати',tr:'budu znaty'},{pro:'ти',ua:'будеш знати',tr:'budesh znaty'},{pro:'він / вона',ua:'буде знати',tr:'bude znaty'},{pro:'ми',ua:'будемо знати',tr:'budemo znaty'},{pro:'ви',ua:'будете знати',tr:'budete znaty'},{pro:'вони',ua:'будуть знати',tr:'budut znaty'}],note:'Couvre à la fois "savoir" (une info) et "connaître" (une personne/chose).'},
+  {inf:'любити',fr:'aimer',pres:[{pro:'я',ua:'люблю',tr:'lyublyu'},{pro:'ти',ua:'любиш',tr:'lyubysh'},{pro:'він / вона',ua:'любить',tr:'lyubyt'},{pro:'ми',ua:'любимо',tr:'lyubymo'},{pro:'ви',ua:'любите',tr:'lyubyte'},{pro:'вони',ua:'люблять',tr:'lyublyat'}],past:[{pro:'він',ua:'любив',tr:'lyubyv'},{pro:'вона',ua:'любила',tr:'lyubyla'},{pro:'воно',ua:'любило',tr:'lyubylo'},{pro:'вони',ua:'любили',tr:'lyubyly'}],fut:[{pro:'я',ua:'буду любити',tr:'budu lyubyty'},{pro:'ти',ua:'будеш любити',tr:'budesh lyubyty'},{pro:'він / вона',ua:'буде любити',tr:'bude lyubyty'},{pro:'ми',ua:'будемо любити',tr:'budemo lyubyty'},{pro:'ви',ua:'будете любити',tr:'budete lyubyty'},{pro:'вони',ua:'будуть любити',tr:'budut lyubyty'}],note:'Alternance б → бл à la 1re personne du singulier (люблю).'},
+  {inf:'хотіти',fr:'vouloir',pres:[{pro:'я',ua:'хочу',tr:'khochu'},{pro:'ти',ua:'хочеш',tr:'khochesh'},{pro:'він / вона',ua:'хоче',tr:'khoche'},{pro:'ми',ua:'хочемо',tr:'khochemo'},{pro:'ви',ua:'хочете',tr:'khochete'},{pro:'вони',ua:'хочуть',tr:'khochut'}],past:[{pro:'він',ua:'хотів',tr:'khotiv'},{pro:'вона',ua:'хотіла',tr:'khotila'},{pro:'воно',ua:'хотіло',tr:'khotilo'},{pro:'вони',ua:'хотіли',tr:'khotily'}],fut:[{pro:'я',ua:'буду хотіти',tr:'budu khotity'},{pro:'ти',ua:'будеш хотіти',tr:'budesh khotity'},{pro:'він / вона',ua:'буде хотіти',tr:'bude khotity'},{pro:'ми',ua:'будемо хотіти',tr:'budemo khotity'},{pro:'ви',ua:'будете хотіти',tr:'budete khotity'},{pro:'вони',ua:'будуть хотіти',tr:'budut khotity'}],note:'Verbe irrégulier : radical change de "хот-" à "хоч-" au présent.'},
+  {inf:'працювати',fr:'travailler',pres:[{pro:'я',ua:'працюю',tr:'pratsyuyu'},{pro:'ти',ua:'працюєш',tr:'pratsyuyesh'},{pro:'він / вона',ua:'працює',tr:'pratsyuye'},{pro:'ми',ua:'працюємо',tr:'pratsyuyemo'},{pro:'ви',ua:'працюєте',tr:'pratsyuyete'},{pro:'вони',ua:'працюють',tr:'pratsyuyut'}],past:[{pro:'він',ua:'працював',tr:'pratsyuvav'},{pro:'вона',ua:'працювала',tr:'pratsyuvala'},{pro:'воно',ua:'працювало',tr:'pratsyuvalo'},{pro:'вони',ua:'працювали',tr:'pratsyuvaly'}],fut:[{pro:'я',ua:'буду працювати',tr:'budu pratsyuvaty'},{pro:'ти',ua:'будеш працювати',tr:'budesh pratsyuvaty'},{pro:'він / вона',ua:'буде працювати',tr:'bude pratsyuvaty'},{pro:'ми',ua:'будемо працювати',tr:'budemo pratsyuvaty'},{pro:'ви',ua:'будете працювати',tr:'budete pratsyuvaty'},{pro:'вони',ua:'будуть працювати',tr:'budut pratsyuvaty'}],note:'Terminaisons -ювати très fréquentes pour les verbes empruntés.'},
+  {inf:'думати',fr:'penser',pres:[{pro:'я',ua:'думаю',tr:'dumayu'},{pro:'ти',ua:'думаєш',tr:'dumayesh'},{pro:'він / вона',ua:'думає',tr:'dumaye'},{pro:'ми',ua:'думаємо',tr:'dumayemo'},{pro:'ви',ua:'думаєте',tr:'dumayete'},{pro:'вони',ua:'думають',tr:'dumayut'}],past:[{pro:'він',ua:'думав',tr:'dumav'},{pro:'вона',ua:'думала',tr:'dumala'},{pro:'воно',ua:'думало',tr:'dumalo'},{pro:'вони',ua:'думали',tr:'dumaly'}],fut:[{pro:'я',ua:'буду думати',tr:'budu dumaty'},{pro:'ти',ua:'будеш думати',tr:'budesh dumaty'},{pro:'він / вона',ua:'буде думати',tr:'bude dumaty'},{pro:'ми',ua:'будемо думати',tr:'budemo dumaty'},{pro:'ви',ua:'будете думати',tr:'budete dumaty'},{pro:'вони',ua:'будуть думати',tr:'budut dumaty'}],note:'Modèle régulier en -ати. S\'utilise avec "що" (que) pour rapporter une pensée.'},
+  {inf:'жити',fr:'vivre / habiter',pres:[{pro:'я',ua:'живу',tr:'zhyvu'},{pro:'ти',ua:'живеш',tr:'zhyvesh'},{pro:'він / вона',ua:'живе',tr:'zhyve'},{pro:'ми',ua:'живемо',tr:'zhyvemo'},{pro:'ви',ua:'живете',tr:'zhyvete'},{pro:'вони',ua:'живуть',tr:'zhyvut'}],past:[{pro:'він',ua:'жив',tr:'zhyv'},{pro:'вона',ua:'жила',tr:'zhyla'},{pro:'воно',ua:'жило',tr:'zhylo'},{pro:'вони',ua:'жили',tr:'zhyly'}],fut:[{pro:'я',ua:'буду жити',tr:'budu zhyty'},{pro:'ти',ua:'будеш жити',tr:'budesh zhyty'},{pro:'він / вона',ua:'буде жити',tr:'bude zhyty'},{pro:'ми',ua:'будемо жити',tr:'budemo zhyty'},{pro:'ви',ua:'будете жити',tr:'budete zhyty'},{pro:'вони',ua:'будуть жити',tr:'budut zhyty'}],note:'Couvre "vivre" et "habiter". Я живу у Франції = J\'habite en France.'},
+  {inf:'бачити',fr:'voir',pres:[{pro:'я',ua:'бачу',tr:'bachu'},{pro:'ти',ua:'бачиш',tr:'bachysh'},{pro:'він / вона',ua:'бачить',tr:'bachyt'},{pro:'ми',ua:'бачимо',tr:'bachymo'},{pro:'ви',ua:'бачите',tr:'bachyte'},{pro:'вони',ua:'бачать',tr:'bachyat'}],past:[{pro:'він',ua:'бачив',tr:'bachyv'},{pro:'вона',ua:'бачила',tr:'bachyla'},{pro:'воно',ua:'бачило',tr:'bachylo'},{pro:'вони',ua:'бачили',tr:'bachyly'}],fut:[{pro:'я',ua:'буду бачити',tr:'budu bachyty'},{pro:'ти',ua:'будеш бачити',tr:'budesh bachyty'},{pro:'він / вона',ua:'буде бачити',tr:'bude bachyty'},{pro:'ми',ua:'будемо бачити',tr:'budemo bachyty'},{pro:'ви',ua:'будете бачити',tr:'budete bachyty'},{pro:'вони',ua:'будуть бачити',tr:'budut bachyty'}],note:'Verbe de perception. À ne pas confondre з "дивитися" (regarder intentionnellement).'},
+  {inf:'слухати',fr:'écouter',pres:[{pro:'я',ua:'слухаю',tr:'slukhayu'},{pro:'ти',ua:'слухаєш',tr:'slukhayesh'},{pro:'він / вона',ua:'слухає',tr:'slukhaye'},{pro:'ми',ua:'слухаємо',tr:'slukhayemo'},{pro:'ви',ua:'слухаєте',tr:'slukhayete'},{pro:'вони',ua:'слухають',tr:'slukhayut'}],past:[{pro:'він',ua:'слухав',tr:'slukhav'},{pro:'вона',ua:'слухала',tr:'slukhala'},{pro:'воно',ua:'слухало',tr:'slukhalo'},{pro:'вони',ua:'слухали',tr:'slukhaly'}],fut:[{pro:'я',ua:'буду слухати',tr:'budu slukhaty'},{pro:'ти',ua:'будеш слухати',tr:'budesh slukhaty'},{pro:'він / вона',ua:'буде слухати',tr:'bude slukhaty'},{pro:'ми',ua:'будемо слухати',tr:'budemo slukhaty'},{pro:'ви',ua:'будете слухати',tr:'budete slukhaty'},{pro:'вони',ua:'будуть слухати',tr:'budut slukhaty'}],note:'Modèle régulier en -ати. "Слухати музику" = écouter de la musique.'},
+  {inf:'купувати',fr:'acheter',pres:[{pro:'я',ua:'купую',tr:'kupuyu'},{pro:'ти',ua:'купуєш',tr:'kupuyesh'},{pro:'він / вона',ua:'купує',tr:'kupuye'},{pro:'ми',ua:'купуємо',tr:'kupuyemo'},{pro:'ви',ua:'купуєте',tr:'kupuyete'},{pro:'вони',ua:'купують',tr:'kupuyut'}],past:[{pro:'він',ua:'купував',tr:'kupuvav'},{pro:'вона',ua:'купувала',tr:'kupuvala'},{pro:'воно',ua:'купувало',tr:'kupuvalo'},{pro:'вони',ua:'купували',tr:'kupuvaly'}],fut:[{pro:'я',ua:'буду купувати',tr:'budu kupuvaty'},{pro:'ти',ua:'будеш купувати',tr:'budesh kupuvaty'},{pro:'він / вона',ua:'буде купувати',tr:'bude kupuvaty'},{pro:'ми',ua:'будемо купувати',tr:'budemo kupuvaty'},{pro:'ви',ua:'будете купувати',tr:'budete kupuvaty'},{pro:'вони',ua:'будуть купувати',tr:'budut kupuvaty'}],note:'Forme imperfective. Forme perfective : "купити" (un achat ponctuel).'},
+  {inf:'спати',fr:'dormir',pres:[{pro:'я',ua:'сплю',tr:'splyu'},{pro:'ти',ua:'спиш',tr:'spysh'},{pro:'він / вона',ua:'спить',tr:'spyt'},{pro:'ми',ua:'спимо',tr:'spymo'},{pro:'ви',ua:'спите',tr:'spyte'},{pro:'вони',ua:'сплять',tr:'splyat'}],past:[{pro:'він',ua:'спав',tr:'spav'},{pro:'вона',ua:'спала',tr:'spala'},{pro:'воно',ua:'спало',tr:'spalo'},{pro:'вони',ua:'спали',tr:'spaly'}],fut:[{pro:'я',ua:'буду спати',tr:'budu spaty'},{pro:'ти',ua:'будеш спати',tr:'budesh spaty'},{pro:'він / вона',ua:'буде спати',tr:'bude spaty'},{pro:'ми',ua:'будемо спати',tr:'budemo spaty'},{pro:'ви',ua:'будете спати',tr:'budete spaty'},{pro:'вони',ua:'будуть спати',tr:'budut spaty'}],note:'Alternance п → пл à la 1re personne et aux 3e pluriel (сплю, сплять).'},
+  {inf:'допомагати',fr:'aider',pres:[{pro:'я',ua:'допомагаю',tr:'dopomahаyu'},{pro:'ти',ua:'допомагаєш',tr:'dopomahayesh'},{pro:'він / вона',ua:'допомагає',tr:'dopomahaye'},{pro:'ми',ua:'допомагаємо',tr:'dopomahayemo'},{pro:'ви',ua:'допомагаєте',tr:'dopomahayete'},{pro:'вони',ua:'допомагають',tr:'dopomahayut'}],past:[{pro:'він',ua:'допомагав',tr:'dopomahav'},{pro:'вона',ua:'допомагала',tr:'dopomahala'},{pro:'воно',ua:'допомагало',tr:'dopomahalo'},{pro:'вони',ua:'допомагали',tr:'dopomahaly'}],fut:[{pro:'я',ua:'буду допомагати',tr:'budu dopomahaty'},{pro:'ти',ua:'будеш допомагати',tr:'budesh dopomahaty'},{pro:'він / вона',ua:'буде допомагати',tr:'bude dopomahaty'},{pro:'ми',ua:'будемо допомагати',tr:'budemo dopomahaty'},{pro:'ви',ua:'будете допомагати',tr:'budete dopomahaty'},{pro:'вони',ua:'будуть допомагати',tr:'budut dopomahaty'}],note:'Forme imperfective. Perfective : "допомогти". Suit le modèle régulier en -ати.'},
+  {inf:'говорити / казати',fr:'dire',pres:[{pro:'я',ua:'кажу',tr:'kazhu'},{pro:'ти',ua:'кажеш',tr:'kazhesh'},{pro:'він / вона',ua:'каже',tr:'kazhe'},{pro:'ми',ua:'кажемо',tr:'kazhemo'},{pro:'ви',ua:'кажете',tr:'kazhete'},{pro:'вони',ua:'кажуть',tr:'kazhut'}],past:[{pro:'він',ua:'казав',tr:'kazav'},{pro:'вона',ua:'казала',tr:'kazala'},{pro:'воно',ua:'казало',tr:'kazalo'},{pro:'вони',ua:'казали',tr:'kazaly'}],fut:[{pro:'я',ua:'буду казати',tr:'budu kazaty'},{pro:'ти',ua:'будеш казати',tr:'budesh kazaty'},{pro:'він / вона',ua:'буде казати',tr:'bude kazaty'},{pro:'ми',ua:'будемо казати',tr:'budemo kazaty'},{pro:'ви',ua:'будете казати',tr:'budete kazaty'},{pro:'вони',ua:'будуть казати',tr:'budut kazaty'}],note:'Kazaty = dire qqch. Alternance з → ж au présent. Говорити = parler (plus général).'},
+  {inf:'робити',fr:'faire',pres:[{pro:'я',ua:'роблю',tr:'roblyu'},{pro:'ти',ua:'робиш',tr:'robysh'},{pro:'він / вона',ua:'робить',tr:'robyt'},{pro:'ми',ua:'робимо',tr:'robymo'},{pro:'ви',ua:'робите',tr:'robyte'},{pro:'вони',ua:'роблять',tr:'roblyat'}],past:[{pro:'він',ua:'робив',tr:'robyv'},{pro:'вона',ua:'робила',tr:'robyla'},{pro:'воно',ua:'робило',tr:'robylo'},{pro:'вони',ua:'робили',tr:'robyly'}],fut:[{pro:'я',ua:'буду робити',tr:'budu robyty'},{pro:'ти',ua:'будеш робити',tr:'budesh robyty'},{pro:'він / вона',ua:'буде робити',tr:'bude robyty'},{pro:'ми',ua:'будемо робити',tr:'budemo robyty'},{pro:'ви',ua:'будете робити',tr:'budete robyty'},{pro:'вони',ua:'будуть робити',tr:'budut robyty'}],note:'Alternance б → бл à la 1re sg. et 3e pl. (роблю, роблять). Très fréquent.'},
+  {inf:'знаходитися',fr:'se trouver / être situé',pres:[{pro:'я',ua:'знаходжуся',tr:'znakhodzhuya'},{pro:'ти',ua:'знаходишся',tr:'znakhodyshsya'},{pro:'він / вона',ua:'знаходиться',tr:'znakhodytsya'},{pro:'ми',ua:'знаходимося',tr:'znakhodymosya'},{pro:'ви',ua:'знаходитеся',tr:'znakhodytesya'},{pro:'вони',ua:'знаходяться',tr:'znakhodyatsya'}],past:[{pro:'він',ua:'знаходився',tr:'znakhodyvsya'},{pro:'вона',ua:'знаходилася',tr:'znakhodylasya'},{pro:'воно',ua:'знаходилося',tr:'znakhodylосya'},{pro:'вони',ua:'знаходилися',tr:'znakhodylysya'}],fut:[{pro:'я',ua:'буду знаходитися',tr:'budu znakhodytysya'},{pro:'ти',ua:'будеш знаходитися',tr:'budesh znakhodytysya'},{pro:'він / вона',ua:'буде знаходитися',tr:'bude znakhodytysya'},{pro:'ми',ua:'будемо знаходитися',tr:'budemo znakhodytysya'},{pro:'ви',ua:'будете знаходитися',tr:'budete znakhodytysya'},{pro:'вони',ua:'будуть знаходитися',tr:'budut znakhodytysya'}],note:'Utile pour décrire une localisation. "Де знаходиться...?" = Où se trouve... ?'},
+  {inf:'вчити / вивчати',fr:'apprendre / étudier',pres:[{pro:'я',ua:'вивчаю',tr:'vyvchаyu'},{pro:'ти',ua:'вивчаєш',tr:'vyvchayesh'},{pro:'він / вона',ua:'вивчає',tr:'vyvchaye'},{pro:'ми',ua:'вивчаємо',tr:'vyvchayemo'},{pro:'ви',ua:'вивчаєте',tr:'vyvchayete'},{pro:'вони',ua:'вивчають',tr:'vyvchayut'}],past:[{pro:'він',ua:'вивчав',tr:'vyvchav'},{pro:'вона',ua:'вивчала',tr:'vyvchala'},{pro:'воно',ua:'вивчало',tr:'vyvchalo'},{pro:'вони',ua:'вивчали',tr:'vyvchaly'}],fut:[{pro:'я',ua:'буду вивчати',tr:'budu vyvchaty'},{pro:'ти',ua:'будеш вивчати',tr:'budesh vyvchaty'},{pro:'він / вона',ua:'буде вивчати',tr:'bude vyvchaty'},{pro:'ми',ua:'будемо вивчати',tr:'budemo vyvchaty'},{pro:'ви',ua:'будете вивчати',tr:'budete vyvchaty'},{pro:'вони',ua:'будуть вивчати',tr:'budut vyvchaty'}],note:'Вивчати = étudier en profondeur. Вчити = apprendre par cœur, enseigner.'},
+  {inf:'могти',fr:'pouvoir',pres:[{pro:'я',ua:'можу',tr:'mozhu'},{pro:'ти',ua:'можеш',tr:'mozhesh'},{pro:'він / вона',ua:'може',tr:'mozhe'},{pro:'ми',ua:'можемо',tr:'mozhemo'},{pro:'ви',ua:'можете',tr:'mozhete'},{pro:'вони',ua:'можуть',tr:'mozhut'}],past:[{pro:'він',ua:'міг',tr:'mih'},{pro:'вона',ua:'могла',tr:'mohla'},{pro:'воно',ua:'могло',tr:'mohlo'},{pro:'вони',ua:'могли',tr:'mohly'}],fut:[{pro:'я',ua:'буду могти',tr:'budu mohty'},{pro:'ти',ua:'будеш могти',tr:'budesh mohty'},{pro:'він / вона',ua:'буде могти',tr:'bude mohty'},{pro:'ми',ua:'будемо могти',tr:'budemo mohty'},{pro:'ви',ua:'будете могти',tr:'budete mohty'},{pro:'вони',ua:'будуть могти',tr:'budut mohty'}],note:'Verbe modal irrégulier. Radical г → ж au présent. Міг (masc.) / могла (fém.) au passé.'},
+  {inf:'треба / потрібно',fr:'avoir besoin de / falloir',pres:[{pro:'я',ua:'мені треба',tr:'meni treba'},{pro:'ти',ua:'тобі треба',tr:'tobi treba'},{pro:'він',ua:'йому треба',tr:'yomu treba'},{pro:'вона',ua:'їй треба',tr:'yiy treba'},{pro:'ми',ua:'нам треба',tr:'nam treba'},{pro:'вони',ua:'їм треба',tr:'yim treba'}],past:[{pro:'я (m)',ua:'мені треба було',tr:'meni treba bulo'},{pro:'я (f)',ua:'мені треба було',tr:'meni treba bulo'},{pro:'ми',ua:'нам треба було',tr:'nam treba bulo'},{pro:'вони',ua:'їм треба було',tr:'yim treba bulo'}],fut:[{pro:'я',ua:'мені треба буде',tr:'meni treba bude'},{pro:'ти',ua:'тобі треба буде',tr:'tobi treba bude'},{pro:'він / вона',ua:'йому / їй треба буде',tr:'yomu / yiy treba bude'},{pro:'ми',ua:'нам треба буде',tr:'nam treba bude'},{pro:'ви',ua:'вам треба буде',tr:'vam treba bude'},{pro:'вони',ua:'їм треба буде',tr:'yim treba bude'}],note:'Structure impersonnelle : le sujet est au datif. Meni treba = j\'ai besoin de.'},
+  {inf:'повертатися',fr:'revenir / retourner',pres:[{pro:'я',ua:'повертаюся',tr:'povertayusya'},{pro:'ти',ua:'повертаєшся',tr:'povertayeshsya'},{pro:'він / вона',ua:'повертається',tr:'povertayetsya'},{pro:'ми',ua:'повертаємося',tr:'povertayemosya'},{pro:'ви',ua:'повертаєтеся',tr:'povertayetesya'},{pro:'вони',ua:'повертаються',tr:'povertayutsya'}],past:[{pro:'він',ua:'повертався',tr:'povertavsya'},{pro:'вона',ua:'поверталася',tr:'povertalaasya'},{pro:'воно',ua:'поверталося',tr:'povertaloasya'},{pro:'вони',ua:'поверталися',tr:'povertaly'+'sya'}],fut:[{pro:'я',ua:'буду повертатися',tr:'budu povertatsya'},{pro:'ти',ua:'будеш повертатися',tr:'budesh povertatsya'},{pro:'він / вона',ua:'буде повертатися',tr:'bude povertatsya'},{pro:'ми',ua:'будемо повертатися',tr:'budemo povertatsya'},{pro:'ви',ua:'будете повертатися',tr:'budete povertatsya'},{pro:'вони',ua:'будуть повертатися',tr:'budut povertatsya'}],note:'Verbe réfléchi en -ся. Перфectif : повернутися (retourner une fois).'},
+  {inf:'починати',fr:'commencer',pres:[{pro:'я',ua:'починаю',tr:'pochynаyu'},{pro:'ти',ua:'починаєш',tr:'pochynayesh'},{pro:'він / вона',ua:'починає',tr:'pochynaye'},{pro:'ми',ua:'починаємо',tr:'pochynayemo'},{pro:'ви',ua:'починаєте',tr:'pochynayete'},{pro:'вони',ua:'починають',tr:'pochynayut'}],past:[{pro:'він',ua:'починав',tr:'pochynav'},{pro:'вона',ua:'починала',tr:'pochynala'},{pro:'воно',ua:'починало',tr:'pochynalo'},{pro:'вони',ua:'починали',tr:'pochynaly'}],fut:[{pro:'я',ua:'буду починати',tr:'budu pochynaty'},{pro:'ти',ua:'будеш починати',tr:'budesh pochynaty'},{pro:'він / вона',ua:'буде починати',tr:'bude pochynaty'},{pro:'ми',ua:'будемо починати',tr:'budemo pochynaty'},{pro:'ви',ua:'будете починати',tr:'budete pochynaty'},{pro:'вони',ua:'будуть починати',tr:'budut pochynaty'}],note:'Imperfectif. Perfectif : почати (я почну, ти почнеш). Très utilisé.'},
+  {inf:'закінчувати',fr:'terminer / finir',pres:[{pro:'я',ua:'закінчую',tr:'zakinchuyu'},{pro:'ти',ua:'закінчуєш',tr:'zakinchuyesh'},{pro:'він / вона',ua:'закінчує',tr:'zakinchуye'},{pro:'ми',ua:'закінчуємо',tr:'zakinchuyemo'},{pro:'ви',ua:'закінчуєте',tr:'zakinchuyete'},{pro:'вони',ua:'закінчують',tr:'zakinchuyut'}],past:[{pro:'він',ua:'закінчував',tr:'zakinchuvav'},{pro:'вона',ua:'закінчувала',tr:'zakinchuvala'},{pro:'воно',ua:'закінчувало',tr:'zakinchuvalo'},{pro:'вони',ua:'закінчували',tr:'zakinchuvaly'}],fut:[{pro:'я',ua:'буду закінчувати',tr:'budu zakinchuvaty'},{pro:'ти',ua:'будеш закінчувати',tr:'budesh zakinchuvaty'},{pro:'він / вона',ua:'буде закінчувати',tr:'bude zakinchuvaty'},{pro:'ми',ua:'будемо закінчувати',tr:'budemo zakinchuvaty'},{pro:'ви',ua:'будете закінчувати',tr:'budete zakinchuvaty'},{pro:'вони',ua:'будуть закінчувати',tr:'budut zakinchuvaty'}],note:'Perfectif : закінчити (я закінчу). -увати → -ує au présent, fréquent.'},
+  {inf:'зустрічати',fr:'rencontrer / accueillir',pres:[{pro:'я',ua:'зустрічаю',tr:'zustrichаyu'},{pro:'ти',ua:'зустрічаєш',tr:'zustrichayesh'},{pro:'він / вона',ua:'зустрічає',tr:'zustrichaye'},{pro:'ми',ua:'зустрічаємо',tr:'zustrichayemo'},{pro:'ви',ua:'зустрічаєте',tr:'zustrichayete'},{pro:'вони',ua:'зустрічають',tr:'zustrichayut'}],past:[{pro:'він',ua:'зустрічав',tr:'zustrichav'},{pro:'вона',ua:'зустрічала',tr:'zustrichala'},{pro:'воно',ua:'зустрічало',tr:'zustrichalo'},{pro:'вони',ua:'зустрічали',tr:'zustrichaly'}],fut:[{pro:'я',ua:'буду зустрічати',tr:'budu zustrichaty'},{pro:'ти',ua:'будеш зустрічати',tr:'budesh zustrichaty'},{pro:'він / вона',ua:'буде зустрічати',tr:'bude zustrichaty'},{pro:'ми',ua:'будемо зустрічати',tr:'budemo zustrichaty'},{pro:'ви',ua:'будете зустрічати',tr:'budete zustrichaty'},{pro:'вони',ua:'будуть зустрічати',tr:'budut zustrichaty'}],note:'Réfléchi зустрічатися = se rencontrer (mutuellement). Très courant.'},
+  {inf:'відповідати',fr:'répondre',pres:[{pro:'я',ua:'відповідаю',tr:'vidpovidаyu'},{pro:'ти',ua:'відповідаєш',tr:'vidpovidayesh'},{pro:'він / вона',ua:'відповідає',tr:'vidpovidaye'},{pro:'ми',ua:'відповідаємо',tr:'vidpovidayemo'},{pro:'ви',ua:'відповідаєте',tr:'vidpovidayete'},{pro:'вони',ua:'відповідають',tr:'vidpovidayut'}],past:[{pro:'він',ua:'відповідав',tr:'vidpovidav'},{pro:'вона',ua:'відповідала',tr:'vidpovidala'},{pro:'воно',ua:'відповідало',tr:'vidpovidalo'},{pro:'вони',ua:'відповідали',tr:'vidpovidaly'}],fut:[{pro:'я',ua:'буду відповідати',tr:'budu vidpovidaty'},{pro:'ти',ua:'будеш відповідати',tr:'budesh vidpovidaty'},{pro:'він / вона',ua:'буде відповідати',tr:'bude vidpovidaty'},{pro:'ми',ua:'будемо відповідати',tr:'budemo vidpovidaty'},{pro:'ви',ua:'будете відповідати',tr:'budete vidpovidaty'},{pro:'вони',ua:'будуть відповідати',tr:'budut vidpovidaty'}],note:'Також signifie "correspondre à". Perfectif : відповісти.'},
+  {inf:'запитувати',fr:'demander / poser une question',pres:[{pro:'я',ua:'запитую',tr:'zapytuyu'},{pro:'ти',ua:'запитуєш',tr:'zapytuyesh'},{pro:'він / вона',ua:'запитує',tr:'zapytuye'},{pro:'ми',ua:'запитуємо',tr:'zapytuyemo'},{pro:'ви',ua:'запитуєте',tr:'zapytuyete'},{pro:'вони',ua:'запитують',tr:'zapytuyut'}],past:[{pro:'він',ua:'запитував',tr:'zapytuvav'},{pro:'вона',ua:'запитувала',tr:'zapytuvala'},{pro:'воно',ua:'запитувало',tr:'zapytuvalo'},{pro:'вони',ua:'запитували',tr:'zapytuvaly'}],fut:[{pro:'я',ua:'буду запитувати',tr:'budu zapytuvaty'},{pro:'ти',ua:'будеш запитувати',tr:'budesh zapytuvaty'},{pro:'він / вона',ua:'буде запитувати',tr:'bude zapytuvaty'},{pro:'ми',ua:'будемо запитувати',tr:'budemo zapytuvaty'},{pro:'ви',ua:'будете запитувати',tr:'budete zapytuvaty'},{pro:'вони',ua:'будуть запитувати',tr:'budut zapytuvaty'}],note:'Perfectif : запитати. Ne pas confondre з просити (demander qqch).'},
+  {inf:'пояснювати',fr:'expliquer',pres:[{pro:'я',ua:'пояснюю',tr:'poyasnyuyu'},{pro:'ти',ua:'пояснюєш',tr:'poyasnyuyesh'},{pro:'він / вона',ua:'пояснює',tr:'poyasnyuye'},{pro:'ми',ua:'пояснюємо',tr:'poyasnyuyemo'},{pro:'ви',ua:'пояснюєте',tr:'poyasnyuyete'},{pro:'вони',ua:'пояснюють',tr:'poyasnyuyut'}],past:[{pro:'він',ua:'пояснював',tr:'poyasnyuvav'},{pro:'вона',ua:'пояснювала',tr:'poyasnyuvala'},{pro:'воно',ua:'пояснювало',tr:'poyasnyuvalo'},{pro:'вони',ua:'пояснювали',tr:'poyasnyuvaly'}],fut:[{pro:'я',ua:'буду пояснювати',tr:'budu poyasnyuvaty'},{pro:'ти',ua:'будеш пояснювати',tr:'budesh poyasnyuvaty'},{pro:'він / вона',ua:'буде пояснювати',tr:'bude poyasnyuvaty'},{pro:'ми',ua:'будемо пояснювати',tr:'budemo poyasnyuvaty'},{pro:'ви',ua:'будете пояснювати',tr:'budete poyasnyuvaty'},{pro:'вони',ua:'будуть пояснювати',tr:'budut poyasnyuvaty'}],note:'Perfectif : пояснити. Terminaison -ювати très productive.'},
+  {ua:'відчувати',inf:'відчувати',fr:'ressentir / sentir',pres:[{pro:'я',ua:'відчуваю',tr:'vidchuvаyu'},{pro:'ти',ua:'відчуваєш',tr:'vidchuvayesh'},{pro:'він / вона',ua:'відчуває',tr:'vidchuvaye'},{pro:'ми',ua:'відчуваємо',tr:'vidchuvayemo'},{pro:'ви',ua:'відчуваєте',tr:'vidchuvayete'},{pro:'вони',ua:'відчувають',tr:'vidchuvayut'}],past:[{pro:'він',ua:'відчував',tr:'vidchuvav'},{pro:'вона',ua:'відчувала',tr:'vidchuvala'},{pro:'воно',ua:'відчувало',tr:'vidchuvalo'},{pro:'вони',ua:'відчували',tr:'vidchuvaly'}],fut:[{pro:'я',ua:'буду відчувати',tr:'budu vidchuvaty'},{pro:'ти',ua:'будеш відчувати',tr:'budesh vidchuvaty'},{pro:'він / вона',ua:'буде відчувати',tr:'bude vidchuvaty'},{pro:'ми',ua:'будемо відчувати',tr:'budemo vidchuvaty'},{pro:'ви',ua:'будете відчувати',tr:'budete vidchuvaty'},{pro:'вони',ua:'будуть відчувати',tr:'budut vidchuvaty'}],note:'Essentiel pour exprimer les émotions. Я відчуваю радість = Je ressens de la joie.'},
+  {inf:'чекати',fr:'attendre',pres:[{pro:'я',ua:'чекаю',tr:'chekаyu'},{pro:'ти',ua:'чекаєш',tr:'chekayesh'},{pro:'він / вона',ua:'чекає',tr:'chekaye'},{pro:'ми',ua:'чекаємо',tr:'chekayemo'},{pro:'ви',ua:'чекаєте',tr:'chekayete'},{pro:'вони',ua:'чекають',tr:'chekayut'}],past:[{pro:'він',ua:'чекав',tr:'chekav'},{pro:'вона',ua:'чекала',tr:'chekala'},{pro:'воно',ua:'чекало',tr:'chekalo'},{pro:'вони',ua:'чекали',tr:'chekaly'}],fut:[{pro:'я',ua:'буду чекати',tr:'budu chekaty'},{pro:'ти',ua:'будеш чекати',tr:'budesh chekaty'},{pro:'він / вона',ua:'буде чекати',tr:'bude chekaty'},{pro:'ми',ua:'будемо чекати',tr:'budemo chekaty'},{pro:'ви',ua:'будете чекати',tr:'budete chekaty'},{pro:'вони',ua:'будуть чекати',tr:'budut chekaty'}],note:'Чекати + на + accusatif : чекати на автобус = attendre le bus.'},
+  {inf:'надіятися',fr:'espérer',pres:[{pro:'я',ua:'надіюся',tr:'nadiyusya'},{pro:'ти',ua:'надієшся',tr:'nadiyeshsya'},{pro:'він / вона',ua:'надіється',tr:'nadiyetsya'},{pro:'ми',ua:'надіємося',tr:'nadiyemosya'},{pro:'ви',ua:'надієтеся',tr:'nadiyetesya'},{pro:'вони',ua:'надіються',tr:'nadiyutsya'}],past:[{pro:'він',ua:'надіявся',tr:'nadiyavsya'},{pro:'вона',ua:'надіялася',tr:'nadiyalasya'},{pro:'воно',ua:'надіялося',tr:'nadiyalosya'},{pro:'вони',ua:'надіялися',tr:'nadiyalysya'}],fut:[{pro:'я',ua:'буду надіятися',tr:'budu nadiyatysya'},{pro:'ти',ua:'будеш надіятися',tr:'budesh nadiyatysya'},{pro:'він / вона',ua:'буде надіятися',tr:'bude nadiyatysya'},{pro:'ми',ua:'будемо надіятися',tr:'budemo nadiyatysya'},{pro:'ви',ua:'будете надіятися',tr:'budete nadiyatysya'},{pro:'вони',ua:'будуть надіятися',tr:'budut nadiyatysya'}],note:'Verbe réfléchi. Я надіюся, що... = J\'espère que... Très expressif.'},
+  {inf:'вирішувати',fr:'décider / résoudre',pres:[{pro:'я',ua:'вирішую',tr:'vyrishuyu'},{pro:'ти',ua:'вирішуєш',tr:'vyrishuyesh'},{pro:'він / вона',ua:'вирішує',tr:'vyrishuye'},{pro:'ми',ua:'вирішуємо',tr:'vyrishuyemo'},{pro:'ви',ua:'вирішуєте',tr:'vyrishuyete'},{pro:'вони',ua:'вирішують',tr:'vyrishuyut'}],past:[{pro:'він',ua:'вирішував',tr:'vyrishuvav'},{pro:'вона',ua:'вирішувала',tr:'vyrishuvala'},{pro:'воно',ua:'вирішувало',tr:'vyrishuvalo'},{pro:'вони',ua:'вирішували',tr:'vyrishuvaly'}],fut:[{pro:'я',ua:'буду вирішувати',tr:'budu vyrishuvaty'},{pro:'ти',ua:'будеш вирішувати',tr:'budesh vyrishuvaty'},{pro:'він / вона',ua:'буде вирішувати',tr:'bude vyrishuvaty'},{pro:'ми',ua:'будемо вирішувати',tr:'budemo vyrishuvaty'},{pro:'ви',ua:'будете вирішувати',tr:'budete vyrishuvaty'},{pro:'вони',ua:'будуть вирішувати',tr:'budut vyrishuvaty'}],note:'Perfectif : вирішити. Couvre décider ET résoudre un problème.'},
+  {inf:'розповідати',fr:'raconter',pres:[{pro:'я',ua:'розповідаю',tr:'rozpovidаyu'},{pro:'ти',ua:'розповідаєш',tr:'rozpovidayesh'},{pro:'він / вона',ua:'розповідає',tr:'rozpovidaye'},{pro:'ми',ua:'розповідаємо',tr:'rozpovidayemo'},{pro:'ви',ua:'розповідаєте',tr:'rozpovidayete'},{pro:'вони',ua:'розповідають',tr:'rozpovidayut'}],past:[{pro:'він',ua:'розповідав',tr:'rozpovidav'},{pro:'вона',ua:'розповідала',tr:'rozpovidala'},{pro:'воно',ua:'розповідало',tr:'rozpovidalo'},{pro:'вони',ua:'розповідали',tr:'rozpovidaly'}],fut:[{pro:'я',ua:'буду розповідати',tr:'budu rozpovidaty'},{pro:'ти',ua:'будеш розповідати',tr:'budesh rozpovidaty'},{pro:'він / вона',ua:'буде розповідати',tr:'bude rozpovidaty'},{pro:'ми',ua:'будемо розповідати',tr:'budemo rozpovidaty'},{pro:'ви',ua:'будете розповідати',tr:'budete rozpovidaty'},{pro:'вони',ua:'будуть розповідати',tr:'budut rozpovidaty'}],note:'Perfectif : розповісти. Essentiel pour raconter des histoires ou des expériences.'},
+  {inf:'сміятися',fr:'rire',pres:[{pro:'я',ua:'сміюся',tr:'smiyusya'},{pro:'ти',ua:'смієшся',tr:'smiyeshsya'},{pro:'він / вона',ua:'сміється',tr:'smiyetsya'},{pro:'ми',ua:'сміємося',tr:'smiyemosya'},{pro:'ви',ua:'смієтеся',tr:'smiyetesya'},{pro:'вони',ua:'сміються',tr:'smiyutsya'}],past:[{pro:'він',ua:'сміявся',tr:'smiyavsya'},{pro:'вона',ua:'сміялася',tr:'smiyalasya'},{pro:'воно',ua:'сміялося',tr:'smiyalosya'},{pro:'вони',ua:'сміялися',tr:'smiyalysya'}],fut:[{pro:'я',ua:'буду сміятися',tr:'budu smiyatysya'},{pro:'ти',ua:'будеш сміятися',tr:'budesh smiyatysya'},{pro:'він / вона',ua:'буде сміятися',tr:'bude smiyatysya'},{pro:'ми',ua:'будемо сміятися',tr:'budemo smiyatysya'},{pro:'ви',ua:'будете сміятися',tr:'budete smiyatysya'},{pro:'вони',ua:'будуть сміятися',tr:'budut smiyatysya'}],note:'Verbe réfléchi. Сміятися з когось = se moquer de quelqu\'un.'},
+  {inf:'плакати',fr:'pleurer',pres:[{pro:'я',ua:'плачу',tr:'plachu'},{pro:'ти',ua:'плачеш',tr:'plachesh'},{pro:'він / вона',ua:'плаче',tr:'plache'},{pro:'ми',ua:'плачемо',tr:'plachemo'},{pro:'ви',ua:'плачете',tr:'plachete'},{pro:'вони',ua:'плачуть',tr:'plachut'}],past:[{pro:'він',ua:'плакав',tr:'plakav'},{pro:'вона',ua:'плакала',tr:'plakala'},{pro:'воно',ua:'плакало',tr:'plakalo'},{pro:'вони',ua:'плакали',tr:'plakaly'}],fut:[{pro:'я',ua:'буду плакати',tr:'budu plakaty'},{pro:'ти',ua:'будеш плакати',tr:'budesh plakaty'},{pro:'він / вона',ua:'буде плакати',tr:'bude plakaty'},{pro:'ми',ua:'будемо плакати',tr:'budemo plakaty'},{pro:'ви',ua:'будете плакати',tr:'budete plakaty'},{pro:'вони',ua:'будуть плакати',tr:'budut plakaty'}],note:'Alternance к → ч au présent (плакати → плачу). Modèle courant en ukrainien.'},
+  // ── VERBES SUPPLÉMENTAIRES ─────────────────────────────
+  {inf:'іти',fr:'aller (à pied)',pres:[{pro:'я',ua:'іду',tr:'idu'},{pro:'ти',ua:'ідеш',tr:'idesh'},{pro:'він / вона',ua:'іде',tr:'ide'},{pro:'ми',ua:'ідемо',tr:'idemo'},{pro:'ви',ua:'ідете',tr:'idete'},{pro:'вони',ua:'ідуть',tr:'idut'}],past:[{pro:'він',ua:'ішов',tr:'ishov'},{pro:'вона',ua:'ішла',tr:'ishla'},{pro:'воно',ua:'ішло',tr:'ishlo'},{pro:'вони',ua:'ішли',tr:'ishly'}],fut:[{pro:'я',ua:'піду',tr:'pidu'},{pro:'ти',ua:'підеш',tr:'pidesh'},{pro:'він / вона',ua:'піде',tr:'pide'},{pro:'ми',ua:'підемо',tr:'pidemo'},{pro:'ви',ua:'підете',tr:'pidete'},{pro:'вони',ua:'підуть',tr:'pidut'}],note:'Verbe irrégulier important. Passé très irrégulier : ішов/ішла. Futur perfectif : піду (avec préfixe пі-). Ne pas confondre avec їхати (en véhicule).'},
+  {inf:'їхати',fr:'aller (en véhicule)',pres:[{pro:'я',ua:'їду',tr:'yidu'},{pro:'ти',ua:'їдеш',tr:'yidesh'},{pro:'він / вона',ua:'їде',tr:'yide'},{pro:'ми',ua:'їдемо',tr:'yidemo'},{pro:'ви',ua:'їдете',tr:'yidete'},{pro:'вони',ua:'їдуть',tr:'yidut'}],past:[{pro:'він',ua:'їхав',tr:'yikhav'},{pro:'вона',ua:'їхала',tr:'yikhala'},{pro:'воно',ua:'їхало',tr:'yikhalo'},{pro:'вони',ua:'їхали',tr:'yikhaly'}],fut:[{pro:'я',ua:'поїду',tr:'poyidu'},{pro:'ти',ua:'поїдеш',tr:'poyidesh'},{pro:'він / вона',ua:'поїде',tr:'poyide'},{pro:'ми',ua:'поїдемо',tr:'poyidemo'},{pro:'ви',ua:'поїдете',tr:'poyidete'},{pro:'вони',ua:'поїдуть',tr:'poyidut'}],note:'Mouvement en véhicule (bus, train, voiture). Futur perfectif : поїду. Opposé de іти (à pied).'},
+  {inf:'летіти',fr:'voler / aller en avion',pres:[{pro:'я',ua:'лечу',tr:'lechu'},{pro:'ти',ua:'летиш',tr:'letysh'},{pro:'він / вона',ua:'летить',tr:'letyt'},{pro:'ми',ua:'летимо',tr:'letymo'},{pro:'ви',ua:'летите',tr:'letyte'},{pro:'вони',ua:'летять',tr:'letyat'}],past:[{pro:'він',ua:'летів',tr:'letiv'},{pro:'вона',ua:'летіла',tr:'letila'},{pro:'воно',ua:'летіло',tr:'letilo'},{pro:'вони',ua:'летіли',tr:'letily'}],fut:[{pro:'я',ua:'полечу',tr:'polechu'},{pro:'ти',ua:'полетиш',tr:'poletysh'},{pro:'він / вона',ua:'полетить',tr:'poletyt'},{pro:'ми',ua:'полетимо',tr:'poletymo'},{pro:'ви',ua:'полетите',tr:'poletyte'},{pro:'вони',ua:'полетять',tr:'poletyat'}],note:'Alternance т → ч à la 1re personne : летіти → лечу. Futur perfectif : полечу.'},
+  {inf:'приходити',fr:'venir / arriver (à pied)',pres:[{pro:'я',ua:'приходжу',tr:'prykhodʐu'},{pro:'ти',ua:'приходиш',tr:'prykhodʏsh'},{pro:'він / вона',ua:'приходить',tr:'prykhodyт'},{pro:'ми',ua:'приходимо',tr:'prykhodymo'},{pro:'ви',ua:'приходите',tr:'prykhodyte'},{pro:'вони',ua:'приходять',tr:'prykhodyat'}],past:[{pro:'він',ua:'приходив',tr:'prykhodʏv'},{pro:'вона',ua:'приходила',tr:'prykhodyla'},{pro:'воно',ua:'приходило',tr:'prykhodʏlo'},{pro:'вони',ua:'приходили',tr:'prykhodʏly'}],fut:[{pro:'я',ua:'прийду',tr:'pryydu'},{pro:'ти',ua:'прийдеш',tr:'pryydesh'},{pro:'він / вона',ua:'прийде',tr:'prʏyde'},{pro:'ми',ua:'прийдемо',tr:'pryydemo'},{pro:'ви',ua:'прийдете',tr:'pryydete'},{pro:'вони',ua:'прийдуть',tr:'pryydut'}],note:'Futur perfectif très irrégulier : прийду. À retenir absolument car très fréquent dans la vie quotidienne.'},
+  {inf:'виходити',fr:'sortir',pres:[{pro:'я',ua:'виходжу',tr:'vʏkhodʐu'},{pro:'ти',ua:'виходиш',tr:'vʏkhodʏsh'},{pro:'він / вона',ua:'виходить',tr:'vʏkhodyт'},{pro:'ми',ua:'виходимо',tr:'vʏkhodymo'},{pro:'ви',ua:'виходите',tr:'vʏkhodyte'},{pro:'вони',ua:'виходять',tr:'vʏkhodyat'}],past:[{pro:'він',ua:'виходив',tr:'vʏkhodʏv'},{pro:'вона',ua:'виходила',tr:'vʏkhodyla'},{pro:'воно',ua:'виходило',tr:'vʏkhodʏlo'},{pro:'вони',ua:'виходили',tr:'vʏkhodʏly'}],fut:[{pro:'я',ua:'вийду',tr:'vʏydu'},{pro:'ти',ua:'вийдеш',tr:'vʏydesh'},{pro:'він / вона',ua:'вийде',tr:'vʏyde'},{pro:'ми',ua:'вийдемо',tr:'vʏydemo'},{pro:'ви',ua:'вийдете',tr:'vʏydete'},{pro:'вони',ua:'вийдуть',tr:'vʏydut'}],note:'Perfectif : вийти (я вийду). Préfixe ви- indique "vers l\'extérieur".'},
+  {inf:'входити',fr:'entrer',pres:[{pro:'я',ua:'входжу',tr:'vkhodʐu'},{pro:'ти',ua:'входиш',tr:'vkhodʏsh'},{pro:'він / вона',ua:'входить',tr:'vkhodyт'},{pro:'ми',ua:'входимо',tr:'vkhodymo'},{pro:'ви',ua:'входите',tr:'vkhodyte'},{pro:'вони',ua:'входять',tr:'vkhodyat'}],past:[{pro:'він',ua:'входив',tr:'vkhodʏv'},{pro:'вона',ua:'входила',tr:'vkhodyla'},{pro:'воно',ua:'входило',tr:'vkhodʏlo'},{pro:'вони',ua:'входили',tr:'vkhodʏly'}],fut:[{pro:'я',ua:'увійду',tr:'uvʏydu'},{pro:'ти',ua:'увійдеш',tr:'uvʏydesh'},{pro:'він / вона',ua:'увійде',tr:'uvʏyde'},{pro:'ми',ua:'увійдемо',tr:'uvʏydemo'},{pro:'ви',ua:'увійдете',tr:'uvʏydete'},{pro:'вони',ua:'увійдуть',tr:'uvʏydut'}],note:'Perfectif : увійти (я увійду). Préfixe в- indique "vers l\'intérieur".'},
+  {inf:'відкривати',fr:'ouvrir',pres:[{pro:'я',ua:'відкриваю',tr:'vidkryvаyu'},{pro:'ти',ua:'відкриваєш',tr:'vidkryvayesh'},{pro:'він / вона',ua:'відкриває',tr:'vidkryvaye'},{pro:'ми',ua:'відкриваємо',tr:'vidkryvayemo'},{pro:'ви',ua:'відкриваєте',tr:'vidkryvayete'},{pro:'вони',ua:'відкривають',tr:'vidkryvayut'}],past:[{pro:'він',ua:'відкривав',tr:'vidkryvav'},{pro:'вона',ua:'відкривала',tr:'vidkryvala'},{pro:'воно',ua:'відкривало',tr:'vidkryvalo'},{pro:'вони',ua:'відкривали',tr:'vidkryvaly'}],fut:[{pro:'я',ua:'відкрию',tr:'vidkrʏyu'},{pro:'ти',ua:'відкриєш',tr:'vidkrʏyesh'},{pro:'він / вона',ua:'відкриє',tr:'vidkrʏye'},{pro:'ми',ua:'відкриємо',tr:'vidkrʏyemo'},{pro:'ви',ua:'відкриєте',tr:'vidkrʏyete'},{pro:'вони',ua:'відкриють',tr:'vidkrʏyut'}],note:'Perfectif : відкрити. Antonyme : закривати/закрити (fermer). Modèle -авати très fréquent.'},
+  {inf:'закривати',fr:'fermer',pres:[{pro:'я',ua:'закриваю',tr:'zakryvаyu'},{pro:'ти',ua:'закриваєш',tr:'zakryvayesh'},{pro:'він / вона',ua:'закриває',tr:'zakryvaye'},{pro:'ми',ua:'закриваємо',tr:'zakryvayemo'},{pro:'ви',ua:'закриваєте',tr:'zakryvayete'},{pro:'вони',ua:'закривають',tr:'zakryvayut'}],past:[{pro:'він',ua:'закривав',tr:'zakryvav'},{pro:'вона',ua:'закривала',tr:'zakryvala'},{pro:'воно',ua:'закривало',tr:'zakryvalo'},{pro:'вони',ua:'закривали',tr:'zakryvaly'}],fut:[{pro:'я',ua:'закрию',tr:'zakrʏyu'},{pro:'ти',ua:'закриєш',tr:'zakrʏyesh'},{pro:'він / вона',ua:'закриє',tr:'zakrʏye'},{pro:'ми',ua:'закриємо',tr:'zakrʏyemo'},{pro:'ви',ua:'закриєте',tr:'zakrʏyete'},{pro:'вони',ua:'закриють',tr:'zakrʏyut'}],note:'Perfectif : закрити. Fermer une porte, un magasin, un fichier.'},
+  {inf:'давати',fr:'donner',pres:[{pro:'я',ua:'даю',tr:'dayu'},{pro:'ти',ua:'даєш',tr:'dayesh'},{pro:'він / вона',ua:'дає',tr:'daye'},{pro:'ми',ua:'даємо',tr:'dayemo'},{pro:'ви',ua:'даєте',tr:'dayete'},{pro:'вони',ua:'дають',tr:'dayut'}],past:[{pro:'він',ua:'давав',tr:'davav'},{pro:'вона',ua:'давала',tr:'davala'},{pro:'воно',ua:'давало',tr:'davalo'},{pro:'вони',ua:'давали',tr:'davaly'}],fut:[{pro:'я',ua:'дам',tr:'dam'},{pro:'ти',ua:'даси',tr:'dasy'},{pro:'він / вона',ua:'дасть',tr:'dast'},{pro:'ми',ua:'дамо',tr:'damo'},{pro:'ви',ua:'дасте',tr:'daste'},{pro:'вони',ua:'дадуть',tr:'dadut'}],note:'Perfectif très irrégulier : дати → дам, даси, дасть, дамо, дасте, дадуть. Très fréquent : давай! (allez !) / дай мені (donne-moi).'},
+  {inf:'брати',fr:'prendre',pres:[{pro:'я',ua:'беру',tr:'beru'},{pro:'ти',ua:'береш',tr:'beresh'},{pro:'він / вона',ua:'бере',tr:'bere'},{pro:'ми',ua:'беремо',tr:'beremo'},{pro:'ви',ua:'берете',tr:'berete'},{pro:'вони',ua:'беруть',tr:'berut'}],past:[{pro:'він',ua:'брав',tr:'brav'},{pro:'вона',ua:'брала',tr:'brala'},{pro:'воно',ua:'брало',tr:'bralo'},{pro:'вони',ua:'брали',tr:'braly'}],fut:[{pro:'я',ua:'візьму',tr:'vizmu'},{pro:'ти',ua:'візьмеш',tr:'vizmesh'},{pro:'він / вона',ua:'візьме',tr:'vizme'},{pro:'ми',ua:'візьмемо',tr:'vizmemo'},{pro:'ви',ua:'візьмете',tr:'vizmete'},{pro:'вони',ua:'візьмуть',tr:'vizmut'}],note:'Très irrégulier ! Présent : бер-. Futur perfectif : візьм- (racine complètement différente). À mémoriser absolument.'},
+  {inf:'класти',fr:'poser / mettre (couché)',pres:[{pro:'я',ua:'кладу',tr:'kladu'},{pro:'ти',ua:'кладеш',tr:'kladesh'},{pro:'він / вона',ua:'кладе',tr:'klade'},{pro:'ми',ua:'кладемо',tr:'klademo'},{pro:'ви',ua:'кладете',tr:'kladete'},{pro:'вони',ua:'кладуть',tr:'kladut'}],past:[{pro:'він',ua:'клав',tr:'klav'},{pro:'вона',ua:'клала',tr:'klala'},{pro:'воно',ua:'клало',tr:'klalo'},{pro:'вони',ua:'клали',tr:'klaly'}],fut:[{pro:'я',ua:'покладу',tr:'pokladu'},{pro:'ти',ua:'покладеш',tr:'pokladesh'},{pro:'він / вона',ua:'покладе',tr:'poklade'},{pro:'ми',ua:'покладемо',tr:'poklademo'},{pro:'ви',ua:'покладете',tr:'pokladete'},{pro:'вони',ua:'покладуть',tr:'pokladut'}],note:'Préfixe по- pour le perfectif. Clause importante : класти = poser à plat / stavit = mettre debout.'},
+  {inf:'стояти',fr:'se tenir debout / être debout',pres:[{pro:'я',ua:'стою',tr:'stoyu'},{pro:'ти',ua:'стоїш',tr:'stoyish'},{pro:'він / вона',ua:'стоїть',tr:'stoyit'},{pro:'ми',ua:'стоїмо',tr:'stoyimo'},{pro:'ви',ua:'стоїте',tr:'stoyite'},{pro:'вони',ua:'стоять',tr:'stoyat'}],past:[{pro:'він',ua:'стояв',tr:'stoyav'},{pro:'вона',ua:'стояла',tr:'stoyala'},{pro:'воно',ua:'стояло',tr:'stoyalo'},{pro:'вони',ua:'стояли',tr:'stoyaly'}],fut:[{pro:'я',ua:'буду стояти',tr:'budu stoyaty'},{pro:'ти',ua:'будеш стояти',tr:'budesh stoyaty'},{pro:'він / вона',ua:'буде стояти',tr:'bude stoyaty'},{pro:'ми',ua:'будемо стояти',tr:'budemo stoyaty'},{pro:'ви',ua:'будете стояти',tr:'budete stoyaty'},{pro:'вони',ua:'будуть стояти',tr:'budut stoyaty'}],note:'Verbe de position. Я стою = je suis debout. La queue : стояти в черзі = faire la queue.'},
+  {inf:'сидіти',fr:'être assis',pres:[{pro:'я',ua:'сиджу',tr:'sydʐu'},{pro:'ти',ua:'сидиш',tr:'sydʏsh'},{pro:'він / вона',ua:'сидить',tr:'sydʏт'},{pro:'ми',ua:'сидимо',tr:'sydʏmo'},{pro:'ви',ua:'сидите',tr:'sydʏte'},{pro:'вони',ua:'сидять',tr:'sydʏat'}],past:[{pro:'він',ua:'сидів',tr:'sydiv'},{pro:'вона',ua:'сиділа',tr:'sydila'},{pro:'воно',ua:'сиділо',tr:'sydilo'},{pro:'вони',ua:'сиділи',tr:'sydily'}],fut:[{pro:'я',ua:'буду сидіти',tr:'budu sydity'},{pro:'ти',ua:'будеш сидіти',tr:'budesh sydity'},{pro:'він / вона',ua:'буде сидіти',tr:'bude sydity'},{pro:'ми',ua:'будемо сидіти',tr:'budemo sydity'},{pro:'ви',ua:'будете сидіти',tr:'budete sydity'},{pro:'вони',ua:'будуть сидіти',tr:'budut sydity'}],note:'Alternance д → дж à la 1re pers. (сидіти → сиджу). Verbe de position statique.'},
+  {inf:'лежати',fr:'être allongé',pres:[{pro:'я',ua:'лежу',tr:'lezhu'},{pro:'ти',ua:'лежиш',tr:'lezhysh'},{pro:'він / вона',ua:'лежить',tr:'lezhyt'},{pro:'ми',ua:'лежимо',tr:'lezhymo'},{pro:'ви',ua:'лежите',tr:'lezhyte'},{pro:'вони',ua:'лежать',tr:'lezhаt'}],past:[{pro:'він',ua:'лежав',tr:'lezhav'},{pro:'вона',ua:'лежала',tr:'lezhala'},{pro:'воно',ua:'лежало',tr:'lezhalo'},{pro:'вони',ua:'лежали',tr:'lezhaly'}],fut:[{pro:'я',ua:'буду лежати',tr:'budu lezhaty'},{pro:'ти',ua:'будеш лежати',tr:'budesh lezhaty'},{pro:'він / вона',ua:'буде лежати',tr:'bude lezhaty'},{pro:'ми',ua:'будемо лежати',tr:'budemo lezhaty'},{pro:'ви',ua:'будете лежати',tr:'budete lezhaty'},{pro:'вони',ua:'будуть лежати',tr:'budut lezhaty'}],note:'Verbe de position horizontale. Trinité des positions : стояти (debout), сидіти (assis), лежати (allongé).'},
+  {inf:'дивитися',fr:'regarder',pres:[{pro:'я',ua:'дивлюся',tr:'dyvlyusya'},{pro:'ти',ua:'дивишся',tr:'dyvʏshsya'},{pro:'він / вона',ua:'дивиться',tr:'dyvʏtsya'},{pro:'ми',ua:'дивимося',tr:'dyvʏmosya'},{pro:'ви',ua:'дивитеся',tr:'dyvʏtesya'},{pro:'вони',ua:'дивляться',tr:'dyvlyatsya'}],past:[{pro:'він',ua:'дивився',tr:'dyvʏvsya'},{pro:'вона',ua:'дивилася',tr:'dyvʏlasya'},{pro:'воно',ua:'дивилося',tr:'dyvʏlosya'},{pro:'вони',ua:'дивилися',tr:'dyvʏlysya'}],fut:[{pro:'я',ua:'буду дивитися',tr:'budu dyvytysya'},{pro:'ти',ua:'будеш дивитися',tr:'budesh dyvytysya'},{pro:'він / вона',ua:'буде дивитися',tr:'bude dyvytysya'},{pro:'ми',ua:'будемо дивитися',tr:'budemo dyvytysya'},{pro:'ви',ua:'будете дивитися',tr:'budete dyvytysya'},{pro:'вони',ua:'будуть дивитися',tr:'budut dyvytysya'}],note:'Alternance в → вл à la 1re pers. (дивитися → дивлюся). Дивитися фільм = regarder un film. Verbe réfléchi en -ся.'},
+  {inf:'чути',fr:'entendre',pres:[{pro:'я',ua:'чую',tr:'chuyu'},{pro:'ти',ua:'чуєш',tr:'chuyesh'},{pro:'він / вона',ua:'чує',tr:'chuye'},{pro:'ми',ua:'чуємо',tr:'chuyemo'},{pro:'ви',ua:'чуєте',tr:'chuyete'},{pro:'вони',ua:'чують',tr:'chuyut'}],past:[{pro:'він',ua:'чув',tr:'chuv'},{pro:'вона',ua:'чула',tr:'chula'},{pro:'воно',ua:'чуло',tr:'chulo'},{pro:'вони',ua:'чули',tr:'chuly'}],fut:[{pro:'я',ua:'почую',tr:'pochuyu'},{pro:'ти',ua:'почуєш',tr:'pochuyesh'},{pro:'він / вона',ua:'почує',tr:'pochuye'},{pro:'ми',ua:'почуємо',tr:'pochuyemo'},{pro:'ви',ua:'почуєте',tr:'pochuyete'},{pro:'вони',ua:'почують',tr:'pochuyut'}],note:'Verbe de perception auditive. Futur perfectif : почути (я почую). Ти чуєш мене? = Tu m\'entends ?'},
+  {inf:'відчинити',fr:'ouvrir (une porte)',pres:[{pro:'я',ua:'відчиню',tr:'vidchynju'},{pro:'ти',ua:'відчиниш',tr:'vidchynʏsh'},{pro:'він / вона',ua:'відчинить',tr:'vidchynʏт'},{pro:'ми',ua:'відчинимо',tr:'vidchynʏmo'},{pro:'ви',ua:'відчините',tr:'vidchynʏte'},{pro:'вони',ua:'відчинять',tr:'vidchynʏat'}],past:[{pro:'він',ua:'відчинив',tr:'vidchynʏv'},{pro:'вона',ua:'відчинила',tr:'vidchynʏla'},{pro:'воно',ua:'відчинило',tr:'vidchynʏlo'},{pro:'вони',ua:'відчинили',tr:'vidchynʏly'}],fut:[{pro:'я',ua:'відчиню',tr:'vidchynju'},{pro:'ти',ua:'відчиниш',tr:'vidchynʏsh'},{pro:'він / вона',ua:'відчинить',tr:'vidchynʏт'},{pro:'ми',ua:'відчинимо',tr:'vidchynʏmo'},{pro:'ви',ua:'відчините',tr:'vidchynʏte'},{pro:'вони',ua:'відчинять',tr:'vidchynʏat'}],note:'Verbe perfectif uniquement. Spécifique à l\'action d\'ouvrir une porte/fenêtre. Imper. : відчиняти.'},
+  {inf:'готувати',fr:'cuisiner / préparer',pres:[{pro:'я',ua:'готую',tr:'hotuyu'},{pro:'ти',ua:'готуєш',tr:'hotuyesh'},{pro:'він / вона',ua:'готує',tr:'hotuye'},{pro:'ми',ua:'готуємо',tr:'hotuyemo'},{pro:'ви',ua:'готуєте',tr:'hotuyete'},{pro:'вони',ua:'готують',tr:'hotuyut'}],past:[{pro:'він',ua:'готував',tr:'hotuvav'},{pro:'вона',ua:'готувала',tr:'hotuvala'},{pro:'воно',ua:'готувало',tr:'hotuvalo'},{pro:'вони',ua:'готували',tr:'hotuvaly'}],fut:[{pro:'я',ua:'буду готувати',tr:'budu hotuvaty'},{pro:'ти',ua:'будеш готувати',tr:'budesh hotuvaty'},{pro:'він / вона',ua:'буде готувати',tr:'bude hotuvaty'},{pro:'ми',ua:'будемо готувати',tr:'budemo hotuvaty'},{pro:'ви',ua:'будете готувати',tr:'budete hotuvaty'},{pro:'вони',ua:'будуть готувати',tr:'budut hotuvaty'}],note:'Modèle régulier en -увати → -ує. Готувати вечерю = préparer le dîner. Perfectif : приготувати.'},
+  {inf:'прибирати',fr:'faire le ménage / nettoyer',pres:[{pro:'я',ua:'прибираю',tr:'prybʏrаyu'},{pro:'ти',ua:'прибираєш',tr:'prybʏrayesh'},{pro:'він / вона',ua:'прибирає',tr:'prybʏraye'},{pro:'ми',ua:'прибираємо',tr:'prybʏrayemo'},{pro:'ви',ua:'прибираєте',tr:'prybʏrayete'},{pro:'вони',ua:'прибирають',tr:'prybʏrayut'}],past:[{pro:'він',ua:'прибирав',tr:'prybʏrav'},{pro:'вона',ua:'прибирала',tr:'prybʏrala'},{pro:'воно',ua:'прибирало',tr:'prybʏralo'},{pro:'вони',ua:'прибирали',tr:'prybʏraly'}],fut:[{pro:'я',ua:'буду прибирати',tr:'budu prybʏraty'},{pro:'ти',ua:'будеш прибирати',tr:'budesh prybʏraty'},{pro:'він / вона',ua:'буде прибирати',tr:'bude prybʏraty'},{pro:'ми',ua:'будемо прибирати',tr:'budemo prybʏraty'},{pro:'ви',ua:'будете прибирати',tr:'budete prybʏraty'},{pro:'вони',ua:'будуть прибирати',tr:'budut prybʏraty'}],note:'Modèle régulier en -ати. Прибирати кімнату = faire le ménage dans la chambre. Perf. : прибрати.'},
+  {inf:'мити',fr:'laver',pres:[{pro:'я',ua:'мию',tr:'mʏyu'},{pro:'ти',ua:'миєш',tr:'mʏyesh'},{pro:'він / вона',ua:'миє',tr:'mʏye'},{pro:'ми',ua:'миємо',tr:'mʏyemo'},{pro:'ви',ua:'миєте',tr:'mʏyete'},{pro:'вони',ua:'миють',tr:'mʏyut'}],past:[{pro:'він',ua:'мив',tr:'mʏv'},{pro:'вона',ua:'мила',tr:'mʏla'},{pro:'воно',ua:'мило',tr:'mʏlo'},{pro:'вони',ua:'мили',tr:'mʏly'}],fut:[{pro:'я',ua:'помию',tr:'pomʏyu'},{pro:'ти',ua:'помиєш',tr:'pomʏyesh'},{pro:'він / вона',ua:'помиє',tr:'pomʏye'},{pro:'ми',ua:'помиємо',tr:'pomʏyemo'},{pro:'ви',ua:'помиєте',tr:'pomʏyete'},{pro:'вони',ua:'помиють',tr:'pomʏyut'}],note:'Perfectif : помити. Réfléchi : митися (se laver). Мити посуд = faire la vaisselle. Мити руки = se laver les mains.'},
+  {inf:'одягатися',fr:'s\'habiller',pres:[{pro:'я',ua:'одягаюся',tr:'odyahаyusya'},{pro:'ти',ua:'одягаєшся',tr:'odyahayeshsya'},{pro:'він / вона',ua:'одягається',tr:'odyahayetsya'},{pro:'ми',ua:'одягаємося',tr:'odyahayemosya'},{pro:'ви',ua:'одягаєтеся',tr:'odyahayetesya'},{pro:'вони',ua:'одягаються',tr:'odyahayutsya'}],past:[{pro:'він',ua:'одягався',tr:'odyahavsya'},{pro:'вона',ua:'одягалася',tr:'odyahalasya'},{pro:'воно',ua:'одягалося',tr:'odyahalosya'},{pro:'вони',ua:'одягалися',tr:'odyahalysya'}],fut:[{pro:'я',ua:'буду одягатися',tr:'budu odyahаtysya'},{pro:'ти',ua:'будеш одягатися',tr:'budesh odyahаtysya'},{pro:'він / вона',ua:'буде одягатися',tr:'bude odyahаtysya'},{pro:'ми',ua:'будемо одягатися',tr:'budemo odyahаtysya'},{pro:'ви',ua:'будете одягатися',tr:'budete odyahаtysya'},{pro:'вони',ua:'будуть одягатися',tr:'budut odyahаtysya'}],note:'Verbe réfléchi (-ся). Perfectif : одягнутися. Одягни пальто! = Mets ton manteau !'},
+  {inf:'прокидатися',fr:'se réveiller',pres:[{pro:'я',ua:'прокидаюся',tr:'prokydаyusya'},{pro:'ти',ua:'прокидаєшся',tr:'prokydayeshsya'},{pro:'він / вона',ua:'прокидається',tr:'prokydayetsya'},{pro:'ми',ua:'прокидаємося',tr:'prokydayemosya'},{pro:'ви',ua:'прокидаєтеся',tr:'prokydayetesya'},{pro:'вони',ua:'прокидаються',tr:'prokydayutsya'}],past:[{pro:'він',ua:'прокидався',tr:'prokydavsya'},{pro:'вона',ua:'прокидалася',tr:'prokydаlasya'},{pro:'воно',ua:'прокидалося',tr:'prokydаlosya'},{pro:'вони',ua:'прокидалися',tr:'prokydаlysya'}],fut:[{pro:'я',ua:'прокинуся',tr:'prokynusya'},{pro:'ти',ua:'прокинешся',tr:'prokyneshsya'},{pro:'він / вона',ua:'прокинеться',tr:'prokynetsya'},{pro:'ми',ua:'прокинемося',tr:'prokynemosya'},{pro:'ви',ua:'прокинетеся',tr:'prokynetesya'},{pro:'вони',ua:'прокинуться',tr:'prokynutsya'}],note:'Futur perfectif irrégulier : прокинутися. Я прокидаюся о сьомій = Je me réveille à 7h.'},
+  {inf:'засинати',fr:'s\'endormir',pres:[{pro:'я',ua:'засинаю',tr:'zasʏnаyu'},{pro:'ти',ua:'засинаєш',tr:'zasʏnayesh'},{pro:'він / вона',ua:'засинає',tr:'zasʏnaye'},{pro:'ми',ua:'засинаємо',tr:'zasʏnayemo'},{pro:'ви',ua:'засинаєте',tr:'zasʏnayete'},{pro:'вони',ua:'засинають',tr:'zasʏnayut'}],past:[{pro:'він',ua:'засинав',tr:'zasʏnav'},{pro:'вона',ua:'засинала',tr:'zasʏnala'},{pro:'воно',ua:'засинало',tr:'zasʏnalo'},{pro:'вони',ua:'засинали',tr:'zasʏnaly'}],fut:[{pro:'я',ua:'засну',tr:'zasnu'},{pro:'ти',ua:'заснеш',tr:'zasnesh'},{pro:'він / вона',ua:'засне',tr:'zasne'},{pro:'ми',ua:'заснемо',tr:'zasnemo'},{pro:'ви',ua:'заснете',tr:'zasnete'},{pro:'вони',ua:'заснуть',tr:'zasnut'}],note:'Futur perfectif : заснути (я засну). Antonyme : прокидатися. Je m\'endors vite : я швидко засинаю.'},
+  {inf:'їздити',fr:'aller (en véhicule, habituel)',pres:[{pro:'я',ua:'їжджу',tr:'yizhdʐu'},{pro:'ти',ua:'їздиш',tr:'yizdʏsh'},{pro:'він / вона',ua:'їздить',tr:'yizdʏт'},{pro:'ми',ua:'їздимо',tr:'yizdʏmo'},{pro:'ви',ua:'їздите',tr:'yizdʏte'},{pro:'вони',ua:'їздять',tr:'yizdʏat'}],past:[{pro:'він',ua:'їздив',tr:'yizdʏv'},{pro:'вона',ua:'їздила',tr:'yizdʏla'},{pro:'воно',ua:'їздило',tr:'yizdʏlo'},{pro:'вони',ua:'їздили',tr:'yizdʏly'}],fut:[{pro:'я',ua:'буду їздити',tr:'budu yizdity'},{pro:'ти',ua:'будеш їздити',tr:'budesh yizdity'},{pro:'він / вона',ua:'буде їздити',tr:'bude yizdity'},{pro:'ми',ua:'будемо їздити',tr:'budemo yizdity'},{pro:'ви',ua:'будете їздити',tr:'budete yizdity'},{pro:'вони',ua:'будуть їздити',tr:'budut yizdity'}],note:'Їздити = habitude / aller et venir. Їхати = un déplacement précis. Я їжджу на роботу щодня = Je vais au travail chaque jour.'},
+  {inf:'ходити',fr:'aller (à pied, habituel)',pres:[{pro:'я',ua:'ходжу',tr:'khodʐu'},{pro:'ти',ua:'ходиш',tr:'khodʏsh'},{pro:'він / вона',ua:'ходить',tr:'khodʏт'},{pro:'ми',ua:'ходимо',tr:'khodʏmo'},{pro:'ви',ua:'ходите',tr:'khodʏte'},{pro:'вони',ua:'ходять',tr:'khodʏat'}],past:[{pro:'він',ua:'ходив',tr:'khodʏv'},{pro:'вона',ua:'ходила',tr:'khodʏla'},{pro:'воно',ua:'ходило',tr:'khodʏlo'},{pro:'вони',ua:'ходили',tr:'khodʏly'}],fut:[{pro:'я',ua:'буду ходити',tr:'budu khodity'},{pro:'ти',ua:'будеш ходити',tr:'budesh khodity'},{pro:'він / вона',ua:'буде ходити',tr:'bude khodity'},{pro:'ми',ua:'будемо ходити',tr:'budemo khodity'},{pro:'ви',ua:'будете ходити',tr:'budete khodity'},{pro:'вони',ua:'будуть ходити',tr:'budut khodity'}],note:'Ходити = habitude (aller et venir à pied). Іти = un déplacement précis. Я ходжу до школи = Je vais à l\'école (habituellement).'},
+  {inf:'грати',fr:'jouer',pres:[{pro:'я',ua:'граю',tr:'hrayu'},{pro:'ти',ua:'граєш',tr:'hrayesh'},{pro:'він / вона',ua:'грає',tr:'hraye'},{pro:'ми',ua:'граємо',tr:'hrayemo'},{pro:'ви',ua:'граєте',tr:'hrayete'},{pro:'вони',ua:'грають',tr:'hrayut'}],past:[{pro:'він',ua:'грав',tr:'hrav'},{pro:'вона',ua:'грала',tr:'hrala'},{pro:'воно',ua:'грало',tr:'hralo'},{pro:'вони',ua:'грали',tr:'hraly'}],fut:[{pro:'я',ua:'буду грати',tr:'budu hraty'},{pro:'ти',ua:'будеш грати',tr:'budesh hraty'},{pro:'він / вона',ua:'буде грати',tr:'bude hraty'},{pro:'ми',ua:'будемо грати',tr:'budemo hraty'},{pro:'ви',ua:'будете грати',tr:'budete hraty'},{pro:'вони',ua:'будуть грати',tr:'budut hraty'}],note:'Грати у футбол = jouer au foot. Грати на гітарі = jouer de la guitare. La préposition change selon le contexte !'},
+  {inf:'співати',fr:'chanter',pres:[{pro:'я',ua:'співаю',tr:'spivаyu'},{pro:'ти',ua:'співаєш',tr:'spivayesh'},{pro:'він / вона',ua:'співає',tr:'spivaye'},{pro:'ми',ua:'співаємо',tr:'spivayemo'},{pro:'ви',ua:'співаєте',tr:'spivayete'},{pro:'вони',ua:'співають',tr:'spivayut'}],past:[{pro:'він',ua:'співав',tr:'spivav'},{pro:'вона',ua:'співала',tr:'spivala'},{pro:'воно',ua:'співало',tr:'spivalo'},{pro:'вони',ua:'співали',tr:'spivaly'}],fut:[{pro:'я',ua:'буду співати',tr:'budu spivaty'},{pro:'ти',ua:'будеш співати',tr:'budesh spivaty'},{pro:'він / вона',ua:'буде співати',tr:'bude spivaty'},{pro:'ми',ua:'будемо співати',tr:'budemo spivaty'},{pro:'ви',ua:'будете співати',tr:'budete spivaty'},{pro:'вони',ua:'будуть співати',tr:'budut spivaty'}],note:'Modèle régulier en -ати. Perfectif : заспівати. Я люблю співати = J\'aime chanter.'},
+  {inf:'танцювати',fr:'danser',pres:[{pro:'я',ua:'танцюю',tr:'tantsyuyu'},{pro:'ти',ua:'танцюєш',tr:'tantsyuyesh'},{pro:'він / вона',ua:'танцює',tr:'tantsyuye'},{pro:'ми',ua:'танцюємо',tr:'tantsyuyemo'},{pro:'ви',ua:'танцюєте',tr:'tantsyuyete'},{pro:'вони',ua:'танцюють',tr:'tantsyuyut'}],past:[{pro:'він',ua:'танцював',tr:'tantsyuvav'},{pro:'вона',ua:'танцювала',tr:'tantsyuvala'},{pro:'воно',ua:'танцювало',tr:'tantsyuvalo'},{pro:'вони',ua:'танцювали',tr:'tantsyuvaly'}],fut:[{pro:'я',ua:'буду танцювати',tr:'budu tantsyuvaty'},{pro:'ти',ua:'будеш танцювати',tr:'budesh tantsyuvaty'},{pro:'він / вона',ua:'буде танцювати',tr:'bude tantsyuvaty'},{pro:'ми',ua:'будемо танцювати',tr:'budemo tantsyuvaty'},{pro:'ви',ua:'будете танцювати',tr:'budete tantsyuvaty'},{pro:'вони',ua:'будуть танцювати',tr:'budut tantsyuvaty'}],note:'Modèle -ювати → -юю. Ходімо танцювати! = Allons danser !'},
+  {inf:'малювати',fr:'dessiner / peindre',pres:[{pro:'я',ua:'малюю',tr:'malyuyu'},{pro:'ти',ua:'малюєш',tr:'malyuyesh'},{pro:'він / вона',ua:'малює',tr:'malyuye'},{pro:'ми',ua:'малюємо',tr:'malyuyemo'},{pro:'ви',ua:'малюєте',tr:'malyuyete'},{pro:'вони',ua:'малюють',tr:'malyuyut'}],past:[{pro:'він',ua:'малював',tr:'malyuvav'},{pro:'вона',ua:'малювала',tr:'malyuvala'},{pro:'воно',ua:'малювало',tr:'malyuvalo'},{pro:'вони',ua:'малювали',tr:'malyuvaly'}],fut:[{pro:'я',ua:'буду малювати',tr:'budu malyuvaty'},{pro:'ти',ua:'будеш малювати',tr:'budesh malyuvaty'},{pro:'він / вона',ua:'буде малювати',tr:'bude malyuvaty'},{pro:'ми',ua:'будемо малювати',tr:'budemo malyuvaty'},{pro:'ви',ua:'будете малювати',tr:'budete malyuvaty'},{pro:'вони',ua:'будуть малювати',tr:'budut malyuvaty'}],note:'Modèle -ювати → -юю. Perfectif : намалювати. Вона чудово малює = Elle dessine merveilleusement.'},
+  {inf:'бігати',fr:'courir (habitude)',pres:[{pro:'я',ua:'бігаю',tr:'bihаyu'},{pro:'ти',ua:'бігаєш',tr:'bihayesh'},{pro:'він / вона',ua:'бігає',tr:'bihaye'},{pro:'ми',ua:'бігаємо',tr:'bihayemo'},{pro:'ви',ua:'бігаєте',tr:'bihayete'},{pro:'вони',ua:'бігають',tr:'bihayut'}],past:[{pro:'він',ua:'бігав',tr:'bihav'},{pro:'вона',ua:'бігала',tr:'bihala'},{pro:'воно',ua:'бігало',tr:'bihalo'},{pro:'вони',ua:'бігали',tr:'bihaly'}],fut:[{pro:'я',ua:'буду бігати',tr:'budu bihaty'},{pro:'ти',ua:'будеш бігати',tr:'budesh bihaty'},{pro:'він / вона',ua:'буде бігати',tr:'bude bihaty'},{pro:'ми',ua:'будемо бігати',tr:'budemo bihaty'},{pro:'ви',ua:'будете бігати',tr:'budete bihaty'},{pro:'вони',ua:'будуть бігати',tr:'budut bihaty'}],note:'Бігати (habitude) vs бігти (en ce moment précis). Je cours chaque matin : Я бігаю щоранку.'},
+  {inf:'плавати',fr:'nager',pres:[{pro:'я',ua:'плаваю',tr:'plavаyu'},{pro:'ти',ua:'плаваєш',tr:'plavayesh'},{pro:'він / вона',ua:'плаває',tr:'plavaye'},{pro:'ми',ua:'плаваємо',tr:'plavayemo'},{pro:'ви',ua:'плаваєте',tr:'plavayete'},{pro:'вони',ua:'плавають',tr:'plavayut'}],past:[{pro:'він',ua:'плавав',tr:'plavav'},{pro:'вона',ua:'плавала',tr:'plavala'},{pro:'воно',ua:'плавало',tr:'plavalo'},{pro:'вони',ua:'плавали',tr:'plavaly'}],fut:[{pro:'я',ua:'буду плавати',tr:'budu plavaty'},{pro:'ти',ua:'будеш плавати',tr:'budesh plavaty'},{pro:'він / вона',ua:'буде плавати',tr:'bude plavaty'},{pro:'ми',ua:'будемо плавати',tr:'budemo plavaty'},{pro:'ви',ua:'будете плавати',tr:'budete plavaty'},{pro:'вони',ua:'будуть плавати',tr:'budut plavaty'}],note:'Régulier en -ати. Я вмію плавати = Je sais nager. Він плаває швидко = Il nage vite.'},
+  {inf:'телефонувати',fr:'téléphoner',pres:[{pro:'я',ua:'телефоную',tr:'telefonuyu'},{pro:'ти',ua:'телефонуєш',tr:'telefonuyesh'},{pro:'він / вона',ua:'телефонує',tr:'telefonuye'},{pro:'ми',ua:'телефонуємо',tr:'telefonuyemo'},{pro:'ви',ua:'телефонуєте',tr:'telefonuyete'},{pro:'вони',ua:'телефонують',tr:'telefonuyut'}],past:[{pro:'він',ua:'телефонував',tr:'telefonuvav'},{pro:'вона',ua:'телефонувала',tr:'telefonuvala'},{pro:'воно',ua:'телефонувало',tr:'telefonuvalo'},{pro:'вони',ua:'телефонували',tr:'telefonuvaly'}],fut:[{pro:'я',ua:'буду телефонувати',tr:'budu telefonuvaty'},{pro:'ти',ua:'будеш телефонувати',tr:'budesh telefonuvaty'},{pro:'він / вона',ua:'буде телефонувати',tr:'bude telefonuvaty'},{pro:'ми',ua:'будемо телефонувати',tr:'budemo telefonuvaty'},{pro:'ви',ua:'будете телефонувати',tr:'budete telefonuvaty'},{pro:'вони',ua:'будуть телефонувати',tr:'budut telefonuvaty'}],note:'Modèle -увати → -ує. Perfectif : зателефонувати. Зателефонуй мені! = Appelle-moi !'},
+  {inf:'надсилати',fr:'envoyer',pres:[{pro:'я',ua:'надсилаю',tr:'nadsʏlаyu'},{pro:'ти',ua:'надсилаєш',tr:'nadsʏlayesh'},{pro:'він / вона',ua:'надсилає',tr:'nadsʏlaye'},{pro:'ми',ua:'надсилаємо',tr:'nadsʏlayemo'},{pro:'ви',ua:'надсилаєте',tr:'nadsʏlayete'},{pro:'вони',ua:'надсилають',tr:'nadsʏlayut'}],past:[{pro:'він',ua:'надсилав',tr:'nadsʏlav'},{pro:'вона',ua:'надсилала',tr:'nadsʏlala'},{pro:'воно',ua:'надсилало',tr:'nadsʏlalo'},{pro:'вони',ua:'надсилали',tr:'nadsʏlaly'}],fut:[{pro:'я',ua:'надішлю',tr:'nadishlyu'},{pro:'ти',ua:'надішлеш',tr:'nadishlesʜ'},{pro:'він / вона',ua:'надішле',tr:'nadishle'},{pro:'ми',ua:'надішлемо',tr:'nadishlemо'},{pro:'ви',ua:'надішлете',tr:'nadishlte'},{pro:'вони',ua:'надішлють',tr:'nadishlyut'}],note:'Futur perfectif irrégulier : надіслати (я надішлю). Надіслати повідомлення = envoyer un message.'},
+  {inf:'отримувати',fr:'recevoir / obtenir',pres:[{pro:'я',ua:'отримую',tr:'otrʏmuyu'},{pro:'ти',ua:'отримуєш',tr:'otrʏmuyesh'},{pro:'він / вона',ua:'отримує',tr:'otrʏmuye'},{pro:'ми',ua:'отримуємо',tr:'otrʏmuyemo'},{pro:'ви',ua:'отримуєте',tr:'otrʏmuyete'},{pro:'вони',ua:'отримують',tr:'otrʏmuyut'}],past:[{pro:'він',ua:'отримував',tr:'otrʏmuvav'},{pro:'вона',ua:'отримувала',tr:'otrʏmuvala'},{pro:'воно',ua:'отримувало',tr:'otrʏmuvalo'},{pro:'вони',ua:'отримували',tr:'otrʏmuvaly'}],fut:[{pro:'я',ua:'отримаю',tr:'otrʏmayu'},{pro:'ти',ua:'отримаєш',tr:'otrʏmayesh'},{pro:'він / вона',ua:'отримає',tr:'otrʏmaye'},{pro:'ми',ua:'отримаємо',tr:'otrʏmayemo'},{pro:'ви',ua:'отримаєте',tr:'otrʏmayete'},{pro:'вони',ua:'отримають',tr:'otrʏmayut'}],note:'Perfectif : отримати (я отримаю). Я отримав лист = J\'ai reçu une lettre.'},
+  {inf:'платити',fr:'payer',pres:[{pro:'я',ua:'плачу',tr:'plachu'},{pro:'ти',ua:'платиш',tr:'platʏsh'},{pro:'він / вона',ua:'платить',tr:'platʏт'},{pro:'ми',ua:'платимо',tr:'platʏmo'},{pro:'ви',ua:'платите',tr:'platʏte'},{pro:'вони',ua:'платять',tr:'platʏat'}],past:[{pro:'він',ua:'платив',tr:'platʏv'},{pro:'вона',ua:'платила',tr:'platʏla'},{pro:'воно',ua:'платило',tr:'platʏlo'},{pro:'вони',ua:'платили',tr:'platʏly'}],fut:[{pro:'я',ua:'заплачу',tr:'zaplachu'},{pro:'ти',ua:'заплатиш',tr:'zaplatʏsh'},{pro:'він / вона',ua:'заплатить',tr:'zaplatʏт'},{pro:'ми',ua:'заплатимо',tr:'zaplatʏmo'},{pro:'ви',ua:'заплатите',tr:'zaplatʏte'},{pro:'вони',ua:'заплатять',tr:'zaplatʏat'}],note:'Attention : я плачу (je paie) ≠ я плачу (je pleure) — même forme ! Distinguez par contexte. Perfectif : заплатити.'},
+  {inf:'забувати',fr:'oublier',pres:[{pro:'я',ua:'забуваю',tr:'zabuvаyu'},{pro:'ти',ua:'забуваєш',tr:'zabuvayesh'},{pro:'він / вона',ua:'забуває',tr:'zabuvaye'},{pro:'ми',ua:'забуваємо',tr:'zabuvayemo'},{pro:'ви',ua:'забуваєте',tr:'zabuvayete'},{pro:'вони',ua:'забувають',tr:'zabuvayut'}],past:[{pro:'він',ua:'забував',tr:'zabuvav'},{pro:'вона',ua:'забувала',tr:'zabuvala'},{pro:'воно',ua:'забувало',tr:'zabuvalo'},{pro:'вони',ua:'забували',tr:'zabuvaly'}],fut:[{pro:'я',ua:'забуду',tr:'zabudu'},{pro:'ти',ua:'забудеш',tr:'zabudesh'},{pro:'він / вона',ua:'забуде',tr:'zabude'},{pro:'ми',ua:'забудемо',tr:'zabudemo'},{pro:'ви',ua:'забудете',tr:'zabudete'},{pro:'вони',ua:'забудуть',tr:'zabudut'}],note:'Perfectif : забути (я забуду). Я забув! = J\'ai oublié ! Не забудь! = N\'oublie pas !'},
+  {inf:'пам\'ятати',fr:'se souvenir / se rappeler',pres:[{pro:'я',ua:'пам\'ятаю',tr:'pamyatаyu'},{pro:'ти',ua:'пам\'ятаєш',tr:'pamyatayesh'},{pro:'він / вона',ua:'пам\'ятає',tr:'pamyataye'},{pro:'ми',ua:'пам\'ятаємо',tr:'pamyatayemo'},{pro:'ви',ua:'пам\'ятаєте',tr:'pamyatayete'},{pro:'вони',ua:'пам\'ятають',tr:'pamyatayut'}],past:[{pro:'він',ua:'пам\'ятав',tr:'pamyatav'},{pro:'вона',ua:'пам\'ятала',tr:'pamyatala'},{pro:'воно',ua:'пам\'ятало',tr:'pamyatalo'},{pro:'вони',ua:'пам\'ятали',tr:'pamyataly'}],fut:[{pro:'я',ua:'буду пам\'ятати',tr:'budu pamyataty'},{pro:'ти',ua:'будеш пам\'ятати',tr:'budesh pamyataty'},{pro:'він / вона',ua:'буде пам\'ятати',tr:'bude pamyataty'},{pro:'ми',ua:'будемо пам\'ятати',tr:'budemo pamyataty'},{pro:'ви',ua:'будете пам\'ятати',tr:'budete pamyataty'},{pro:'вони',ua:'будуть пам\'ятати',tr:'budut pamyataty'}],note:'Régulier en -ати. Я пам\'ятаю тебе = Je me souviens de toi. Пам\'ять = la mémoire (même racine).'},
+  {inf:'знайти',fr:'trouver',pres:[{pro:'я',ua:'знаходжу',tr:'znakhodʐu'},{pro:'ти',ua:'знаходиш',tr:'znakhodʏsh'},{pro:'він / вона',ua:'знаходить',tr:'znakhodʏт'},{pro:'ми',ua:'знаходимо',tr:'znakhodʏmo'},{pro:'ви',ua:'знаходите',tr:'znakhodʏte'},{pro:'вони',ua:'знаходять',tr:'znakhodʏat'}],past:[{pro:'він',ua:'знайшов',tr:'znayshov'},{pro:'вона',ua:'знайшла',tr:'znayshla'},{pro:'воно',ua:'знайшло',tr:'znayshlo'},{pro:'вони',ua:'знайшли',tr:'znayshly'}],fut:[{pro:'я',ua:'знайду',tr:'znaydu'},{pro:'ти',ua:'знайдеш',tr:'znaydesh'},{pro:'він / вона',ua:'знайде',tr:'znayde'},{pro:'ми',ua:'знайдемо',tr:'znaydemo'},{pro:'ви',ua:'знайдете',tr:'znaydete'},{pro:'вони',ua:'знайдуть',tr:'znaydut'}],note:'Imperfectif : знаходити. Passé très irrégulier : знайшов/знайшла. Я знайшов ключ = J\'ai trouvé la clé.'},
+  {inf:'втрачати',fr:'perdre',pres:[{pro:'я',ua:'втрачаю',tr:'vtrachayu'},{pro:'ти',ua:'втрачаєш',tr:'vtrachayesh'},{pro:'він / вона',ua:'втрачає',tr:'vtrachaye'},{pro:'ми',ua:'втрачаємо',tr:'vtrachayemo'},{pro:'ви',ua:'втрачаєте',tr:'vtrachayete'},{pro:'вони',ua:'втрачають',tr:'vtrachayut'}],past:[{pro:'він',ua:'втрачав',tr:'vtrachav'},{pro:'вона',ua:'втрачала',tr:'vtrachala'},{pro:'воно',ua:'втрачало',tr:'vtrachalo'},{pro:'вони',ua:'втрачали',tr:'vtrachaly'}],fut:[{pro:'я',ua:'втрачу',tr:'vrachu'},{pro:'ти',ua:'втратиш',tr:'vtratʏsh'},{pro:'він / вона',ua:'втратить',tr:'vtratʏт'},{pro:'ми',ua:'втратимо',tr:'vtratʏmo'},{pro:'ви',ua:'втратите',tr:'vtratʏte'},{pro:'вони',ua:'втратять',tr:'vtratʏat'}],note:'Perfectif : втратити (я втрачу). Я загубив гаманець = J\'ai perdu mon portefeuille (загубити = perdre par étourderie).'},
+  {inf:'говорити правду',fr:'dire la vérité',pres:[{pro:'я',ua:'говорю правду',tr:'hovoryu pravdu'},{pro:'ти',ua:'говориш правду',tr:'hovorysh pravdu'},{pro:'він / вона',ua:'говорить правду',tr:'hovoryt pravdu'},{pro:'ми',ua:'говоримо правду',tr:'hovorymo pravdu'},{pro:'ви',ua:'говорите правду',tr:'hovoryte pravdu'},{pro:'вони',ua:'говорять правду',tr:'hovoryat pravdu'}],past:[{pro:'він',ua:'говорив правду',tr:'hovoryv pravdu'},{pro:'вона',ua:'говорила правду',tr:'hovoryla pravdu'},{pro:'воно',ua:'говорило правду',tr:'hovorylo pravdu'},{pro:'вони',ua:'говорили правду',tr:'hovoryly pravdu'}],fut:[{pro:'я',ua:'буду говорити правду',tr:'budu hovoryty pravdu'},{pro:'ти',ua:'будеш говорити правду',tr:'budesh hovoryty pravdu'},{pro:'він / вона',ua:'буде говорити правду',tr:'bude hovoryty pravdu'},{pro:'ми',ua:'будемо говорити правду',tr:'budemo hovoryty pravdu'},{pro:'ви',ua:'будете говорити правду',tr:'budete hovoryty pravdu'},{pro:'вони',ua:'будуть говорити правду',tr:'budut hovoryty pravdu'}],note:'Phrase complète pour montrer l\'utilisation en contexte. Правда = la vérité. Казати правду (perfectif) = dire la vérité (une fois).'},
+];
+
+const ALPHA=[
+  {l:'А',s:'а',tr:'a',snd:'comme "a" dans "patte"',tip:'Identique au A latin',ex:[{w:'аптека',t:'apteka',f:'pharmacie'},{w:'автобус',t:'avtobus',f:'bus'}]},
+  {l:'Б',s:'б',tr:'b',snd:'comme "b" dans "bonjour"',tip:'Comme le B latin',ex:[{w:'будинок',t:'budynok',f:'maison'},{w:'батько',t:'batko',f:'père'}]},
+  {l:'В',s:'в',tr:'v',snd:'comme "v" dans "vent"',tip:'Comme le V latin',ex:[{w:'вода',t:'voda',f:'eau'},{w:'вулиця',t:'vulitsa',f:'rue'}]},
+  {l:'Г',s:'г',tr:'h',snd:'h aspiré doux',tip:'Différent du Г russe !',ex:[{w:'говорити',t:'hovoryty',f:'parler'},{w:'гарний',t:'harnyy',f:'beau'}]},
+  {l:'Ґ',s:'ґ',tr:'g',snd:'comme "g" dans "gare"',tip:'Unique à l\'ukrainien',ex:[{w:'ґрунт',t:'grunt',f:'sol'}]},
+  {l:'Д',s:'д',tr:'d',snd:'comme "d" dans "dire"',tip:'Comme le D latin',ex:[{w:'дякую',t:'dyakuyu',f:'merci'},{w:'дитина',t:'dytyna',f:'enfant'}]},
+  {l:'Е',s:'е',tr:'e',snd:'comme "é" dans "été"',tip:'Toujours é clair',ex:[{w:'метро',t:'metro',f:'métro'}]},
+  {l:'Є',s:'є',tr:'ye',snd:'ye comme dans "yeux"',tip:'Unique à l\'ukrainien',ex:[{w:'Європа',t:'Yevropa',f:'Europe'}]},
+  {l:'Ж',s:'ж',tr:'zh',snd:'comme "j" dans "jeu"',tip:'Toujours dur',ex:[{w:'жінка',t:'zhinka',f:'femme'}]},
+  {l:'З',s:'з',tr:'z',snd:'comme "z" dans "zéro"',tip:'Comme le Z latin',ex:[{w:'зараз',t:'zaraz',f:'maintenant'}]},
+  {l:'И',s:'и',tr:'y',snd:'y bref, entre i et è',tip:'Voyelle centrale ukrainienne',ex:[{w:'ринок',t:'rynok',f:'marché'}]},
+  {l:'І',s:'і',tr:'i',snd:'comme "i" dans "vie"',tip:'Son i pur',ex:[{w:'іти',t:'ity',f:'aller'}]},
+  {l:'Ї',s:'ї',tr:'yi',snd:'yi — deux sons fusionnés',tip:'Unique à l\'ukrainien',ex:[{w:'їхати',t:'yikhaty',f:'voyager'}]},
+  {l:'Й',s:'й',tr:'y',snd:'y semi-voyelle bref',tip:'Comme dans "boy"',ex:[{w:'мій',t:'miy',f:'mon'}]},
+  {l:'К',s:'к',tr:'k',snd:'comme "k" dans "kilo"',tip:'Non aspiré',ex:[{w:'кава',t:'kava',f:'café'}]},
+  {l:'Л',s:'л',tr:'l',snd:'comme "l" dans "lune"',tip:'L clair, jamais vélaire',ex:[{w:'любити',t:'lyubyty',f:'aimer'}]},
+  {l:'М',s:'м',tr:'m',snd:'comme "m" dans "mère"',tip:'Comme le M latin',ex:[{w:'мати',t:'maty',f:'mère'}]},
+  {l:'Н',s:'н',tr:'n',snd:'comme "n" dans "nuit"',tip:'Comme le N latin',ex:[{w:'ні',t:'ni',f:'non'}]},
+  {l:'О',s:'о',tr:'o',snd:'comme "o" dans "botte"',tip:'Toujours o clair',ex:[{w:'один',t:'odyn',f:'un'}]},
+  {l:'П',s:'п',tr:'p',snd:'comme "p" dans "père"',tip:'Non aspiré',ex:[{w:'привіт',t:'pryvit',f:'bonjour'}]},
+  {l:'Р',s:'р',tr:'r',snd:'r roulé comme en espagnol',tip:'Toujours roulé !',ex:[{w:'рік',t:'rik',f:'an'}]},
+  {l:'С',s:'с',tr:'s',snd:'comme "s" dans "soleil"',tip:'Toujours sourd',ex:[{w:'сестра',t:'sestra',f:'sœur'}]},
+  {l:'Т',s:'т',tr:'t',snd:'comme "t" dans "terre"',tip:'Non aspiré',ex:[{w:'так',t:'tak',f:'oui'}]},
+  {l:'У',s:'у',tr:'u',snd:'comme "ou" dans "fou"',tip:'Son ou pur',ex:[{w:'учень',t:'uchen',f:'élève'}]},
+  {l:'Ф',s:'ф',tr:'f',snd:'comme "f" dans "feu"',tip:'Surtout dans les mots étrangers',ex:[{w:'фрукти',t:'frukty',f:'fruits'}]},
+  {l:'Х',s:'х',tr:'kh',snd:'kh guttural (j espagnol)',tip:'Différent du H français',ex:[{w:'хліб',t:'khlib',f:'pain'}]},
+  {l:'Ц',s:'ц',tr:'ts',snd:'ts comme dans "tsar"',tip:'Toujours ts',ex:[{w:'цукор',t:'tsukor',f:'sucre'}]},
+  {l:'Ч',s:'ч',tr:'ch',snd:'ch comme dans "chat"',tip:'Toujours ch',ex:[{w:'чай',t:'chay',f:'thé'}]},
+  {l:'Ш',s:'ш',tr:'sh',snd:'sh comme dans "show"',tip:'Toujours dur',ex:[{w:'школа',t:'shkola',f:'école'}]},
+  {l:'Щ',s:'щ',tr:'shch',snd:'shch — ш + ч fusionnés',tip:'Son double unique',ex:[{w:'щастя',t:'shchastya',f:'bonheur'}]},
+  {l:'Ь',s:'ь',tr:"'",snd:'Signe mou',tip:'Adoucit la consonne précédente',ex:[{w:'сіль',t:"sil'",f:'sel'}]},
+  {l:'Ю',s:'ю',tr:'yu',snd:'you comme dans "youpi"',tip:'Voyelle composée',ex:[{w:'любити',t:'lyubyty',f:'aimer'}]},
+  {l:'Я',s:'я',tr:'ya',snd:'ya comme dans "yak"',tip:'Voyelle composée',ex:[{w:'я',t:'ya',f:'je'}]},
+];
+
+function saveData(){
+  try{
+    localStorage.setItem('uk_known',JSON.stringify([...known]));
+    localStorage.setItem('uk_xp',xp);
+    localStorage.setItem('uk_anki_done',ankiDoneToday);
+  }catch(e){}
+}
+function loadData(){
+  try{
+    const k=localStorage.getItem('uk_known');
+    if(k)known=new Set(JSON.parse(k));
+    const x=localStorage.getItem('uk_xp');
+    if(x)xp=parseInt(x)||0;
+    const a=localStorage.getItem('uk_anki_done');
+    if(a)ankiDoneToday=parseInt(a)||0;
+  }catch(e){}
+}
+
+let known=new Set(),xp=0,ankiSession=[],ankiIdx=0,ankiFlipped=false,ankiDoneToday=0;
+let selCat='Tous',selPhrCat='Tous',selVerb=0,selTense='pres';
+let qCur=0,qArr=[],qCorrect=0,qAns=false;
+const pages=['home','vocab','flash','quiz','anki','phrases','conj','gram','alpha'];
+
+const GRAM=[
+  // ── BASES ────────────────────────────────────────
+  {cat:'Bases',icon:'🔤',lvl:'a1',title:'Le genre des noms',
+   rule:'En ukrainien, chaque nom possède un genre grammatical : masculin, féminin ou neutre. Contrairement au français, le genre se devine souvent à partir de la terminaison du mot — pas besoin de le mémoriser séparément ! Le genre est crucial car il influence : (1) les terminaisons des adjectifs, (2) les pronoms possessifs, (3) la forme du verbe au passé.',
+   table:{heads:['Genre','Terminaison typique','Mot ukrainien','Transcription','Traduction'],rows:[
+     ['Masculin','consonne dure','брат','brat','frère'],
+     ['Masculin','-й','трамвай','tramvay','tramway'],
+     ['Masculin','-ь (mou)','учитель','uchytel','professeur'],
+     ['Féminin','-а','сестра','sestra','sœur'],
+     ['Féminin','-я','земля','zemlya','terre'],
+     ['Féminin','-ь (mou)','ніч','nich','nuit'],
+     ['Neutre','-о','місто','misto','ville'],
+     ['Neutre','-е','поле','pole','champ'],
+     ['Neutre','-я','ім\'я','imya','prénom'],
+   ]},
+   tip:'💡 Astuce : si le mot se termine par une consonne, il est presque toujours masculin. -а/-я = féminin en général. -о/-е = neutre. Les exceptions existent mais sont rares au niveau débutant.',
+   examples:[
+     {ua:'мій брат',tr:'miy brat',fr:'mon frère → masculin (termine en consonne)'},
+     {ua:'моя сестра',tr:'moya sestra',fr:'ma sœur → féminin (termine en -а)'},
+     {ua:'моє місто',tr:'moye misto',fr:'ma ville → neutre (termine en -о)'},
+     {ua:'мій день',tr:'miy den',fr:'mon jour → masculin (termine en consonne)'},
+     {ua:'моя ніч',tr:'moya nich',fr:'ma nuit → féminin (exception en -ь)'},
+   ]},
+
+  {cat:'Bases',icon:'📐',lvl:'a1',title:'Les 7 cas ukrainiens — introduction',
+   rule:'L\'ukrainien utilise 7 cas grammaticaux. Un "cas" indique le rôle d\'un mot dans la phrase en changeant sa terminaison. En français, on utilise des prépositions pour cela (de, à, avec...). En ukrainien, c\'est la terminaison du mot lui-même qui change ! Ne paniquez pas : vous utiliserez surtout le nominatif et l\'accusatif au début.',
+   table:{heads:['Cas','Rôle dans la phrase','Question clé','Équivalent français'],rows:[
+     ['Nominatif','Sujet (qui fait l\'action)','Хто? Що? — Qui? Quoi?','(pas de préposition)'],
+     ['Génitif','Possession, absence, quantité','Кого? Чого? — De qui? De quoi?','"de" — sans, avec quantité'],
+     ['Datif','Destinataire (à qui)','Кому? Чому? — À qui? À quoi?','"à" (donner à qqn)'],
+     ['Accusatif','Objet direct (qui/quoi reçoit l\'action)','Кого? Що? — Qui? Quoi?','"(verbe) + nom direct"'],
+     ['Instrumental','Moyen, outil, compagnie','Ким? Чим? — Avec qui? Avec quoi?','"avec", "par", "en"'],
+     ['Locatif','Lieu (avec préposition)','Де? — Où?','"à", "dans", "sur" (lieu statique)'],
+     ['Vocatif','Interpellation directe','— (appel)','Hé ! / Cher...'],
+   ]},
+   tip:'💡 Bonne nouvelle : au niveau A1-A2, concentrez-vous seulement sur le nominatif (sujet) et l\'accusatif (objet). Les autres cas viennent naturellement avec la pratique.',
+   examples:[
+     {ua:'Мама (Н.) читає книгу (З.)',tr:'Mama chytaye knyhu',fr:'Maman (sujet/nominatif) lit un livre (objet/accusatif)'},
+     {ua:'Я іду до школи (Р.)',tr:'Ya idu do shkoly',fr:'Je vais à l\'école (génitif après "до")'},
+     {ua:'Я живу в місті (М.)',tr:'Ya zhyvu v misti',fr:'J\'habite dans la ville (locatif après "в")'},
+     {ua:'Я їду з другом (О.)',tr:'Ya yidu z druhom',fr:'Je voyage avec un ami (instrumental après "з")'},
+     {ua:'Мамо! (Кл.)',tr:'Mamo!',fr:'Maman ! (vocatif — appel direct)'},
+   ]},
+
+  {cat:'Bases',icon:'🔢',lvl:'a2',title:'Le pluriel des noms',
+   rule:'En ukrainien, le pluriel suit des règles assez régulières selon le genre et la terminaison du mot. La bonne nouvelle : la formation est souvent plus prévisible qu\'en français ! Les noms masculins et féminins prennent généralement -и ou -і au pluriel. Les neutres prennent -а ou -я.',
+   table:{heads:['Genre','Singulier','Pluriel','Terminaison','Traduction'],rows:[
+     ['Masc. — consonne dure','брат','брати','+и','frère → frères'],
+     ['Masc. — consonne dure','стіл','столи','+и','table → tables'],
+     ['Masc. — -й','трамвай','трамваї','-й → -ї','tramway → tramways'],
+     ['Masc. — -ь','учитель','учителі','-ь → -і','professeur → professeurs'],
+     ['Fém. — -а','сестра','сестри','-а → -и','sœur → sœurs'],
+     ['Fém. — -я','земля','землі','-я → -і','terre → terres'],
+     ['Neutre — -о','місто','міста','-о → -а','ville → villes'],
+     ['Neutre — -е','поле','поля','-е → -я','champ → champs'],
+   ]},
+   tip:'💡 Pluriels irréguliers importants à mémoriser : людина → люди (personne → gens), дитина → діти (enfant → enfants), друг → друзі (ami → amis), око → очі (œil → yeux), вухо → вуха (oreille → oreilles).',
+   examples:[
+     {ua:'один брат — два брати — багато братів',tr:'odyn brat — dva braty — bahato brativ',fr:'un frère — deux frères — beaucoup de frères'},
+     {ua:'одне місто — два міста — багато міст',tr:'odne misto — dva mista — bahato mist',fr:'une ville — deux villes — beaucoup de villes'},
+     {ua:'одна дитина — двоє дітей',tr:'odna dytyna — dvoye ditey',fr:'un enfant — deux enfants (irrégulier !)'},
+   ]},
+
+  {cat:'Bases',icon:'👆',lvl:'a2',title:'Les pronoms personnels & possessifs',
+   rule:'Les pronoms personnels ukrainiens sont proches du français, mais les pronoms possessifs s\'accordent en genre avec le nom qu\'ils accompagnent — exactement comme les adjectifs. C\'est différent du français où "mon", "ma", "mes" s\'accordent avec le nom possédé mais pas en neutre.',
+   table:{heads:['Pronom sujet','Transcription','Français','Possessif masc.','Possessif fém.','Possessif neutre'],rows:[
+     ['я','ya','je / moi','мій (miy)','моя (moya)','моє (moye)'],
+     ['ти','ty','tu / toi','твій (tviy)','твоя (tvoya)','твоє (tvoye)'],
+     ['він','vin','il','його (yoho)','його (yoho)','його (yoho)'],
+     ['вона','vona','elle','її (yiyi)','її (yiyi)','її (yiyi)'],
+     ['ми','my','nous','наш (nash)','наша (nasha)','наше (nashe)'],
+     ['ви','vy','vous','ваш (vash)','ваша (vasha)','ваше (vashe)'],
+     ['вони','vony','ils/elles','їхній (yikhniy)','їхня (yikhnya)','їхнє (yikhne)'],
+   ]},
+   tip:'💡 "Ви" (vous) avec majuscule s\'utilise pour le vouvoiement formel d\'une seule personne, comme en français.',
+   examples:[
+     {ua:'Мій будинок великий',tr:'Miy budynok velykyy',fr:'Ma maison est grande (будинок = masc. → мій)'},
+     {ua:'Моя квартира мала',tr:'Moya kvartyra mala',fr:'Mon appartement est petit (квартира = fém. → моя)'},
+     {ua:'Наше місто гарне',tr:'Nashe misto harne',fr:'Notre ville est belle (місто = neutre → наше)'},
+     {ua:'Де твої ключі?',tr:'De tvoyi klyuchi?',fr:'Où sont tes clés ? (pluriel → твої)'},
+   ]},
+
+  // ── VERBES ────────────────────────────────────────
+  {cat:'Verbes',icon:'⚡',lvl:'a2',title:'L\'aspect verbal : la clé de l\'ukrainien',
+   rule:'C\'est LA notion la plus importante et la plus différente du français. En ukrainien, presque chaque verbe existe en deux versions appelées "aspects" : l\'imperfectif (action en cours, répétée, habituelle) et le perfectif (action complète, terminée, ponctuelle). Ce n\'est PAS une question de temps (passé/présent/futur) mais de COMMENT se déroule l\'action. Imaginez : l\'imperfectif filme le processus, le perfectif photographie le résultat.',
+   table:{heads:['Aspect','Quand l\'utiliser','Imperfectif','Perfectif'],rows:[
+     ['Imperfectif','Action habituelle, répétée','читати (lire)','—'],
+     ['Imperfectif','Action en cours (en ce moment)','Я читаю = je lis','—'],
+     ['Imperfectif','Description, contexte','Він читав = il lisait','—'],
+     ['Perfectif','Action accomplie, résultat atteint','—','прочитати (avoir lu)'],
+     ['Perfectif','Action unique, ponctuelle','—','Я прочитав = j\'ai (fini de) lire'],
+     ['Perfectif','Futur précis et accompli','—','прочитаю = je lirai (et finirai)'],
+   ]},
+   tip:'💡 Paires courantes : писати/написати (écrire), читати/прочитати (lire), робити/зробити (faire), говорити/сказати (dire), купувати/купити (acheter). Le préfixe (на-, про-, з-...) transforme souvent l\'imperfectif en perfectif.',
+   examples:[
+     {ua:'Я пишу листа щодня (imp.)',tr:'Ya pyshu lysta shchodnya',fr:'J\'écris une lettre chaque jour (habitude → imperfectif)'},
+     {ua:'Я написав листа вчора (perf.)',tr:'Ya napysav lysta vchora',fr:'J\'ai écrit la lettre hier (action terminée → perfectif)'},
+     {ua:'Вона вчила українську (imp.)',tr:'Vona vchyla ukrayinsku',fr:'Elle apprenait l\'ukrainien (processus → imperfectif)'},
+     {ua:'Вона вивчила слово (perf.)',tr:'Vona vyvchyla slovo',fr:'Elle a appris le mot (résultat acquis → perfectif)'},
+   ]},
+
+  {cat:'Verbes',icon:'🕐',lvl:'a2',title:'Le passé : simple mais avec accord en genre',
+   rule:'Le passé ukrainien est en réalité plus simple qu\'en français car il n\'y a QUE 4 formes (masculin, féminin, neutre, pluriel) — et elles ne changent pas selon la personne ! En français, "j\'ai mangé / tu as mangé / il a mangé" : 3 formes. En ukrainien, "він їв / вона їла / вони їли" : le verbe s\'accorde avec le GENRE du sujet, pas avec la personne.',
+   table:{heads:['Sujet','Genre','Terminaison','Exemple : їсти (manger)','Traduction'],rows:[
+     ['він / я (m) / ти (m)','Masculin','-в ou -л','він їв / я їв','il mangeait / je mangeais'],
+     ['вона / я (f) / ти (f)','Féminin','-ла','вона їла / я їла','elle mangeait / je mangeais'],
+     ['воно','Neutre','-ло','воно їло','ça mangeait'],
+     ['вони / ми / ви','Pluriel','-ли','вони їли / ми їли','ils mangeaient / nous mangions'],
+   ]},
+   tip:'💡 Important : "я" (je) peut être masculin ou féminin selon qui parle ! Un homme dit "я читав", une femme dit "я читала". C\'est l\'une des rares fois où le genre du locuteur change la forme du verbe.',
+   examples:[
+     {ua:'Він вчора пив каву',tr:'Vin vchora pyv kavu',fr:'Il a bu du café hier (він → masculin → пив)'},
+     {ua:'Вона вчора пила чай',tr:'Vona vchora pyla chay',fr:'Elle a bu du thé hier (вона → féminin → пила)'},
+     {ua:'Я (homme) жив у Києві',tr:'Ya zhyv u Kyevi',fr:'J\'habitais à Kyiv (locuteur masc. → жив)'},
+     {ua:'Я (femme) жила у Парижі',tr:'Ya zhyla u Paryzhi',fr:'J\'habitais à Paris (locuteur fém. → жила)'},
+     {ua:'Ми їли борщ',tr:'My yily borshch',fr:'Nous mangions du bortsch (pluriel → їли)'},
+   ]},
+
+  {cat:'Verbes',icon:'🔮',lvl:'b1',title:'Le futur : deux constructions',
+   rule:'Il existe deux façons de parler du futur en ukrainien. La première (analytique) fonctionne comme "aller + infinitif" en français : буду + infinitif. Elle s\'utilise avec les verbes imperfectifs pour des actions futures répétées ou durables. La deuxième (synthétique) utilise les formes propres du verbe perfectif — c\'est la plus courante à l\'oral.',
+   table:{heads:['Type','Formation','Usage','Exemple','Traduction'],rows:[
+     ['Futur imperfectif','буду/будеш/буде/будемо/будете/будуть + infinitif','Action future répétée ou en cours','Я буду читати кожен день','Je lirai chaque jour'],
+     ['Futur perfectif','formes conjuguées du verbe perfectif','Action future unique et achevée','Я прочитаю цю книгу','Je lirai (finirai) ce livre'],
+   ]},
+   tip:'💡 Conjugaison de "буду" (futur de être) : я буду — ти будеш — він/вона буде — ми будемо — ви будете — вони будуть.',
+   examples:[
+     {ua:'Завтра я буду працювати вдома',tr:'Zavtra ya budu pratsyuvaty vdoma',fr:'Demain je travaillerai à la maison (durée/répétition)'},
+     {ua:'Я напишу тобі листа',tr:'Ya napyshu tobi lysta',fr:'Je t\'écrirai une lettre (action ponctuelle achevée)'},
+     {ua:'Ми будемо вчити українську щодня',tr:'My budemo vchyty ukrayinsku shchodnya',fr:'Nous apprendrons l\'ukrainien chaque jour (habitude future)'},
+     {ua:'Вона прийде завтра о восьмій',tr:'Vona pryde zavtra o vosmiy',fr:'Elle viendra demain à 8h (perfectif : moment précis)'},
+   ]},
+
+  {cat:'Verbes',icon:'🔁',lvl:'b1',title:'Les verbes de mouvement : іти vs їхати',
+   rule:'L\'ukrainien distingue deux types de mouvement qui n\'ont pas d\'équivalent direct en français. "Іти" signifie aller À PIED. "Їхати" signifie aller EN VÉHICULE (voiture, bus, train...). Cette distinction est obligatoire et les natifs la remarquent immédiatement si vous la confondez. Les deux verbes ont aussi des formes perfectives différentes.',
+   table:{heads:['Infinitif','Sens','Je (présent)','Il/Elle (présent)','Ils (présent)','Futur perf. (je)'],rows:[
+     ['іти','aller à pied','іду','іде','ідуть','піду'],
+     ['їхати','aller en véhicule','їду','їде','їдуть','поїду'],
+     ['летіти','aller en avion','лечу','летить','летять','полечу'],
+     ['бігти','courir','біжу','біжить','біжать','побіжу'],
+   ]},
+   tip:'💡 Si vous dites "Я іду до Парижа" (je vais à pied à Paris), les Ukrainiens souriront ! Pour un trajet en train/avion, utilisez toujours "їхати" ou "летіти".',
+   examples:[
+     {ua:'Я іду до магазину пішки',tr:'Ya idu do mahazyny pishky',fr:'Je vais au magasin à pied (→ іти)'},
+     {ua:'Ми їдемо до Львова потягом',tr:'My yidemo do Lvova potyahom',fr:'Nous allons à Lviv en train (→ їхати)'},
+     {ua:'Вона летить до Лондона',tr:'Vona letyt do Londona',fr:'Elle prend l\'avion pour Londres (→ летіти)'},
+     {ua:'Куди ти їдеш у відпустку?',tr:'Kudy ty yidesh u vidpustku?',fr:'Où vas-tu en vacances ? (déplacement → їхати)'},
+   ]},
+
+  // ── ADJECTIFS ────────────────────────────────────────
+  {cat:'Adjectifs',icon:'🎨',lvl:'a2',title:'L\'accord des adjectifs en genre',
+   rule:'En ukrainien, les adjectifs s\'accordent toujours en genre, nombre et cas avec le nom qu\'ils accompagnent. C\'est exactement comme en français (bon/bonne/bons/bonnes), mais avec une distinction supplémentaire pour le neutre. Bonne nouvelle : les terminaisons sont régulières et prévisibles !',
+   table:{heads:['Genre','Terminaison','Exemple avec "новий" (nouveau)','Transcription','Traduction'],rows:[
+     ['Masculin','-ий / -ій','новий будинок','novyy budynok','un nouvel immeuble'],
+     ['Féminin','-а / -я','нова квартира','nova kvartyra','un nouvel appartement'],
+     ['Neutre','-е / -є','нове місто','nove misto','une nouvelle ville'],
+     ['Pluriel (tous genres)','-і / -ї','нові друзі','novi druzi','de nouveaux amis'],
+   ]},
+   tip:'💡 La terminaison -ій (au lieu de -ий) s\'utilise après les consonnes г, к, х et quelques autres. Ex : великий (grand), але : синій (bleu). Ne vous inquiétez pas trop de cette règle au début.',
+   examples:[
+     {ua:'великий будинок',tr:'velykyy budynok',fr:'un grand immeuble (masc.)'},
+     {ua:'велика сім\'я',tr:'velyka simya',fr:'une grande famille (fém.)'},
+     {ua:'велике серце',tr:'velyke sertse',fr:'un grand cœur (neutre)'},
+     {ua:'великі очі',tr:'veliki ochi',fr:'de grands yeux (pluriel)'},
+     {ua:'Ця кава гаряча',tr:'Tsya kava haryacha',fr:'Ce café est chaud (кава = fém. → гаряча)'},
+     {ua:'Цей суп гарячий',tr:'Tsey sup haryachyy',fr:'Cette soupe est chaude (суп = masc. → гарячий)'},
+   ]},
+
+  {cat:'Adjectifs',icon:'📊',lvl:'b1',title:'Le comparatif et le superlatif',
+   rule:'Pour comparer en ukrainien, on peut utiliser deux méthodes : analytique (більш + adjectif) ou synthétique (adjectif + suffixe). La méthode analytique est plus simple et toujours correcte. Le superlatif ajoute le préfixe "най-" devant la forme comparative.',
+   table:{heads:['Degré','Formation analytique','Formation synthétique','Exemple','Traduction'],rows:[
+     ['Positif','—','—','гарний','beau'],
+     ['Comparatif (plus)','більш + adj.','adj. + -іший/-ший','більш гарний / гарніший','plus beau'],
+     ['Comparatif (moins)','менш + adj.','—','менш гарний','moins beau'],
+     ['Superlatif','найбільш + adj.','най- + comparatif','найгарніший','le plus beau'],
+   ]},
+   tip:'💡 Pour dire "que" dans une comparaison, utilisez "ніж" ou "за" + accusatif : Він вищий за мене (Il est plus grand que moi). Він вищий, ніж я (Il est plus grand que moi).',
+   examples:[
+     {ua:'Ця книга цікавіша',tr:'Tsya knyha tsikavisha',fr:'Ce livre est plus intéressant'},
+     {ua:'Він старший за мене',tr:'Vin starshyy za mene',fr:'Il est plus vieux que moi'},
+     {ua:'Це найкраща кава',tr:'Tse naykrashcha kava',fr:'C\'est le meilleur café'},
+     {ua:'Київ більший, ніж Львів',tr:'Kyiv bilshyy, nizh Lviv',fr:'Kyiv est plus grande que Lviv'},
+     {ua:'Вона говорить по-українськи найкраще',tr:'Vona hovoryt po-ukrayinsky naykrashe',fr:'C\'est elle qui parle le mieux ukrainien'},
+   ]},
+
+  // ── PRÉPOSITIONS ────────────────────────────────────────
+  {cat:'Prépositions',icon:'🗺️',lvl:'a2',title:'Prépositions de lieu : в, на, до, з',
+   rule:'Les prépositions de lieu sont parmi les plus utilisées. En ukrainien, la même préposition peut régir deux cas différents selon qu\'on parle d\'un lieu statique (où on EST) ou d\'un mouvement (où on VA). C\'est logique : "être dans" ≠ "aller dans".',
+   table:{heads:['Préposition','+ Locatif (statique — où je suis)','+ Accusatif (mouvement — où je vais)'],rows:[
+     ['в / у (dans, à)','Я в школі — Je suis à l\'école','Я іду в школу — Je vais à l\'école'],
+     ['на (sur, à)','Я на ринку — Je suis au marché','Я іду на ринок — Je vais au marché'],
+     ['до (jusqu\'à, vers)','— (pas de statique)','Я іду до лікаря — Je vais chez le médecin'],
+     ['з (de, depuis)','— (pas de statique)','Я прийшов з роботи — Je viens du travail'],
+   ]},
+   tip:'💡 Règle simple : mouvement = accusatif, position = locatif. "в місто" (vers la ville) vs "в місті" (dans la ville). Les terminaisons changent : місто → в місто (acc.) / в місті (loc.).',
+   examples:[
+     {ua:'Я живу в Парижі',tr:'Ya zhyvu v Paryzhi',fr:'J\'habite à Paris (locatif — où je suis)'},
+     {ua:'Я їду в Париж',tr:'Ya yidu v Paryzh',fr:'Je vais à Paris (accusatif — destination)'},
+     {ua:'Вона на роботі',tr:'Vona na roboti',fr:'Elle est au travail (locatif)'},
+     {ua:'Вона іде на роботу',tr:'Vona ide na robotu',fr:'Elle va au travail (accusatif)'},
+     {ua:'Я прийшов з магазину',tr:'Ya pryshov z mahazunu',fr:'Je viens du magasin (génitif avec з)'},
+   ]},
+
+  {cat:'Prépositions',icon:'🔗',lvl:'b1',title:'Prépositions avec le génitif',
+   rule:'Le génitif est le cas le plus fréquent après les prépositions. Il correspond souvent au français "de" mais couvre aussi "sans", "pour", "chez", "près de", etc. Maîtriser ces prépositions + génitif vous permettra de construire des phrases très naturelles.',
+   table:{heads:['Préposition','Traduction','Exemple ukrainien','Traduction'],rows:[
+     ['без','sans','без молока','sans lait'],
+     ['для','pour','для вас','pour vous'],
+     ['з / із / зі','de (origine, composition)','з України','d\'Ukraine'],
+     ['до','jusqu\'à, vers, chez','до друга','chez un ami'],
+     ['від','de (éloignement), depuis','від школи','depuis l\'école'],
+     ['після','après','після роботи','après le travail'],
+     ['під час','pendant','під час уроку','pendant la leçon'],
+     ['замість','à la place de','замість кави','à la place du café'],
+     ['крім','sauf, en dehors de','крім мене','sauf moi'],
+     ['біля / поруч з','près de, à côté de','біля магазину','près du magasin'],
+   ]},
+   tip:'💡 "З" signifie à la fois "de (origine)" et "avec (instrumental)". Contexte = cas : "з України" (génitif = d\'Ukraine) vs "з другом" (instrumental = avec un ami).',
+   examples:[
+     {ua:'Я п\'ю каву без цукру',tr:'Ya pyu kavu bez tsukru',fr:'Je bois le café sans sucre (без + génitif)'},
+     {ua:'Це подарунок для тебе',tr:'Tse podarunok dlya tebe',fr:'C\'est un cadeau pour toi (для + génitif)'},
+     {ua:'Після вечері ми дивилися фільм',tr:'Pislya vecheri my dyvylysya film',fr:'Après le dîner nous avons regardé un film'},
+     {ua:'Він живе біля парку',tr:'Vin zhyve bilya parku',fr:'Il habite près du parc'},
+   ]},
+
+  // ── PHRASES ────────────────────────────────────────
+  {cat:'Phrases',icon:'💬',lvl:'b1',title:'Exprimer l\'opinion et la pensée',
+   rule:'Pour exprimer ce que vous pensez, croyez ou savez, l\'ukrainien utilise des structures très similaires au français avec "що" (que). La virgule avant "що" est obligatoire en ukrainien ! Ces constructions sont essentielles pour les conversations du quotidien.',
+   table:{heads:['Verbe introducteur','Ukrainien','Transcription','Traduction'],rows:[
+     ['думати (penser)','Я думаю, що...','Ya dumayu, shcho...','Je pense que...'],
+     ['вважати (considérer)','Я вважаю, що...','Ya vvazhаyu, shcho...','Je considère que... / Je crois que...'],
+     ['знати (savoir)','Я знаю, що...','Ya znayu, shcho...','Je sais que...'],
+     ['сподіватися (espérer)','Я сподіваюся, що...','Ya spodivayusya, shcho...','J\'espère que...'],
+     ['боятися (craindre)','Я боюся, що...','Ya boyusya, shcho...','Je crains que...'],
+     ['здається (il semble)','Мені здається, що...','Meni zdayetsya, shcho...','Il me semble que...'],
+     ['певен (certain)','Я певен, що...','Ya peven, shcho...','Je suis sûr que...'],
+   ]},
+   tip:'💡 "Що" ne s\'élide jamais en ukrainien, contrairement à "que" en français (qu\'il). On dit toujours "що він", jamais "що\'н".',
+   examples:[
+     {ua:'Я думаю, що ця ідея чудова',tr:'Ya dumayu, shcho tsya ideya chudova',fr:'Je pense que cette idée est excellente'},
+     {ua:'Я сподіваюся, що ти прийдеш',tr:'Ya spodivayusya, shcho ty prydesh',fr:'J\'espère que tu viendras'},
+     {ua:'Мені здається, що він втомився',tr:'Meni zdayetsya, shcho vin vtomyvsya',fr:'Il me semble qu\'il est fatigué'},
+     {ua:'Я певен, що ми встигнемо',tr:'Ya peven, shcho my vstyhgnemo',fr:'Je suis sûr que nous serons à l\'heure'},
+   ]},
+
+  {cat:'Phrases',icon:'❓',lvl:'a2',title:'Former des questions correctement',
+   rule:'En ukrainien, on ne fait pas d\'inversion sujet-verbe pour former une question (contrairement au français "Venez-vous ?"). On utilise soit l\'intonation montante, soit la particule "чи" en début de phrase. Les questions avec un mot interrogatif (où, quand, comment...) fonctionnent comme en français.',
+   table:{heads:['Type de question','Structure','Exemple ukrainien','Transcription','Traduction'],rows:[
+     ['Oui/Non — intonation','phrase normale + ↑','Ти говориш по-французьки?','Ty hovorish po-frantsuзky?','Tu parles français ?'],
+     ['Oui/Non — avec чи','Чи + phrase','Чи ти говориш по-французьки?','Chy ty hovorish...?','Est-ce que tu parles français ?'],
+     ['Où ?','Де + sujet + verbe','Де ти живеш?','De ty zhyvesh?','Où habites-tu ?'],
+     ['Quand ?','Коли + sujet + verbe','Коли ти прийдеш?','Koly ty prydesh?','Quand viendras-tu ?'],
+     ['Pourquoi ?','Чому + sujet + verbe','Чому ти плачеш?','Chomu ty plachesh?','Pourquoi pleures-tu ?'],
+     ['Combien ?','Скільки + nom','Скільки це коштує?','Skilky tse koshtуye?','Combien ça coûte ?'],
+     ['Qui ?','Хто + verbe','Хто це зробив?','Khto tse zrobyv?','Qui a fait ça ?'],
+   ]},
+   tip:'💡 Question indirecte : le mot interrogatif reste au même endroit. "Я не знаю, де він живе" (Je ne sais pas où il habite) — pas d\'inversion non plus !',
+   examples:[
+     {ua:'Як тебе звуть?',tr:'Yak tebe zvut?',fr:'Comment tu t\'appelles ?'},
+     {ua:'Звідки ти?',tr:'Zvidky ty?',fr:'Tu viens d\'où ?'},
+     {ua:'Чи є у вас столик на двох?',tr:'Chy ye u vas stolyk na dvokh?',fr:'Avez-vous une table pour deux ?'},
+     {ua:'Я не знаю, коли він повернеться',tr:'Ya ne znayu, koly vin povernetsya',fr:'Je ne sais pas quand il reviendra'},
+   ]},
+
+  {cat:'Phrases',icon:'🔄',lvl:'b1',title:'Les verbes réfléchis en -ся : se, nous, vous...',
+   rule:'Le suffixe -ся (ou -сь à l\'oral après voyelle) correspond aux pronoms réfléchis français "se, me, te, nous, vous". Il se colle directement à la fin du verbe conjugué. Ces verbes réfléchis sont très fréquents en ukrainien — beaucoup plus qu\'en français !',
+   table:{heads:['Type','Verbe ukrainien','Traduction','Exemple complet','Traduction'],rows:[
+     ['Réfléchi pur','митися','se laver','Я миюся','Je me lave'],
+     ['Réfléchi pur','одягатися','s\'habiller','Він одягається','Il s\'habille'],
+     ['Réciproque','зустрічатися','se rencontrer','Ми зустрічаємося','Nous nous rencontrons'],
+     ['Réciproque','цілуватися','s\'embrasser','Вони цілуються','Ils s\'embrassent'],
+     ['Sens modifié','вчити → вчитися','enseigner → étudier','Я вчуся','J\'étudie'],
+     ['Sens modifié','турбувати → турбуватися','déranger → s\'inquiéter','Не турбуйся!','Ne t\'inquiète pas !'],
+     ['Impersonnel','здається','il semble','Мені здається','Il me semble'],
+   ]},
+   tip:'💡 À l\'oral, -ся devient souvent -сь après une voyelle : я миюся → я миюсь, він одягається → він одягається (reste -ся après consonne).',
+   examples:[
+     {ua:'Як вам подобається Україна?',tr:'Yak vam podobayetsya Ukrayina?',fr:'Comment trouvez-vous l\'Ukraine ? (litt. L\'Ukraine vous plaît ?)'},
+     {ua:'Не хвилюйся, все буде добре',tr:'Ne khvyluysia, vse bude dobre',fr:'Ne t\'inquiète pas, tout ira bien'},
+     {ua:'Ми познайомилися в університеті',tr:'My poznayomylysya v universyteti',fr:'Nous nous sommes rencontrés à l\'université'},
+     {ua:'Він намагається говорити по-українськи',tr:'Vin namagayetsya hovoryty po-ukrayinsky',fr:'Il essaie de parler ukrainien'},
+   ]},
+
+  {cat:'Phrases',icon:'🌟',lvl:'b2',title:'Exprimer la nécessité et l\'obligation',
+   rule:'Pour dire "il faut", "je dois", "j\'ai besoin de", l\'ukrainien utilise des structures impersonnelles différentes du français. Le sujet se met au DATIF (à moi, à toi...) et non au nominatif. C\'est une structure très fréquente à maîtriser absolument.',
+   table:{heads:['Expression','Sens','Sujet au datif','Exemple','Traduction'],rows:[
+     ['треба / потрібно','il faut / avoir besoin','мені (à moi)','Мені треба піти','Je dois partir'],
+     ['потрібно','il est nécessaire','тобі (à toi)','Тобі потрібно відпочити','Tu dois te reposer'],
+     ['можна','on peut / c\'est permis','вам (à vous)','Вам можна ввійти','Vous pouvez entrer'],
+     ['не можна','on ne peut pas / interdit','—','Тут не можна курити','On ne peut pas fumer ici'],
+     ['варто','ça vaut la peine de','тобі (à toi)','Тобі варто спробувати','Tu devrais essayer'],
+     ['мусити (verbe)','devoir (obligation forte)','я (nominatif)','Я мушу піти','Je dois partir (obligation)'],
+   ]},
+   tip:'💡 Différence : "треба" = besoin pratique (il me faut), "мусити" = obligation morale/externe (je dois absolument). Мені треба хліб = J\'ai besoin de pain. Я мушу йти = Je dois absolument partir.',
+   examples:[
+     {ua:'Мені треба купити квиток',tr:'Meni treba kupyty kvytok',fr:'Il me faut acheter un billet / Je dois acheter un billet'},
+     {ua:'Тобі потрібно більше спати',tr:'Tobi potribno bilshe spaty',fr:'Tu as besoin de dormir davantage'},
+     {ua:'Тут не можна фотографувати',tr:'Tut ne mozhna fotohrafuvaty',fr:'Il est interdit de photographier ici'},
+     {ua:'Варто спробувати борщ',tr:'Varto sprouvaty borshch',fr:'Ça vaut la peine de goûter le bortsch'},
+   ]},
+];
+
+let selGramCat='Tous';
+function renderGram(){
+  const cats=['Tous',...new Set(GRAM.map(g=>g.cat))];
+  document.getElementById('gram-cats').innerHTML=cats.map(c=>`<button class="pill ${c===selGramCat?'on':''}" onclick="selGramCat='${c}';renderGram()">${c}</button>`).join('');
+  const list=selGramCat==='Tous'?GRAM:GRAM.filter(g=>g.cat===selGramCat);
+  document.getElementById('gram-list').innerHTML=list.map((g,i)=>{
+    const lvlColors={a1:'#30D158',a2:'#0A84FF',b1:'#FFD60A',b2:'#FF453A'};
+    let tableHTML='';
+    if(g.table){
+      tableHTML=`<table class="gram-table"><thead><tr>${g.table.heads.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>
+      ${g.table.rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+    }
+    const exHTML=g.examples?g.examples.map(e=>`<div class="gram-ex">
+      <div class="gram-ex-ua">${e.ua}</div>
+      <div class="gram-ex-tr">${e.tr}</div>
+      <div class="gram-ex-fr">${e.fr}</div>
+    </div>`).join(''):'';
+    return `<div class="gram-card" id="gc${i}">
+      <div class="gram-head" onclick="toggleGram(${i})">
+        <span class="gram-icon">${g.icon}</span>
+        <span class="gram-title">${g.title}</span>
+        <span class="gram-lvl" style="background:${lvlColors[g.lvl]}22;color:${lvlColors[g.lvl]}">${g.lvl.toUpperCase()}</span>
+        <span class="gram-arrow">▶</span>
+      </div>
+      <div class="gram-body">
+        <p class="gram-rule">${g.rule}</p>
+        ${tableHTML}
+        ${g.tip?`<div class="gram-tip">${g.tip}</div>`:''}
+        ${exHTML}
+      </div>
+    </div>`;
+  }).join('');
+}
+function toggleGram(i){
+  document.getElementById('gc'+i).classList.toggle('open');
+}
+
+loadData();
+
+function haptic(){try{if(navigator.vibrate)navigator.vibrate(10);}catch(e){}}
+function go(id){
+  pages.forEach(p=>{
+    document.getElementById('page-'+p).classList.toggle('on',p===id);
+    document.getElementById('bnav-'+p).classList.toggle('on',p===id);
+  });
+  document.querySelector('.content').scrollTop=0;
+  haptic();
+  if(id==='quiz')startQuiz();
+  if(id==='flash')initFlash();
+  if(id==='anki')initAnki();
+  if(id==='phrases')renderPhrases();
+  if(id==='conj')renderConj();
+  if(id==='gram')renderGram();
+  if(id==='alpha')renderAlpha();
+  if(id==='vocab')renderVocab();
+}
+function addXP(n){xp+=n;saveData();updateAll();}
+function updateAll(){
+  const kc=known.size;
+  document.getElementById('kc').textContent=kc;
+  document.getElementById('s1').textContent=kc;
+  document.getElementById('s2').textContent=ankiDoneToday;
+  document.getElementById('s3').textContent=xp;
+  document.getElementById('vkc').textContent=kc;
+  document.getElementById('xp-lbl').textContent=xp+' XP';
+  document.getElementById('gp').style.width=Math.max(5,Math.round(kc/VOCAB.length*100))+'%';
+}
+// ===== FLASHCARDS FR → UA =====
+let flashMode='vocab', flashCat='Tous', flashDeck=[], flashIdx=0, flashFlipped=false, flashOk=0, flashCatSel='Tous';
+
+function setFlashMode(mode){
+  flashMode=mode;
+  ['vocab','phrases','verbs'].forEach(m=>{
+    document.getElementById('fpill-'+m).classList.toggle('on',m===mode);
+  });
+  buildFlashCats();
+  initFlash();
+}
+
+function buildFlashCats(){
+  let cats=['Tous'];
+  if(flashMode==='vocab') cats=[...cats,...new Set(VOCAB.map(v=>v.cat))];
+  else if(flashMode==='phrases') cats=[...cats,...new Set(PHRASES.map(p=>p.cat))];
+  else cats=['Tous'];
+  flashCatSel='Tous';
+  document.getElementById('flash-cat-pills').innerHTML=cats.map(c=>`<button class="pill ${c===flashCatSel?'on':''}" onclick="selFlashCat('${c.replace(/'/g,"\\'")}')">${c}</button>`).join('');
+}
+
+function selFlashCat(c){
+  flashCatSel=c;
+  buildFlashCats();
+  // re-highlight correct pill
+  document.querySelectorAll('#flash-cat-pills .pill').forEach(b=>{
+    b.classList.toggle('on', b.textContent===c);
+  });
+  initFlash();
+}
+
+function buildFlashDeck(){
+  if(flashMode==='vocab'){
+    let pool=flashCatSel==='Tous'?VOCAB:VOCAB.filter(v=>v.cat===flashCatSel);
+    return shuffle(pool).map(w=>({fr:w.fr,ua:w.ua,tr:w.tr,ctx:w.cat+' · '+w.lvl.toUpperCase()}));
+  } else if(flashMode==='phrases'){
+    let pool=flashCatSel==='Tous'?PHRASES:PHRASES.filter(p=>p.cat===flashCatSel);
+    return shuffle(pool).map(p=>({fr:p.fr,ua:p.ua,tr:p.tr,ctx:p.cat}));
+  } else {
+    return shuffle(VERBS).map(v=>{
+      const ex=v.pres[0];
+      return {fr:'Conjuguer : '+v.fr+' (présent — je)',ua:ex.ua,tr:ex.tr,ctx:'Infinitif : '+v.inf};
+    });
+  }
+}
+
+function initFlash(){
+  flashDeck=buildFlashDeck();
+  flashIdx=0; flashFlipped=false; flashOk=0;
+  document.getElementById('flash-done').style.display='none';
+  document.getElementById('flash-main').style.display='block';
+  buildFlashCats();
+  document.getElementById('fl-tot').textContent=flashDeck.length;
+  showFlashCard();
+}
+
+function showFlashCard(){
+  if(flashIdx>=flashDeck.length){
+    document.getElementById('flash-main').style.display='none';
+    document.getElementById('flash-done').style.display='block';
+    const pct=Math.round(flashOk/flashDeck.length*100);
+    document.getElementById('flash-score').textContent=flashOk+' / '+flashDeck.length+' correctes ('+pct+'%)';
+    addXP(flashOk*3);
+    return;
+  }
+  const c=flashDeck[flashIdx];
+  flashFlipped=false;
+  document.getElementById('fl-fr').textContent=c.fr;
+  document.getElementById('fl-ctx').textContent=c.ctx||'';
+  document.getElementById('fl-ua').textContent=c.ua;
+  document.getElementById('fl-tr').textContent=c.tr||'';
+  document.getElementById('flash-back').className='anki-back';
+  document.getElementById('flash-btns').className='anki-btns';
+  document.getElementById('flash-hint').style.display='block';
+  document.getElementById('fl-rem').textContent=flashDeck.length-flashIdx;
+  document.getElementById('fl-ok').textContent=flashOk;
+  document.getElementById('flash-queue').textContent=(flashIdx+1)+' / '+flashDeck.length;
+}
+
+function flipFlash(){
+  if(flashFlipped)return;
+  flashFlipped=true;
+  document.getElementById('flash-back').className='anki-back show';
+  document.getElementById('flash-btns').className='anki-btns show';
+  document.getElementById('flash-hint').style.display='none';
+  // Auto-prononcer
+  speak(flashDeck[flashIdx].ua);
+  haptic();
+}
+
+function rateFlash(r){
+  if(!flashFlipped)return;
+  if(r>=2){flashOk++;addXP(4);}
+  if(r===0){
+    const c=flashDeck.splice(flashIdx,1)[0];
+    flashDeck.splice(Math.min(flashIdx+3,flashDeck.length),0,c);
+  } else { flashIdx++; }
+  showFlashCard();
+  haptic();
+}
+// ============================
+
+function renderVocab(){
+  const cats=['Tous',...new Set(VOCAB.map(v=>v.cat))];
+  document.getElementById('vtot').textContent=VOCAB.length;
+  document.getElementById('vpills').innerHTML=cats.map(c=>`<button class="pill ${c===selCat?'on':''}" onclick="selCat='${c}';renderVocab()">${c}</button>`).join('');
+  const list=selCat==='Tous'?VOCAB:VOCAB.filter(v=>v.cat===selCat);
+  document.getElementById('vgrid').innerHTML=list.map(w=>{
+    const i=VOCAB.indexOf(w),k=known.has(i);
+    const ua=w.ua.replace(/'/g,"\\'");
+    return `<div class="wcard ${k?'known':''}">
+      <div class="wleft" onclick="toggleKnown(${i})">
+        <span class="tag tag-${w.lvl}">${w.lvl.toUpperCase()}</span>
+        <div class="wua" style="margin-top:4px">${w.ua}</div>
+        <div class="wtr">${w.tr}</div>
+        <div class="wfr">${w.fr}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+        <button class="speak-btn" onclick="speak('${ua}',event)" title="Écouter">🔊</button>
+        <div class="wchk" onclick="toggleKnown(${i})">${k?'✓':''}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function toggleKnown(i){
+  if(known.has(i))known.delete(i);else{known.add(i);addXP(2);}
+  saveData();renderVocab();updateAll();
+}
+function speak(text,e){
+  if(e)e.stopPropagation();
+  if(!window.speechSynthesis)return;
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='uk-UA';u.rate=0.85;u.pitch=1;
+  // Cherche une voix ukrainienne, sinon voix russe ou slave
+  const voices=window.speechSynthesis.getVoices();
+  const v=voices.find(v=>v.lang==='uk-UA')||voices.find(v=>v.lang.startsWith('uk'))||voices.find(v=>v.lang==='ru-RU')||null;
+  if(v)u.voice=v;
+  window.speechSynthesis.speak(u);
+  haptic();
+}
+function shuffle(a){return[...a].sort(()=>Math.random()-.5);}
+function startQuiz(){
+  qArr=shuffle(VOCAB).slice(0,10);
+  qCur=0;qCorrect=0;qAns=false;
+  document.getElementById('qmain').style.display='block';
+  document.getElementById('qres').style.display='none';
+  renderQ();
+}
+function renderQ(){
+  const q=qArr[qCur];
+  document.getElementById('qbf').style.width=(qCur/10*100)+'%';
+  document.getElementById('qn').textContent=qCur+'/10';
+  document.getElementById('qsl').textContent=qCorrect+' ✓';
+  qAns=false;
+  document.getElementById('qfb').className='qfb';
+  document.getElementById('qnext').className='qnext-btn';
+  const mode=Math.random()>.5?'ua':'fr';
+  document.getElementById('qbadge').textContent=mode==='ua'?'UA → FR':'FR → UA';
+  document.getElementById('qq').textContent=mode==='ua'?q.ua:q.fr;
+  document.getElementById('qhint').textContent=mode==='ua'?q.tr:'';
+  // Bouton son sur la question si c'est de l'ukrainien
+  const qcard=document.querySelector('.qcard');
+  let spkBtn=qcard.querySelector('.q-speak');
+  if(!spkBtn){spkBtn=document.createElement('button');spkBtn.className='speak-btn q-speak';spkBtn.style.margin='12px auto 0';spkBtn.textContent='🔊';qcard.appendChild(spkBtn);}
+  spkBtn.onclick=(e)=>{e.stopPropagation();speak(mode==='ua'?q.ua:q.fr);};
+  const wrongs=shuffle(VOCAB.filter(v=>v.fr!==q.fr)).slice(0,3);
+  const opts=shuffle([q,...wrongs]);
+  document.getElementById('qopts').innerHTML=opts.map(o=>{
+    const lbl=mode==='ua'?o.fr:o.ua;
+    const isc=o===q;
+    return `<button class="qopt" onclick="selQ(this,${isc},'${q.ua.replace(/'/g,"\\'")}','${q.fr.replace(/'/g,"\\'")}')">${lbl}</button>`;
+  }).join('');
+}
+function selQ(btn,isc,ua,fr){
+  if(qAns)return;qAns=true;
+  document.querySelectorAll('.qopt').forEach(o=>o.disabled=true);
+  const fb=document.getElementById('qfb');
+  if(isc){btn.classList.add('ok');qCorrect++;addXP(5);fb.textContent='Correct — '+ua+' = '+fr;fb.className='qfb show g';}
+  else{btn.classList.add('no');document.querySelectorAll('.qopt').forEach(o=>{if(o.textContent===fr||o.textContent===ua)o.classList.add('ok');});fb.textContent='Incorrect — réponse : '+ua+' = '+fr;fb.className='qfb show b';}
+  document.getElementById('qnext').className='qnext-btn show';
+}
+function nextQ(){
+  qCur++;
+  if(qCur>=10){
+    document.getElementById('qmain').style.display='none';
+    document.getElementById('qres').style.display='block';
+    const p=qCorrect/10;
+    document.getElementById('rsc').innerHTML=qCorrect+'<span>/10</span>';
+    document.getElementById('rmsg').textContent=p>=.8?'Excellent résultat.':p>=.6?'Bon travail.':p>=.4?'Continuez à pratiquer.':'Révisez le vocabulaire et réessayez.';
+  }else renderQ();
+}
+function initAnki(){
+  const pool=VOCAB.filter((_,i)=>!known.has(i));
+  ankiSession=shuffle(pool).slice(0,20).map(w=>({...w,reps:0}));
+  ankiIdx=0;ankiFlipped=false;ankiDoneToday=0;
+  document.getElementById('anki-done').style.display='none';
+  document.getElementById('anki-main').style.display='block';
+  updateAnkiStats();showAnkiCard();
+}
+function updateAnkiStats(){
+  document.getElementById('an-due').textContent=Math.max(0,ankiSession.length-ankiIdx);
+  document.getElementById('an-new').textContent=ankiSession.filter(c=>c.reps===0).length;
+  document.getElementById('an-done').textContent=ankiDoneToday;
+}
+function showAnkiCard(){
+  if(ankiIdx>=ankiSession.length){
+    document.getElementById('anki-main').style.display='none';
+    document.getElementById('anki-done').style.display='block';
+    return;
+  }
+  const c=ankiSession[ankiIdx];
+  ankiFlipped=false;
+  document.getElementById('af-ua').textContent=c.ua;
+  document.getElementById('af-ua').onclick=()=>speak(c.ua);
+  document.getElementById('af-tr').textContent=c.tr;
+  document.getElementById('af-fr').textContent=c.fr;
+  document.getElementById('af-cat').textContent=c.cat+' · '+c.lvl.toUpperCase();
+  document.getElementById('anki-back').className='anki-back';
+  document.getElementById('anki-btns').className='anki-btns';
+  document.getElementById('anki-hint').style.display='block';
+  document.getElementById('anki-queue').textContent=(ankiSession.length-ankiIdx)+' cartes restantes';
+  updateAnkiStats();
+}
+function flipAnki(){
+  if(ankiFlipped)return;
+  ankiFlipped=true;
+  document.getElementById('anki-back').className='anki-back show';
+  document.getElementById('anki-btns').className='anki-btns show';
+  document.getElementById('anki-hint').style.display='none';
+}
+function rateAnki(r){
+  if(!ankiFlipped)return;
+  addXP([0,2,5,10][r]);
+  ankiDoneToday++;
+  if(r===0){const c=ankiSession.splice(ankiIdx,1)[0];ankiSession.splice(Math.min(ankiIdx+3,ankiSession.length),0,c);}
+  else{if(r>=2)known.add(VOCAB.indexOf(ankiSession[ankiIdx]));ankiIdx++;}
+  updateAll();saveData();showAnkiCard();
+}
+function resetAnki(){initAnki();}
+function renderPhrases(){
+  const cats=['Tous',...new Set(PHRASES.map(p=>p.cat))];
+  document.getElementById('phr-cats').innerHTML=cats.map(c=>`<button class="pill ${c===selPhrCat?'on':''}" onclick="selPhrCat='${c}';renderPhrases()">${c}</button>`).join('');
+  const list=selPhrCat==='Tous'?PHRASES:PHRASES.filter(p=>p.cat===selPhrCat);
+  document.getElementById('phr-grid').innerHTML=list.map(p=>{
+    const ua=p.ua.replace(/'/g,"\\'");
+    return `<div class="phr-card" onclick="this.classList.toggle('open')">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+      <div style="flex:1">
+        <span class="tag tag-${p.lvl}" style="margin-bottom:8px;display:inline-block">${p.lvl.toUpperCase()}</span>
+        <div class="phr-ua">${p.ua}</div>
+        <div class="phr-tr">${p.tr}</div>
+        <div class="phr-fr">${p.fr}</div>
+      </div>
+      <button class="speak-btn" onclick="speak('${ua}',event)" style="margin-top:24px;flex-shrink:0">🔊</button>
+    </div>
+    <div class="phr-note">${p.note}</div>
+  </div>`;
+  }).join('');
+}
+function renderConj(){
+  document.getElementById('verb-sel').innerHTML=VERBS.map((v,i)=>`<button class="vbtn ${i===selVerb?'on':''}" onclick="selVerb=${i};renderConj()">${v.inf}</button>`).join('');
+  const tenses=[{k:'pres',l:'Présent'},{k:'past',l:'Passé'},{k:'fut',l:'Futur'}];
+  document.getElementById('tense-pills').innerHTML=tenses.map(t=>`<button class="pill ${t.k===selTense?'on':''}" onclick="selTense='${t.k}';renderConj()">${t.l}</button>`).join('');
+  const v=VERBS[selVerb],rows=v[selTense];
+  document.getElementById('conj-wrap').innerHTML=`
+    <div class="conj-head">
+      <h3>${v.inf}</h3>
+      <span>${v.fr}</span>
+      <button class="speak-btn" onclick="speak('${v.inf.replace(/'/g,"\\'")}',event)" style="margin-left:auto">🔊</button>
+    </div>
+    <table class="conj-table"><tbody>
+    ${rows.map(r=>`<tr>
+      <td class="cpro">${r.pro}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div><div class="cua">${r.ua}</div><div class="ctr">${r.tr}</div></div>
+          <button class="speak-btn" onclick="speak('${r.ua.replace(/'/g,"\\'")}',event)" style="margin-left:auto;flex-shrink:0">🔊</button>
+        </div>
+      </td>
+    </tr>`).join('')}
+    </tbody></table>
+    <div class="conj-note">${v.note}</div>`;
+}
+function renderAlpha(){
+  document.getElementById('agrid').innerHTML=ALPHA.map((a,i)=>`<div class="acard" onclick="showLetter(${i})"><div class="aletter">${a.l}</div><div class="atrans">${a.tr}</div></div>`).join('');
+}
+function showLetter(i){
+  document.querySelectorAll('.acard').forEach((c,j)=>c.classList.toggle('sel',j===i));
+  const a=ALPHA[i];
+  document.getElementById('adetail').classList.add('show');
+  document.getElementById('abig').textContent=a.l;
+  document.getElementById('asmall').textContent=a.s+' · '+a.tr;
+  document.getElementById('asnd').textContent=a.snd;
+  document.getElementById('atip').textContent=a.tip;
+  document.getElementById('aexs').innerHTML=a.ex.map(e=>`
+    <div class="aex">
+      <div class="aex-ua">${e.w}</div>
+      <div class="aex-tr">${e.t}</div>
+      <div class="aex-fr" style="flex:1">${e.f}</div>
+      <button class="speak-btn" onclick="speak('${e.w.replace(/'/g,"\\'")}',event)">🔊</button>
+    </div>`).join('');
+  document.getElementById('adetail').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+renderVocab();renderAlpha();renderGram();buildFlashCats();updateAll();
+</script>
+</body>
+</html>
