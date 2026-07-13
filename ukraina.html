@@ -341,7 +341,12 @@ body{font-family:-apple-system,'SF Pro Text','Inter',system-ui,sans-serif;color:
       <button class="pill" id="fpill-trad" onclick="setFlashMode('trad')">Mes traductions</button>
     </div>
     <div class="pills" id="flash-cat-pills"></div>
-    <div class="anki-stats" style="margin-bottom:14px">
+    <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:12px;gap:8px">
+      <span style="font-size:12px;color:var(--muted)">Non appris seulement</span>
+      <div id="flash-filter-toggle" onclick="toggleFlashFilter()" style="width:44px;height:26px;border-radius:13px;background:var(--surf3);cursor:pointer;position:relative;transition:background .2s;flex-shrink:0">
+        <div id="flash-filter-knob" style="width:20px;height:20px;border-radius:50%;background:white;position:absolute;top:3px;left:3px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)"></div>
+      </div>
+    </div>
       <div class="ast"><div class="astn" id="fl-rem">0</div><div class="astl">Restantes</div></div>
       <div class="ast"><div class="astn" id="fl-ok">0</div><div class="astl">Correctes</div></div>
       <div class="ast"><div class="astn" id="fl-tot">0</div><div class="astl">Total</div></div>
@@ -1690,7 +1695,15 @@ function updateAll(){
   document.getElementById('gp').style.width=Math.max(5,Math.round(kc/VOCAB.length*100))+'%';
 }
 // ===== FLASHCARDS FR → UA =====
-let flashMode='vocab', flashCat='Tous', flashDeck=[], flashIdx=0, flashFlipped=false, flashOk=0, flashCatSel='Tous';
+let flashMode='vocab', flashCat='Tous', flashDeck=[], flashIdx=0, flashFlipped=false, flashOk=0, flashCatSel='Tous', flashFilterUnknown=false;
+
+function toggleFlashFilter(){
+  flashFilterUnknown=!flashFilterUnknown;
+  document.getElementById('flash-filter-toggle').style.background=flashFilterUnknown?'#FF453A':'var(--surf3)';
+  document.getElementById('flash-filter-knob').style.left=flashFilterUnknown?'21px':'3px';
+  initFlash();
+  haptic();
+}
 
 function setFlashMode(mode){
   flashMode=mode;
@@ -1708,14 +1721,13 @@ function buildFlashCats(){
   if(flashMode==='vocab') cats=[...cats,...[...new Set(VOCAB.map(v=>v.cat))]];
   else if(flashMode==='phrases') cats=[...cats,...[...new Set(PHRASES.map(p=>p.cat))]];
   else if(flashMode==='verbs') cats=['Tous','Infinitif','Présent','Passé','Futur'];
-  // trad : pas de sous-catégories
   document.getElementById('flash-cat-pills').innerHTML=cats.map(c=>`<button class="pill ${c===flashCatSel?'on':''}" onclick="selFlashCat('${c.replace(/'/g,"\\'")}')">${c}</button>`).join('');
 }
 
 function selFlashCat(c){
   flashCatSel=c;
   document.querySelectorAll('#flash-cat-pills .pill').forEach(b=>{
-    b.classList.toggle('on', b.textContent===c);
+    b.classList.toggle('on', b.textContent.trim().replace('🔴 ','').trim()===c||b.textContent.trim()===c);
   });
   initFlash();
 }
@@ -1726,16 +1738,20 @@ function buildFlashDeck(){
     return shuffle([...tradList]).map((t,i)=>({fr:t.fr,ua:t.ua,tr:t.tr||'',ctx:'Mes traductions',tradIdx:tradList.indexOf(t)}));
   } else if(flashMode==='vocab'){
     let pool=flashCatSel==='Tous'?VOCAB:VOCAB.filter(v=>v.cat===flashCatSel);
-    if(pool.length===0) pool=VOCAB; // fallback si catégorie vide
+    if(pool.length===0) pool=VOCAB;
+    // Filtre non appris sur la catégorie sélectionnée
+    if(flashFilterUnknown){
+      const filtered=pool.filter(w=>!known.has(VOCAB.indexOf(w)));
+      if(filtered.length>0) pool=filtered;
+    }
     return shuffle(pool).map(w=>({fr:w.fr,ua:w.ua,tr:w.tr,ctx:w.cat+' · '+w.lvl.toUpperCase(),vocabIdx:VOCAB.indexOf(w)}));
   } else if(flashMode==='phrases'){
     let pool=flashCatSel==='Tous'?PHRASES:PHRASES.filter(p=>p.cat===flashCatSel);
     if(pool.length===0) pool=PHRASES;
     return shuffle(pool).map(p=>({fr:p.fr,ua:p.ua,tr:p.tr,ctx:p.cat}));
   } else {
-    // Verbes : une carte par pronom pour chaque verbe selon le temps sélectionné
+    // Verbes
     if(flashCatSel==='Infinitif'){
-      // Mode infinitif : recto = FR, verso = infinitif ukrainien
       return shuffle(VERBS.map(v=>({
         fr:v.fr,
         ua:v.inf,
@@ -1743,24 +1759,68 @@ function buildFlashDeck(){
         ctx:'Infinitif ukrainien'
       })));
     }
+    // Tous les temps : mélange présent+passé+futur pour chaque verbe
+    if(flashCatSel==='Tous'){
+      let cards=[];
+      VERBS.forEach(v=>{
+        ['pres','past','fut'].forEach(tKey=>{
+          const tLabel=tKey==='pres'?'Présent':tKey==='past'?'Passé':'Futur';
+          let rows=v[tKey]||[];
+          if(tKey==='past') rows=expandPastRows(rows);
+          rows.forEach(r=>{
+            const proFr=proToFr(r.pro);
+            const ctx=r.note?v.fr+' · '+tLabel+' · '+r.note:v.fr+' → '+v.inf+' · '+tLabel;
+            cards.push({fr:'"'+proFr+'" + '+v.fr+' ('+tLabel+')',ua:r.ua,tr:r.tr,ctx});
+          });
+        });
+      });
+      return shuffle(cards);
+    }
     const tenseKey=flashCatSel==='Passé'?'past':flashCatSel==='Futur'?'fut':'pres';
     const tenseLabel=flashCatSel==='Passé'?'Passé':flashCatSel==='Futur'?'Futur':'Présent';
     let cards=[];
     VERBS.forEach(v=>{
-      const rows=v[tenseKey]||v.pres;
+      let rows=v[tenseKey]||v.pres;
+      if(tenseKey==='past') rows=expandPastRows(rows);
       rows.forEach(r=>{
-        // Recto : FR avec pronom → Verso : forme ukrainienne
-        const proFr=r.pro.replace('я','je').replace('ти','tu').replace('він / вона','il / elle').replace('він','il').replace('вона','elle').replace('ми','nous').replace('ви','vous').replace('вони','ils / elles');
+        const proFr=proToFr(r.pro);
+        const ctx=r.note?v.fr+' · '+tenseLabel+' · '+r.note:v.fr+' → '+v.inf+' · '+tenseLabel;
         cards.push({
           fr:'"'+proFr+'" + '+v.fr+' ('+tenseLabel+')',
           ua:r.ua,
           tr:r.tr,
-          ctx:v.fr+' → '+v.inf+' · '+tenseLabel
+          ctx
         });
       });
     });
     return shuffle(cards);
   }
+}
+
+function proToFr(pro){
+  return pro
+    .replace('я (m)','je (masc.)').replace('я (f)','je (fém.)')
+    .replace('я','je').replace('ти','tu')
+    .replace('він / вона','il / elle').replace('він','il').replace('вона','elle').replace('воно','il/elle(neutre)')
+    .replace('ми','nous').replace('ви','vous').replace('вони','ils / elles');
+}
+
+function expandPastRows(rows){
+  // Au passé ukrainien, "він" = je/tu/il masc., "вона" = je/tu/elle fém.
+  // On génère des cartes pour je/tu en plus de il/elle/vono/vony
+  const expanded=[];
+  rows.forEach(r=>{
+    expanded.push(r);
+    if(r.pro==='він'){
+      expanded.push({pro:'я (masc.)',ua:r.ua,tr:r.tr,note:'même forme que "він"'});
+      expanded.push({pro:'ти (masc.)',ua:r.ua,tr:r.tr,note:'même forme que "він"'});
+    }
+    if(r.pro==='вона'){
+      expanded.push({pro:'я (fém.)',ua:r.ua,tr:r.tr,note:'même forme que "вона"'});
+      expanded.push({pro:'ти (fém.)',ua:r.ua,tr:r.tr,note:'même forme que "вона"'});
+    }
+  });
+  return expanded;
 }
 
 function initFlash(){
