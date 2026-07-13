@@ -1739,15 +1739,13 @@ function flipFlash(){
 function rateFlash(r){
   if(!flashFlipped)return;
   if(r>=2){flashOk++;addXP(4);}
-  // Facile (r===3) → coche immédiatement le mot dans Vocabulaire
-  if(r===3 && flashMode==='vocab'){
+  if(flashMode==='vocab'){
     const card=flashDeck[flashIdx];
     const i=card.vocabIdx!==undefined?card.vocabIdx:VOCAB.findIndex(w=>w.ua===card.ua);
-    if(i!==-1 && !known.has(i)){
-      known.add(i);
-      saveData();
-      updateAll();
-      // Re-render vocab si la page vocab est visible
+    if(i!==-1){
+      if(r===3){ known.add(i); }       // Facile → coche
+      else if(r===0||r===1){ known.delete(i); } // Encore/Difficile → décoche
+      saveData();updateAll();
       if(document.getElementById('page-vocab').classList.contains('on')) renderVocab();
     }
   }
