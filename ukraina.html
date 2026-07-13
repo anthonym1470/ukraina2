@@ -1838,37 +1838,93 @@ async function translateInput(){
   document.getElementById('trad-error').style.display='none';
   document.getElementById('trad-loading').style.display='block';
   haptic();
-  try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-6',
-        max_tokens:300,
-        messages:[{role:'user',content:`Traduis ce texte français en ukrainien. Réponds UNIQUEMENT en JSON valide avec ces 3 champs :
-- "ua" : la traduction ukrainienne
-- "tr" : la translittération phonétique latine
-- "note" : une note grammaticale courte en français (genre, cas, conjugaison, etc.)
 
-Texte à traduire : "${input}"
+  // Cherche d'abord dans VOCAB et PHRASES
+  const inputLow=input.toLowerCase().trim();
+  let found=null;
 
-Réponds SEULEMENT avec le JSON, sans markdown, sans explication.`}]
-      })
-    });
-    const data=await resp.json();
-    const text=data.content[0].text.trim().replace(/```json|```/g,'').trim();
-    const parsed=JSON.parse(text);
-    tradPending={fr:input,ua:parsed.ua,tr:parsed.tr,note:parsed.note,known:false};
-    document.getElementById('trad-ua').textContent=parsed.ua;
-    document.getElementById('trad-tr').textContent=parsed.tr;
-    document.getElementById('trad-note').textContent=parsed.note||'';
-    document.getElementById('trad-loading').style.display='none';
-    document.getElementById('trad-result').style.display='block';
-  }catch(e){
-    document.getElementById('trad-loading').style.display='none';
-    document.getElementById('trad-error').textContent='Erreur de traduction. Vérifiez votre connexion et réessayez.';
-    document.getElementById('trad-error').style.display='block';
+  // Recherche dans VOCAB (FR → UA)
+  const vMatch=VOCAB.find(w=>w.fr.toLowerCase()===inputLow||w.fr.toLowerCase().includes(inputLow)||inputLow.includes(w.fr.toLowerCase()));
+  if(vMatch) found={ua:vMatch.ua,tr:vMatch.tr,note:'Vocabulaire · '+vMatch.cat+' · '+vMatch.lvl.toUpperCase()};
+
+  // Recherche dans PHRASES
+  if(!found){
+    const pMatch=PHRASES.find(p=>p.fr.toLowerCase()===inputLow||p.fr.toLowerCase().includes(inputLow)||inputLow.includes(p.fr.toLowerCase()));
+    if(pMatch) found={ua:pMatch.ua,tr:pMatch.tr,note:'Phrase · '+pMatch.cat};
   }
+
+  // Dictionnaire de traduction rapide FR→UA
+  if(!found){
+    const DICT={
+      'bonjour':{ua:'привіт',tr:'pryvit',note:'Salutation informelle'},
+      'merci':{ua:'дякую',tr:'dyakuyu',note:'Remerciement'},
+      'oui':{ua:'так',tr:'tak',note:'Affirmation'},
+      'non':{ua:'ні',tr:'ni',note:'Négation'},
+      'je t\'aime':{ua:'я тебе люблю',tr:'ya tebe lyublyu',note:'Déclaration d\'amour'},
+      'je vous aime':{ua:'я вас люблю',tr:'ya vas lyublyu',note:'Formel / pluriel'},
+      'bonne nuit':{ua:'на добраніч',tr:'na dobranich',note:'Pour se coucher'},
+      'bonne chance':{ua:'удачі',tr:'udachi',note:'Souhait de bonne chance'},
+      'félicitations':{ua:'вітаю',tr:'vitayu',note:'Pour féliciter'},
+      'joyeux anniversaire':{ua:'з днем народження',tr:'z dnem narodzhennya',note:'Anniversaire'},
+      'bonne année':{ua:'з новим роком',tr:'z novym rokom',note:'Nouvel an'},
+      'joyeux noël':{ua:'з різдвом',tr:'z rizdvom',note:'Noël'},
+      's\'il vous plaît':{ua:'будь ласка',tr:'bud laska',note:'Formule de politesse'},
+      'excusez-moi':{ua:'вибачте',tr:'vybachte',note:'Pour s\'excuser'},
+      'pardon':{ua:'пробачте',tr:'probachte',note:'Demander pardon'},
+      'je ne comprends pas':{ua:'я не розумію',tr:'ya ne rozumiyu',note:'Très utile pour apprenant'},
+      'je ne parle pas ukrainien':{ua:'я не говорю по-українськи',tr:'ya ne hovoryu po-ukrayinsky',note:'Utile en voyage'},
+      'où est':{ua:'де знаходиться',tr:'de znakhodytsia',note:'Pour demander un lieu'},
+      'comment tu t\'appelles':{ua:'як тебе звуть',tr:'yak tebe zvut',note:'Informel'},
+      'quel âge as-tu':{ua:'скільки тобі років',tr:'skilky tobi rokiv',note:'Informel'},
+      'où habites-tu':{ua:'де ти живеш',tr:'de ty zhyvesh',note:'Informel'},
+      'je suis français':{ua:'я француз',tr:'ya frantsuz',note:'Masc. / Ya frantsuzhenka = Fém.'},
+      'je suis suisse':{ua:'я швейцарець',tr:'ya shveytarets',note:'Masc. / швейцарка = Fém.'},
+      'je suis content':{ua:'я задоволений',tr:'ya zadovolenyy',note:'Masc. / задоволена = Fém.'},
+      'je suis triste':{ua:'я сумний',tr:'ya sumnyy',note:'Masc. / сумна = Fém.'},
+      'je suis fatigué':{ua:'я втомився',tr:'ya vtomyvsya',note:'Masc. / втомилася = Fém.'},
+      'j\'ai faim':{ua:'я хочу їсти',tr:'ya khochu yisty',note:'Litt. "je veux manger"'},
+      'j\'ai soif':{ua:'я хочу пити',tr:'ya khochu pyty',note:'Litt. "je veux boire"'},
+      'j\'ai froid':{ua:'мені холодно',tr:'meni kholodno',note:'Structure impersonnelle'},
+      'j\'ai chaud':{ua:'мені спекотно',tr:'meni spekotno',note:'Structure impersonnelle'},
+      'ça va':{ua:'все добре',tr:'vse dobre',note:'Litt. "tout va bien"'},
+      'au revoir':{ua:'до побачення',tr:'do pobachennya',note:'Formel'},
+      'à bientôt':{ua:'до скорого',tr:'do skoroho',note:'Informel'},
+      'bonne journée':{ua:'гарного дня',tr:'harnoho dnya',note:'Souhait génitif'},
+      'c\'est délicieux':{ua:'це смачно',tr:'tse smachno',note:'Pour la nourriture'},
+      'c\'est beau':{ua:'це красиво',tr:'tse krasyvo',note:'Neutre'},
+      'c\'est bien':{ua:'це добре',tr:'tse dobre',note:'Approbation'},
+      'c\'est mal':{ua:'це погано',tr:'tse pohano',note:'Désapprobation'},
+      'aide-moi':{ua:'допоможи мені',tr:'dopomozhy meni',note:'Informel urgent'},
+      'aidez-moi':{ua:'допоможіть мені',tr:'dopomozit meni',note:'Formel urgent'},
+      'attention':{ua:'обережно',tr:'oberezhno',note:'Avertissement'},
+      'je t\'en prie':{ua:'будь ласка / нема за що',tr:'bud laska / nema za shcho',note:'"De rien" ou "SVP"'},
+    };
+    const key=Object.keys(DICT).find(k=>inputLow===k||inputLow.includes(k)||k.includes(inputLow));
+    if(key) found={ua:DICT[key].ua,tr:DICT[key].tr,note:DICT[key].note};
+  }
+
+  // Si pas trouvé, génère une traduction approximative à partir du vocabulaire connu
+  if(!found){
+    // Recherche par mots-clés
+    const words=inputLow.split(/\s+/);
+    const partialMatch=VOCAB.find(w=>words.some(word=>w.fr.toLowerCase().includes(word)&&word.length>3));
+    if(partialMatch){
+      found={ua:partialMatch.ua,tr:partialMatch.tr,note:'Correspondance partielle · '+partialMatch.cat};
+    } else {
+      // Message d'erreur utile
+      document.getElementById('trad-loading').style.display='none';
+      document.getElementById('trad-error').textContent='Expression non trouvée dans le dictionnaire. Essayez avec un mot plus simple ou cherchez dans Vocabulaire.';
+      document.getElementById('trad-error').style.display='block';
+      return;
+    }
+  }
+
+  tradPending={fr:input,ua:found.ua,tr:found.tr,note:found.note,known:false};
+  document.getElementById('trad-ua').textContent=found.ua;
+  document.getElementById('trad-tr').textContent=found.tr;
+  document.getElementById('trad-note').textContent=found.note||'';
+  document.getElementById('trad-loading').style.display='none';
+  document.getElementById('trad-result').style.display='block';
 }
 
 function saveTrad(){
