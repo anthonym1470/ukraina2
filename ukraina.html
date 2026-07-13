@@ -308,6 +308,10 @@ body{font-family:-apple-system,'SF Pro Text','Inter',system-ui,sans-serif;color:
         <div class="mcard-top"><div class="mcard-ico">📝</div><div class="mcard-badge">40 verbes</div></div>
         <div class="mcard-ttl">Conjugaison</div><div class="mcard-sub">Présent · Passé · Futur</div>
       </div>
+      <div class="mcard" onclick="go('trad')">
+        <div class="mcard-top"><div class="mcard-ico">🌐</div><div class="mcard-badge">IA</div></div>
+        <div class="mcard-ttl">Traduction</div><div class="mcard-sub">FR → UA personnalisé</div>
+      </div>
       <div class="mcard" onclick="go('gram')">
         <div class="mcard-top"><div class="mcard-ico">📖</div><div class="mcard-badge">12 règles</div></div>
         <div class="mcard-ttl">Grammaire</div><div class="mcard-sub">Cas · Aspects · Accord</div>
@@ -332,6 +336,7 @@ body{font-family:-apple-system,'SF Pro Text','Inter',system-ui,sans-serif;color:
       <button class="pill on" id="fpill-vocab" onclick="setFlashMode('vocab')">Vocabulaire</button>
       <button class="pill" id="fpill-phrases" onclick="setFlashMode('phrases')">Phrases</button>
       <button class="pill" id="fpill-verbs" onclick="setFlashMode('verbs')">Verbes</button>
+      <button class="pill" id="fpill-trad" onclick="setFlashMode('trad')">Mes traductions</button>
     </div>
     <div class="pills" id="flash-cat-pills"></div>
     <div class="anki-stats" style="margin-bottom:14px">
@@ -478,6 +483,52 @@ body{font-family:-apple-system,'SF Pro Text','Inter',system-ui,sans-serif;color:
     <div id="gram-list"></div>
   </div>
 
+  <!-- TRADUCTION -->
+  <div class="page" id="page-trad">
+    <div class="hrow"><div class="hrow-title">Traduction</div><div class="hrow-sub" id="trad-count">0 sauvegardés</div></div>
+
+    <!-- Zone de saisie -->
+    <div style="background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);padding:16px;margin-bottom:12px">
+      <div style="font-size:11px;font-weight:600;letter-spacing:.5px;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Entrez un mot ou une phrase en français</div>
+      <div style="display:flex;gap:8px;align-items:flex-start">
+        <textarea id="trad-input" placeholder="Ex: Je suis content de te voir" style="flex:1;background:var(--surf2);border:0.5px solid var(--brd);border-radius:10px;padding:10px 12px;color:var(--text);font-size:15px;font-family:-apple-system,system-ui,sans-serif;resize:none;height:70px;outline:none;-webkit-appearance:none"></textarea>
+        <button onclick="translateInput()" style="padding:10px 14px;border-radius:10px;border:none;background:var(--acc2);color:#fff;font-size:13px;font-weight:600;font-family:-apple-system,system-ui,sans-serif;cursor:pointer;white-space:nowrap;flex-shrink:0">Traduire</button>
+      </div>
+    </div>
+
+    <!-- Résultat de traduction -->
+    <div id="trad-result" style="display:none;background:var(--surf);border:0.5px solid rgba(10,132,255,.3);border-radius:var(--radius-lg);padding:16px;margin-bottom:12px">
+      <div style="font-size:11px;font-weight:600;letter-spacing:.5px;color:var(--acc2);text-transform:uppercase;margin-bottom:10px">Traduction ukrainienne</div>
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
+        <div style="flex:1">
+          <div style="font-size:22px;font-weight:700;color:var(--text);margin-bottom:4px" id="trad-ua"></div>
+          <div style="font-size:13px;color:var(--acc4);font-style:italic;margin-bottom:4px" id="trad-tr"></div>
+          <div style="font-size:12px;color:var(--muted)" id="trad-note"></div>
+        </div>
+        <button class="speak-btn" onclick="speak(document.getElementById('trad-ua').textContent,event)">🔊</button>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px">
+        <button onclick="saveTrad()" style="flex:1;padding:11px;border-radius:var(--radius-lg);border:none;background:var(--acc3);color:#fff;font-family:-apple-system,system-ui,sans-serif;font-size:13px;font-weight:600;cursor:pointer">✓ Sauvegarder</button>
+        <button onclick="document.getElementById('trad-result').style.display='none'" style="padding:11px 14px;border-radius:var(--radius-lg);border:0.5px solid var(--brd);background:transparent;color:var(--muted);font-family:-apple-system,system-ui,sans-serif;font-size:13px;cursor:pointer">Annuler</button>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="trad-loading" style="display:none;text-align:center;padding:20px;color:var(--muted);font-size:13px">
+      <div style="font-size:24px;margin-bottom:8px">⏳</div>Traduction en cours...
+    </div>
+
+    <!-- Erreur -->
+    <div id="trad-error" style="display:none;background:rgba(255,69,58,.1);border:0.5px solid var(--danger);border-radius:var(--radius-lg);padding:14px;margin-bottom:12px;font-size:13px;color:var(--danger)"></div>
+
+    <!-- Liste des traductions sauvegardées -->
+    <div class="section-title">Mes traductions sauvegardées</div>
+    <div id="trad-list" style="display:flex;flex-direction:column;gap:8px"></div>
+    <div id="trad-empty" style="text-align:center;padding:32px 16px;color:var(--muted);font-size:13px">
+      Aucune traduction sauvegardée.<br>Traduisez un mot ou une phrase ci-dessus !
+    </div>
+  </div>
+
 </div>
 
 <nav class="bottomnav">
@@ -486,6 +537,7 @@ body{font-family:-apple-system,'SF Pro Text','Inter',system-ui,sans-serif;color:
   <button class="bnav-item" id="bnav-flash" onclick="go('flash')"><div class="bnav-ico">🃏</div><div class="bnav-lbl">Cartes</div><div class="bnav-dot"></div></button>
   <button class="bnav-item" id="bnav-quiz" onclick="go('quiz')"><div class="bnav-ico">⚡</div><div class="bnav-lbl">Quiz</div><div class="bnav-dot"></div></button>
   <button class="bnav-item" id="bnav-anki" onclick="go('anki')"><div class="bnav-ico">🔄</div><div class="bnav-lbl">Révision</div><div class="bnav-dot"></div></button>
+  <button class="bnav-item" id="bnav-trad" onclick="go('trad')"><div class="bnav-ico">🌐</div><div class="bnav-lbl">Traduction</div><div class="bnav-dot"></div></button>
   <button class="bnav-item" id="bnav-phrases" onclick="go('phrases')"><div class="bnav-ico">💬</div><div class="bnav-lbl">Phrases</div><div class="bnav-dot"></div></button>
   <button class="bnav-item" id="bnav-conj" onclick="go('conj')"><div class="bnav-ico">📝</div><div class="bnav-lbl">Verbes</div><div class="bnav-dot"></div></button>
   <button class="bnav-item" id="bnav-gram" onclick="go('gram')"><div class="bnav-ico">📖</div><div class="bnav-lbl">Gramm.</div><div class="bnav-dot"></div></button>
@@ -1261,7 +1313,7 @@ function loadData(){
 let known=new Set(),xp=0,ankiSession=[],ankiIdx=0,ankiFlipped=false,ankiDoneToday=0;
 let selCat='Tous',selPhrCat='Tous',selVerb=0,selTense='pres';
 let qCur=0,qArr=[],qCorrect=0,qAns=false;
-const pages=['home','vocab','flash','quiz','anki','phrases','conj','gram','alpha'];
+const pages=['home','vocab','flash','quiz','anki','trad','phrases','conj','gram','alpha'];
 
 const GRAM=[
   // ── BASES ────────────────────────────────────────
@@ -1601,7 +1653,7 @@ function toggleGram(i){
   document.getElementById('gc'+i).classList.toggle('open');
 }
 
-loadData();
+loadData();loadTradData();
 
 function haptic(){try{if(navigator.vibrate)navigator.vibrate(10);}catch(e){}}
 function go(id){
@@ -1617,6 +1669,7 @@ function go(id){
   if(id==='phrases')renderPhrases();
   if(id==='conj')renderConj();
   if(id==='gram')renderGram();
+  if(id==='trad')renderTrad();
   if(id==='alpha')renderAlpha();
   if(id==='vocab')renderVocab();
 }
@@ -1637,8 +1690,9 @@ let flashMode='vocab', flashCat='Tous', flashDeck=[], flashIdx=0, flashFlipped=f
 function setFlashMode(mode){
   flashMode=mode;
   flashCatSel='Tous';
-  ['vocab','phrases','verbs'].forEach(m=>{
-    document.getElementById('fpill-'+m).classList.toggle('on',m===mode);
+  ['vocab','phrases','verbs','trad'].forEach(m=>{
+    const el=document.getElementById('fpill-'+m);
+    if(el) el.classList.toggle('on',m===mode);
   });
   buildFlashCats();
   initFlash();
@@ -1648,13 +1702,13 @@ function buildFlashCats(){
   let cats=['Tous'];
   if(flashMode==='vocab') cats=[...cats,...[...new Set(VOCAB.map(v=>v.cat))]];
   else if(flashMode==='phrases') cats=[...cats,...[...new Set(PHRASES.map(p=>p.cat))]];
-  else cats=['Tous','Présent','Passé','Futur'];
+  else if(flashMode==='verbs') cats=['Tous','Présent','Passé','Futur'];
+  // trad : pas de sous-catégories
   document.getElementById('flash-cat-pills').innerHTML=cats.map(c=>`<button class="pill ${c===flashCatSel?'on':''}" onclick="selFlashCat('${c.replace(/'/g,"\\'")}')">${c}</button>`).join('');
 }
 
 function selFlashCat(c){
   flashCatSel=c;
-  // Met à jour visuellement les pills
   document.querySelectorAll('#flash-cat-pills .pill').forEach(b=>{
     b.classList.toggle('on', b.textContent===c);
   });
@@ -1662,7 +1716,10 @@ function selFlashCat(c){
 }
 
 function buildFlashDeck(){
-  if(flashMode==='vocab'){
+  if(flashMode==='trad'){
+    if(tradList.length===0) return [];
+    return shuffle([...tradList]).map((t,i)=>({fr:t.fr,ua:t.ua,tr:t.tr||'',ctx:'Mes traductions',tradIdx:tradList.indexOf(t)}));
+  } else if(flashMode==='vocab'){
     let pool=flashCatSel==='Tous'?VOCAB:VOCAB.filter(v=>v.cat===flashCatSel);
     if(pool.length===0) pool=VOCAB; // fallback si catégorie vide
     return shuffle(pool).map(w=>({fr:w.fr,ua:w.ua,tr:w.tr,ctx:w.cat+' · '+w.lvl.toUpperCase(),vocabIdx:VOCAB.indexOf(w)}));
@@ -1743,10 +1800,19 @@ function rateFlash(r){
     const card=flashDeck[flashIdx];
     const i=card.vocabIdx!==undefined?card.vocabIdx:VOCAB.findIndex(w=>w.ua===card.ua);
     if(i!==-1){
-      if(r===3){ known.add(i); }       // Facile → coche
-      else if(r===0||r===1){ known.delete(i); } // Encore/Difficile → décoche
+      if(r===3){ known.add(i); }
+      else if(r===0||r===1){ known.delete(i); }
       saveData();updateAll();
       if(document.getElementById('page-vocab').classList.contains('on')) renderVocab();
+    }
+  } else if(flashMode==='trad'){
+    const card=flashDeck[flashIdx];
+    const i=card.tradIdx!==undefined?card.tradIdx:tradList.findIndex(t=>t.ua===card.ua);
+    if(i!==-1){
+      if(r===3){ tradList[i].known=true; }
+      else if(r===0||r===1){ tradList[i].known=false; }
+      saveTradData();
+      if(document.getElementById('page-trad').classList.contains('on')) renderTrad();
     }
   }
   if(r===0){
@@ -1756,6 +1822,108 @@ function rateFlash(r){
   showFlashCard();
   haptic();
 }
+// ============================
+
+// ===== TRADUCTION =====
+let tradList=[]; // [{fr, ua, tr, note, known}]
+let tradPending=null; // traduction en attente de sauvegarde
+
+function saveTradData(){ try{localStorage.setItem('uk_trad',JSON.stringify(tradList));}catch(e){} }
+function loadTradData(){ try{const d=localStorage.getItem('uk_trad');if(d)tradList=JSON.parse(d);}catch(e){} }
+
+async function translateInput(){
+  const input=document.getElementById('trad-input').value.trim();
+  if(!input)return;
+  document.getElementById('trad-result').style.display='none';
+  document.getElementById('trad-error').style.display='none';
+  document.getElementById('trad-loading').style.display='block';
+  haptic();
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:300,
+        messages:[{role:'user',content:`Traduis ce texte français en ukrainien. Réponds UNIQUEMENT en JSON valide avec ces 3 champs :
+- "ua" : la traduction ukrainienne
+- "tr" : la translittération phonétique latine
+- "note" : une note grammaticale courte en français (genre, cas, conjugaison, etc.)
+
+Texte à traduire : "${input}"
+
+Réponds SEULEMENT avec le JSON, sans markdown, sans explication.`}]
+      })
+    });
+    const data=await resp.json();
+    const text=data.content[0].text.trim().replace(/```json|```/g,'').trim();
+    const parsed=JSON.parse(text);
+    tradPending={fr:input,ua:parsed.ua,tr:parsed.tr,note:parsed.note,known:false};
+    document.getElementById('trad-ua').textContent=parsed.ua;
+    document.getElementById('trad-tr').textContent=parsed.tr;
+    document.getElementById('trad-note').textContent=parsed.note||'';
+    document.getElementById('trad-loading').style.display='none';
+    document.getElementById('trad-result').style.display='block';
+  }catch(e){
+    document.getElementById('trad-loading').style.display='none';
+    document.getElementById('trad-error').textContent='Erreur de traduction. Vérifiez votre connexion et réessayez.';
+    document.getElementById('trad-error').style.display='block';
+  }
+}
+
+function saveTrad(){
+  if(!tradPending)return;
+  // Évite les doublons
+  const exists=tradList.findIndex(t=>t.ua===tradPending.ua);
+  if(exists===-1) tradList.unshift(tradPending);
+  saveTradData();
+  tradPending=null;
+  document.getElementById('trad-result').style.display='none';
+  document.getElementById('trad-input').value='';
+  renderTrad();
+  addXP(5);
+  haptic();
+}
+
+function toggleTradKnown(i){
+  tradList[i].known=!tradList[i].known;
+  saveTradData();
+  renderTrad();
+  haptic();
+}
+
+function deleteTrad(i){
+  tradList.splice(i,1);
+  saveTradData();
+  renderTrad();
+}
+
+function renderTrad(){
+  document.getElementById('trad-count').textContent=tradList.length+' sauvegardé'+(tradList.length>1?'s':'');
+  const knownCount=tradList.filter(t=>t.known).length;
+  const list=document.getElementById('trad-list');
+  const empty=document.getElementById('trad-empty');
+  if(tradList.length===0){list.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  list.innerHTML=tradList.map((t,i)=>`
+    <div style="background:var(--surf);border:0.5px solid ${t.known?'rgba(48,209,88,.4)':'var(--brd)'};border-radius:var(--radius-lg);padding:14px 16px;${t.known?'background:rgba(48,209,88,.04)':''}">
+      <div style="display:flex;align-items:flex-start;gap:10px">
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;color:var(--muted);margin-bottom:4px">${t.fr}</div>
+          <div style="font-size:18px;font-weight:700;color:var(--text);margin-bottom:3px">${t.ua}</div>
+          <div style="font-size:12px;color:var(--acc4);font-style:italic;margin-bottom:4px">${t.tr||''}</div>
+          ${t.note?`<div style="font-size:11px;color:var(--acc2);font-weight:500">${t.note}</div>`:''}
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;align-items:center;flex-shrink:0">
+          <button class="speak-btn" onclick="speak('${t.ua.replace(/'/g,"\\'")}',event)">🔊</button>
+          <div onclick="toggleTradKnown(${i})" style="width:28px;height:28px;border-radius:50%;border:1.5px solid ${t.known?'var(--acc3)':'var(--surf3)'};background:${t.known?'var(--acc3)':'transparent'};display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;color:${t.known?'#fff':'transparent'};transition:all .2s">✓</div>
+          <div onclick="deleteTrad(${i})" style="width:28px;height:28px;border-radius:50%;border:1.5px solid var(--surf3);display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;color:var(--danger)">×</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// Intégration dans les Flashcards — catégorie "Mes traductions"
 // ============================
 
 function renderVocab(){
@@ -1960,7 +2128,7 @@ function showLetter(i){
     </div>`).join('');
   document.getElementById('adetail').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
-renderVocab();renderAlpha();renderGram();buildFlashCats();updateAll();
+renderVocab();renderAlpha();renderGram();renderTrad();buildFlashCats();updateAll();
 </script>
 </body>
 </html>
