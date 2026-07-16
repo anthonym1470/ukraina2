@@ -689,23 +689,23 @@ const VOCAB=[
   {ua:'іноді',tr:'inodi',fr:'parfois',cat:'Temps',lvl:'a2'},
   {ua:'часто',tr:'chasto',fr:'souvent',cat:'Temps',lvl:'a2'},
   {ua:'рідко',tr:'ridko',fr:'rarement',cat:'Temps',lvl:'a2'},
-  {ua:'хвилина',tr:'khvylyna',fr:'minute',cat:'Temps',lvl:'a1'},
-  {ua:'година',tr:'hodyna',fr:'heure',cat:'Temps',lvl:'a1'},
-  {ua:'день',tr:'den',fr:'jour',cat:'Temps',lvl:'a1'},
-  {ua:'тиждень',tr:'tyzhen',fr:'semaine',cat:'Temps',lvl:'a1'},
-  {ua:'місяць',tr:'misyats',fr:'mois',cat:'Temps',lvl:'a1'},
-  {ua:'рік',tr:'rik',fr:'année',cat:'Temps',lvl:'a1'},
-  {ua:'понеділок',tr:'ponedilok',fr:'lundi',cat:'Temps',lvl:'a2'},
-  {ua:'вівторок',tr:'vivtorok',fr:'mardi',cat:'Temps',lvl:'a2'},
-  {ua:'середа',tr:'sereda',fr:'mercredi',cat:'Temps',lvl:'a2'},
-  {ua:'четвер',tr:'chetver',fr:'jeudi',cat:'Temps',lvl:'a2'},
-  {ua:'п\'ятниця',tr:'pyatnitsya',fr:'vendredi',cat:'Temps',lvl:'a2'},
-  {ua:'субота',tr:'subota',fr:'samedi',cat:'Temps',lvl:'a2'},
-  {ua:'неділя',tr:'nedilya',fr:'dimanche',cat:'Temps',lvl:'a2'},
-  {ua:'весна',tr:'vesna',fr:'printemps',cat:'Temps',lvl:'a2'},
-  {ua:'літо',tr:'lito',fr:'été',cat:'Temps',lvl:'a2'},
-  {ua:'осінь',tr:'osin',fr:'automne',cat:'Temps',lvl:'a2'},
-  {ua:'зима',tr:'zyma',fr:'hiver',cat:'Temps',lvl:'a2'},
+  {ua:'хвилина',tr:'khvylyna',fr:'minute',cat:'Temps',lvl:'a1',plur:'хвилини (khvylyny)'},
+  {ua:'година',tr:'hodyna',fr:'heure',cat:'Temps',lvl:'a1',plur:'години (hodyny)'},
+  {ua:'день',tr:'den',fr:'jour',cat:'Temps',lvl:'a1',plur:'дні (dni)'},
+  {ua:'тиждень',tr:'tyzhen',fr:'semaine',cat:'Temps',lvl:'a1',plur:'тижні (tyzhni)'},
+  {ua:'місяць',tr:'misyats',fr:'mois',cat:'Temps',lvl:'a1',plur:'місяці (misyatsi)'},
+  {ua:'рік',tr:'rik',fr:'année',cat:'Temps',lvl:'a1',plur:'роки (roky)'},
+  {ua:'понеділок',tr:'ponedilok',fr:'lundi',cat:'Temps',lvl:'a2',plur:'понеділки (ponedilky)'},
+  {ua:'вівторок',tr:'vivtorok',fr:'mardi',cat:'Temps',lvl:'a2',plur:'вівторки (vivtorky)'},
+  {ua:'середа',tr:'sereda',fr:'mercredi',cat:'Temps',lvl:'a2',plur:'середи (seredy)'},
+  {ua:'четвер',tr:'chetver',fr:'jeudi',cat:'Temps',lvl:'a2',plur:'четвери (chetvery)'},
+  {ua:'п\'ятниця',tr:'pyatnitsya',fr:'vendredi',cat:'Temps',lvl:'a2',plur:'п\'ятниці (pyatnytsi)'},
+  {ua:'субота',tr:'subota',fr:'samedi',cat:'Temps',lvl:'a2',plur:'суботи (suboty)'},
+  {ua:'неділя',tr:'nedilya',fr:'dimanche',cat:'Temps',lvl:'a2',plur:'неділі (nedili)'},
+  {ua:'весна',tr:'vesna',fr:'printemps',cat:'Temps',lvl:'a2',plur:'весни (vesny)'},
+  {ua:'літо',tr:'lito',fr:'été',cat:'Temps',lvl:'a2',plur:'літа (lita)'},
+  {ua:'осінь',tr:'osin',fr:'automne',cat:'Temps',lvl:'a2',plur:'осені (oseni)'},
+  {ua:'зима',tr:'zyma',fr:'hiver',cat:'Temps',lvl:'a2',plur:'зими (zymy)'},
   // Famille
   {ua:'мати',tr:'maty',fr:'mère',cat:'Famille',lvl:'a1'},
   {ua:'батько',tr:'batko',fr:'père',cat:'Famille',lvl:'a1'},
@@ -1142,6 +1142,52 @@ const VOCAB=[
   {ua:'студент',tr:'student',fr:'étudiant',cat:'École',lvl:'a1'},
   {ua:'диплом',tr:'dyplom',fr:'diplôme',cat:'École',lvl:'b1'},
   {ua:'стипендія',tr:'stypendiya',fr:'bourse d\'études',cat:'École',lvl:'b1'},
+  // Couleurs
+  {ua:'червоний',tr:'chervonyy',fr:'rouge',cat:'Couleurs',lvl:'a1',plur:'червоні (chervoni)'},
+  {ua:'синій',tr:'syniy',fr:'bleu (foncé)',cat:'Couleurs',lvl:'a1',plur:'сині (syni)'},
+  {ua:'блакитний',tr:'blakytyy',fr:'bleu ciel',cat:'Couleurs',lvl:'a1',plur:'блакитні (blakytnі)'},
+  {ua:'зелений',tr:'zelenyy',fr:'vert',cat:'Couleurs',lvl:'a1',plur:'зелені (zeleni)'},
+  {ua:'жовтий',tr:'zhovtyy',fr:'jaune',cat:'Couleurs',lvl:'a1',plur:'жовті (zhovti)'},
+  {ua:'помаранчевий',tr:'pomaranchevyy',fr:'orange',cat:'Couleurs',lvl:'a1',plur:'помаранчеві (pomaranchevi)'},
+  {ua:'фіолетовий',tr:'fioletovyy',fr:'violet',cat:'Couleurs',lvl:'a1',plur:'фіолетові (fioletovi)'},
+  {ua:'рожевий',tr:'rozhevyy',fr:'rose',cat:'Couleurs',lvl:'a1',plur:'рожеві (rozhevi)'},
+  {ua:'чорний',tr:'chornyy',fr:'noir',cat:'Couleurs',lvl:'a1',plur:'чорні (chorni)'},
+  {ua:'білий',tr:'bilyy',fr:'blanc',cat:'Couleurs',lvl:'a1',plur:'білі (bili)'},
+  {ua:'сірий',tr:'sіryy',fr:'gris',cat:'Couleurs',lvl:'a1',plur:'сірі (siri)'},
+  {ua:'коричневий',tr:'korychnevyy',fr:'marron / brun',cat:'Couleurs',lvl:'a1',plur:'коричневі (korychnevі)'},
+  {ua:'золотий',tr:'zolotypy',fr:'doré',cat:'Couleurs',lvl:'a2',plur:'золоті (zoloti)'},
+  {ua:'срібний',tr:'sribnyy',fr:'argenté',cat:'Couleurs',lvl:'a2',plur:'срібні (sribni)'},
+  {ua:'бежевий',tr:'bezhevyy',fr:'beige',cat:'Couleurs',lvl:'a2',plur:'бежеві (bezhevi)'},
+  {ua:'темний',tr:'temnyy',fr:'sombre / foncé',cat:'Couleurs',lvl:'a2',plur:'темні (temni)'},
+  {ua:'світлий',tr:'svitlyy',fr:'clair / lumineux',cat:'Couleurs',lvl:'a2',plur:'світлі (svitli)'},
+  // Sensations & états
+  {ua:'мені холодно',tr:'meni kholodno',fr:'j\'ai froid',cat:'Sensations',lvl:'a1'},
+  {ua:'мені спекотно',tr:'meni spekotno',fr:'j\'ai chaud',cat:'Sensations',lvl:'a1'},
+  {ua:'мені тепло',tr:'meni teplo',fr:'j\'ai chaud (agréable)',cat:'Sensations',lvl:'a1'},
+  {ua:'я хочу їсти',tr:'ya khochu yisty',fr:'j\'ai faim',cat:'Sensations',lvl:'a1'},
+  {ua:'я хочу пити',tr:'ya khochu pyty',fr:'j\'ai soif',cat:'Sensations',lvl:'a1'},
+  {ua:'я втомився / втомилася',tr:'ya vtomyvsya / vtomylasya',fr:'je suis fatigué(e)',cat:'Sensations',lvl:'a1'},
+  {ua:'я хочу спати',tr:'ya khochu spaty',fr:'j\'ai sommeil',cat:'Sensations',lvl:'a1'},
+  {ua:'мені боляче',tr:'meni bolyache',fr:'j\'ai mal',cat:'Sensations',lvl:'a1'},
+  {ua:'мені добре',tr:'meni dobre',fr:'je me sens bien',cat:'Sensations',lvl:'a1'},
+  {ua:'мені погано',tr:'meni pohano',fr:'je me sens mal',cat:'Sensations',lvl:'a1'},
+  {ua:'я радий / рада',tr:'ya radyy / rada',fr:'je suis content(e)',cat:'Sensations',lvl:'a1'},
+  {ua:'я сумний / сумна',tr:'ya sumnyy / sumna',fr:'je suis triste',cat:'Sensations',lvl:'a1'},
+  {ua:'я нервую',tr:'ya nervuyu',fr:'je suis nerveux(se)',cat:'Sensations',lvl:'a2'},
+  {ua:'я спокійний / спокійна',tr:'ya spokiynyy / spokoyna',fr:'je suis calme',cat:'Sensations',lvl:'a2'},
+  {ua:'мені нудно',tr:'meni nudno',fr:'je m\'ennuie',cat:'Sensations',lvl:'a2'},
+  {ua:'мені страшно',tr:'meni strashno',fr:'j\'ai peur',cat:'Sensations',lvl:'a2'},
+  {ua:'я хвилююся',tr:'ya khvylyuyusya',fr:'je suis anxieux(se)',cat:'Sensations',lvl:'a2'},
+  {ua:'мені соромно',tr:'meni soromno',fr:'j\'ai honte',cat:'Sensations',lvl:'a2'},
+  {ua:'мені цікаво',tr:'meni tsikavo',fr:'je trouve ça intéressant',cat:'Sensations',lvl:'a2'},
+  {ua:'я голодний / голодна',tr:'ya holodnyy / holodna',fr:'je suis affamé(e)',cat:'Sensations',lvl:'a2'},
+  {ua:'я хворий / хвора',tr:'ya khvoryy / khvora',fr:'je suis malade',cat:'Sensations',lvl:'a1'},
+  {ua:'я здоровий / здорова',tr:'ya zdorovyy / zdorova',fr:'je suis en bonne santé',cat:'Sensations',lvl:'a1'},
+  {ua:'я задоволений / задоволена',tr:'ya zadovolenyy / zadovolena',fr:'je suis satisfait(e)',cat:'Sensations',lvl:'a2'},
+  {ua:'я злий / зла',tr:'ya zlyy / zla',fr:'je suis en colère',cat:'Sensations',lvl:'a2'},
+  {ua:'я здивований / здивована',tr:'ya zdyvovanyy / zdyvovana',fr:'je suis étonné(e)',cat:'Sensations',lvl:'a2'},
+  {ua:'мені важко',tr:'meni vazhko',fr:'c\'est difficile pour moi',cat:'Sensations',lvl:'a2'},
+  {ua:'мені легко',tr:'meni lehko',fr:'c\'est facile pour moi',cat:'Sensations',lvl:'a2'},
 ];
 
 const PHRASES=[
@@ -1177,6 +1223,37 @@ const PHRASES=[
   {ua:'Я не згоден / не згодна',tr:'Ya ne zhoden / ne zhodna',fr:'Je ne suis pas d\'accord',cat:'Opinions',note:'Pour exprimer un désaccord poliment',lvl:'b1'},
   {ua:'Це залежить від...',tr:'Tse zalezhyt vid...',fr:'Cela dépend de...',cat:'Opinions',note:'Pour nuancer',lvl:'b2'},
   {ua:'З одного боку... з іншого боку...',tr:'Z odnoho boku... z inshoho boku...',fr:'D\'un côté... de l\'autre...',cat:'Opinions',note:'Structure pour un argument équilibré',lvl:'b2'},
+  // Phrases courantes
+  {ua:'є',tr:'ye',fr:'il y a / il existe',cat:'Phrases courantes',note:'"Є" s\'utilise pour l\'existence. У мене є = j\'ai (litt. chez moi il y a)',lvl:'a1'},
+  {ua:'немає',tr:'nemaye',fr:'il n\'y a pas',cat:'Phrases courantes',note:'Contraire de "є". У мене немає = je n\'ai pas',lvl:'a1'},
+  {ua:'наприклад',tr:'napryklad',fr:'par exemple',cat:'Phrases courantes',note:'S\'abrège parfois en "напр." à l\'écrit',lvl:'a1'},
+  {ua:'тобто',tr:'tobto',fr:'c\'est-à-dire / autrement dit',cat:'Phrases courantes',note:'Pour reformuler ou expliquer',lvl:'a2'},
+  {ua:'взагалі',tr:'vzahali',fr:'en général / en fait',cat:'Phrases courantes',note:'Très fréquent à l\'oral pour introduire une idée',lvl:'a2'},
+  {ua:'до речі',tr:'do rechi',fr:'à propos / d\'ailleurs',cat:'Phrases courantes',note:'Pour introduire une remarque secondaire',lvl:'a2'},
+  {ua:'між іншим',tr:'mizh inshym',fr:'entre autres / soit dit en passant',cat:'Phrases courantes',note:'Registre légèrement soutenu',lvl:'b1'},
+  {ua:'перш за все',tr:'persh za vse',fr:'avant tout / tout d\'abord',cat:'Phrases courantes',note:'Pour établir une priorité',lvl:'a2'},
+  {ua:'в кінці кінців',tr:'v kintsi kintsiv',fr:'finalement / en fin de compte',cat:'Phrases courantes',note:'Pour conclure un raisonnement',lvl:'b1'},
+  {ua:'з одного боку',tr:'z odnoho boku',fr:'d\'un côté',cat:'Phrases courantes',note:'Toujours suivi de "з іншого боку"',lvl:'b1'},
+  {ua:'незважаючи на це',tr:'nezvazhayuchy na tse',fr:'malgré cela / néanmoins',cat:'Phrases courantes',note:'Pour introduire une concession',lvl:'b1'},
+  {ua:'що стосується',tr:'shcho stosuyetsya',fr:'en ce qui concerne / quant à',cat:'Phrases courantes',note:'"Що стосується мене" = quant à moi',lvl:'b1'},
+  {ua:'на жаль',tr:'na zhal',fr:'malheureusement / hélas',cat:'Phrases courantes',note:'Très courant à l\'oral',lvl:'a2'},
+  {ua:'на щастя',tr:'na shchastya',fr:'heureusement / par chance',cat:'Phrases courantes',note:'Contraire de "на жаль"',lvl:'a2'},
+  {ua:'швидше за все',tr:'shvydshe za vse',fr:'très probablement / le plus vite possible',cat:'Phrases courantes',note:'Selon contexte : "vraisemblablement" ou "dès que possible"',lvl:'b1'},
+  {ua:'так чи інакше',tr:'tak chy inakshe',fr:'de toute façon / quoi qu\'il en soit',cat:'Phrases courantes',note:'Pour conclure malgré les doutes',lvl:'b1'},
+  {ua:'тим не менш',tr:'tym ne mensh',fr:'néanmoins / cependant',cat:'Phrases courantes',note:'Registre soutenu, pour nuancer',lvl:'b2'},
+  {ua:'іншими словами',tr:'inshymy slovamy',fr:'en d\'autres termes / autrement dit',cat:'Phrases courantes',note:'Pour reformuler plus clairement',lvl:'b1'},
+  {ua:'щодо цього',tr:'shchodo tsioho',fr:'à ce sujet / là-dessus',cat:'Phrases courantes',note:'"Щодо" + génitif = concernant...',lvl:'b1'},
+  {ua:'у будь-якому разі',tr:'u bud-yakomu razi',fr:'dans tous les cas / en tout cas',cat:'Phrases courantes',note:'Très utile pour conclure',lvl:'b1'},
+  {ua:'це означає',tr:'tse oznachaye',fr:'cela signifie / cela veut dire',cat:'Phrases courantes',note:'Pour expliquer ou définir',lvl:'a2'},
+  {ua:'як правило',tr:'yak pravylo',fr:'en règle générale / habituellement',cat:'Phrases courantes',note:'Pour parler d\'une habitude générale',lvl:'b1'},
+  {ua:'мається на увазі',tr:'mayetsya na uvazi',fr:'on entend par là / cela sous-entend',cat:'Phrases courantes',note:'Pour préciser le sens implicite',lvl:'b2'},
+  {ua:'давай(те)',tr:'davay(te)',fr:'allez ! / on y va ! / allons-y !',cat:'Phrases courantes',note:'Давай (informel) / Давайте (formel). Très courant à l\'oral',lvl:'a1'},
+  {ua:'нічого',tr:'nichoho',fr:'ce n\'est rien / ça va',cat:'Phrases courantes',note:'Pour minimiser un problème. Нічого страшного = pas de souci',lvl:'a2'},
+  {ua:'саме так',tr:'same tak',fr:'exactement / précisément',cat:'Phrases courantes',note:'Pour confirmer avec emphase',lvl:'a2'},
+  {ua:'не зовсім',tr:'ne zovsim',fr:'pas tout à fait / pas vraiment',cat:'Phrases courantes',note:'Pour nuancer un désaccord',lvl:'a2'},
+  {ua:'мабуть',tr:'mabot',fr:'probablement / sans doute',cat:'Phrases courantes',note:'Très fréquent à l\'oral pour exprimer une supposition',lvl:'a2'},
+  {ua:'виходить',tr:'vykhodyt',fr:'il s\'avère / donc / ça donne',cat:'Phrases courantes',note:'Litt. "ça sort" — pour tirer une conclusion',lvl:'b1'},
+  {ua:'у результаті',tr:'u rezultati',fr:'en résultat / par conséquent',cat:'Phrases courantes',note:'Pour exprimer une conséquence',lvl:'b1'},
 ];
 
 const VERBS=[
@@ -2478,6 +2555,26 @@ function renderTrad(){
 // Intégration dans les Flashcards — catégorie "Mes traductions"
 // ============================
 
+// ── GÉNÉRATION AUTOMATIQUE DU PLURIEL ──────────────────
+function getPlur(w){
+  if(w.plur) return w.plur; // pluriel défini manuellement
+  const ua=w.ua;
+  // Expressions figées / pronoms / adverbes → pas de pluriel
+  const noPlur=['Pronoms','Questions','Connecteurs','Temps','Sensations','B1–B2'];
+  if(noPlur.includes(w.cat)) return null;
+  // Règles automatiques selon terminaison
+  if(ua.endsWith('а')) return ua.slice(0,-1)+'и'; // сестра→сестри
+  if(ua.endsWith('я')) return ua.slice(0,-1)+'і'; // земля→землі
+  if(ua.endsWith('ій') || ua.endsWith('ий')) return ua.slice(0,-2)+'і'; // новий→нові
+  if(ua.endsWith('ій')) return ua.slice(0,-2)+'і';
+  if(ua.endsWith('о')) return ua.slice(0,-1)+'а'; // місто→міста
+  if(ua.endsWith('е')) return ua.slice(0,-1)+'я'; // поле→поля
+  if(ua.endsWith('ь')) return ua.slice(0,-1)+'і'; // сіль→солі
+  // Consonne finale (masc.) → +и
+  return ua+'и';
+}
+// ────────────────────────────────────────────────────
+
 function renderVocab(){
   const cats=['Tous',...new Set(VOCAB.map(v=>v.cat)),'── Verbes ──'];
   document.getElementById('vtot').textContent=selCat==='── Verbes ──'?VERBS.length:VOCAB.length;
@@ -2497,6 +2594,7 @@ function renderVocab(){
           <div class="wtr">${v.inf}</div>
           <div class="wfr">${v.fr}</div>
         </div>
+
         <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
           <button class="speak-btn" onclick="speak('${ua}',event)">🔊</button>
           <div class="wchk" onclick="toggleKnownVerb(${i})">${k?'✓':''}</div>
@@ -2518,6 +2616,7 @@ function renderVocab(){
         <div class="wua" style="margin-top:4px">${w.ua}</div>
         <div class="wtr">${w.tr}</div>
         <div class="wfr">${w.fr}</div>
+        ${getPlur(w)?`<div style="font-size:11px;color:var(--acc2);margin-top:4px;font-weight:500">Pluriel : ${getPlur(w)}</div>`:''}
       </div>
       <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
         <button class="speak-btn" onclick="speak('${ua}',event)" title="Écouter">🔊</button>
