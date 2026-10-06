@@ -454,7 +454,7 @@ body{font-family:-apple-system,'SF Pro Text','Inter',system-ui,sans-serif;color:
 
   <!-- PHRASES -->
   <div class="page" id="page-phrases">
-    <div class="hrow"><div class="hrow-title">Phrases courantes</div></div>
+    <div class="hrow"><div class="hrow-title">Phrases courantes</div><div class="hrow-sub"><span id="pkc">0</span>/<span id="ptot">0</span></div></div>
     <div class="pills" id="phr-cats"></div>
     <div class="phr-list" id="phr-grid"></div>
   </div>
@@ -562,12 +562,12 @@ const VOCAB=[
   {ua:'будь ласка',tr:'bud laska',fr:'s\'il vous plaît',cat:'Salutations',lvl:'a1'},
   {ua:'так',tr:'tak',fr:'oui',cat:'Salutations',lvl:'a1'},
   {ua:'ні',tr:'ni',fr:'non',cat:'Salutations',lvl:'a1'},
-  {ua:'вибачте',tr:'vybachte',fr:'excusez-moi / pardon',cat:'Salutations',lvl:'a1'},
+  {ua:'вибачте',tr:'vybachte',fr:'excuse-moi / pardon',cat:'Salutations',lvl:'a1'},
   {ua:'до побачення',tr:'do pobachennya',fr:'au revoir',cat:'Salutations',lvl:'a1'},
   {ua:'добрий ранок',tr:'dobryy ranok',fr:'bonjour (matin)',cat:'Salutations',lvl:'a1'},
   {ua:'добрий день',tr:'dobryy den',fr:'bonjour (journée)',cat:'Salutations',lvl:'a1'},
   {ua:'добрий вечір',tr:'dobryy vechir',fr:'bonsoir',cat:'Salutations',lvl:'a1'},
-  {ua:'на здоров\'я',tr:'na zdorovya',fr:'à votre santé / de rien',cat:'Salutations',lvl:'a1'},
+  {ua:'на здоров\'я',tr:'na zdorovya',fr:'à ton santé / de rien',cat:'Salutations',lvl:'a1'},
   {ua:'як справи',tr:'yak spravy',fr:'comment ça va ?',cat:'Salutations',lvl:'a1'},
   {ua:'дуже добре',tr:'duzhe dobre',fr:'très bien',cat:'Salutations',lvl:'a1'},
   {ua:'не погано',tr:'ne pohano',fr:'pas mal',cat:'Salutations',lvl:'a1'},
@@ -1495,7 +1495,7 @@ const VOCAB=[
   {ua:'дешево',tr:'deshevo',fr:'pas cher / bon marché',cat:'Argent',lvl:'a1',ex:'Дешево і смачно! (Pas cher et délicieux !)'},
   {ua:'безкоштовно',tr:'bezkoshtovno',fr:'gratuit / gratuitement',cat:'Argent',lvl:'a2',ex:'Вхід безкоштовний. (L\'entrée est gratuite.)'},
   {ua:'знижка',tr:'znyzka',fr:'réduction / promotion',cat:'Argent',lvl:'a2',plur:'знижки (znyzky)',ex:'Знижка 50% — беру! (50% de réduction — je prends !)'},
-  {ua:'рахунок',tr:'rakhunok',fr:'l\'addition / la facture',cat:'Argent',lvl:'a1',plur:'рахунки (rakhunky)',ex:'Принесіть рахунок, будь ласка. (Apportez l\'addition, s\'il vous plaît.)'},
+  {ua:'рахунок',tr:'rakhunok',fr:'l\'addition / la facture',cat:'Argent',lvl:'a1',plur:'рахунки (rakhunky)',ex:'Принесіть рахунок, будь ласка. (Apporte l\'addition, s\'il vous plaît.)'},
   {ua:'готівка',tr:'hotivka',fr:'espèces / cash',cat:'Argent',lvl:'a2',ex:'Можна платити готівкою? (On peut payer en espèces ?)'},
   {ua:'картка',tr:'kartka',fr:'carte (bancaire)',cat:'Argent',lvl:'a1',plur:'картки (kartky)',ex:'Я плачу карткою. (Je paie par carte.)'},
   {ua:'решта',tr:'reshta',fr:'la monnaie / le reste',cat:'Argent',lvl:'a2',ex:'Дайте решту, будь ласка. (Rendez-moi la monnaie, s\'il vous plaît.)'},
@@ -1527,8 +1527,8 @@ const PHRASES=[
   {ua:'Я вчу українську',tr:'Ya vchu ukrayinsku',fr:'J\'apprends l\'ukrainien',cat:'Se présenter',note:'Excellent brise-glace !',lvl:'a1'},
   {ua:'Приємно познайомитися',tr:'Pryyemno poznayomytysya',fr:'Enchanté(e)',cat:'Se présenter',note:'À dire en serrant la main',lvl:'a1'},
   {ua:'Де знаходиться ...?',tr:'De znakhodytsia ...?',fr:'Où se trouve ... ?',cat:'Se repérer',note:'Ex. : Де знаходиться вокзал?',lvl:'a1'},
-  {ua:'Поверніть ліворуч / праворуч',tr:'Povernitʼ livoruch / pravoruch',fr:'Tournez à gauche / droite',cat:'Se repérer',note:'Pravouch = droite, Livoruch = gauche',lvl:'a2'},
-  {ua:'Ідіть прямо',tr:'Iditʼ pryamo',fr:'Allez tout droit',cat:'Se repérer',note:'Pour donner une direction',lvl:'a2'},
+  {ua:'Поверніть ліворуч / праворуч',tr:'Povernitʼ livoruch / pravoruch',fr:'Tourne à gauche / droite',cat:'Se repérer',note:'Pravouch = droite, Livoruch = gauche',lvl:'a2'},
+  {ua:'Ідіть прямо',tr:'Iditʼ pryamo',fr:'Va tout droit',cat:'Se repérer',note:'Pour donner une direction',lvl:'a2'},
   {ua:'Як дістатися до ...?',tr:'Yak distatysya do ...?',fr:'Comment aller à ... ?',cat:'Se repérer',note:'Très utile en voyage',lvl:'a2'},
   {ua:'Скільки це коштує?',tr:'Skilky tse koshtuye?',fr:'Combien ça coûte ?',cat:'Commerce',note:'Question de base pour tout achat',lvl:'a1'},
   {ua:'Я хочу це купити',tr:'Ya khochu tse kupyty',fr:'Je veux acheter ceci',cat:'Commerce',note:'Montrez l\'objet pour plus de clarté',lvl:'a1'},
@@ -1539,13 +1539,13 @@ const PHRASES=[
   {ua:'Що ви рекомендуєте?',tr:'Shcho vy rekomenduete?',fr:'Que recommandez-vous ?',cat:'Restaurant',note:'Pour demander un conseil',lvl:'a2'},
   {ua:'Я алергічний на ...',tr:'Ya alerhichnyy na ...',fr:'Je suis allergique à ...',cat:'Restaurant',note:'Fém. : алергічна',lvl:'b1'},
   {ua:'Мені погано',tr:'Meni pohano',fr:'Je ne me sens pas bien',cat:'Santé',note:'Pour signaler un malaise',lvl:'a1'},
-  {ua:'Викличте швидку допомогу',tr:'Vyklychte shvydku dopomohu',fr:'Appelez une ambulance',cat:'Santé',note:'Urgence absolue',lvl:'a1'},
+  {ua:'Викличте швидку допомогу',tr:'Vyklychte shvydku dopomohu',fr:'Appelle une ambulance',cat:'Santé',note:'Urgence absolue',lvl:'a1'},
   {ua:'Де найближча аптека?',tr:'De nayblyzhcha apteka?',fr:'Où est la pharmacie la plus proche ?',cat:'Santé',note:'Utile en cas de besoin',lvl:'a2'},
   {ua:'У мене болить голова',tr:'U mene bolyt holova',fr:'J\'ai mal à la tête',cat:'Santé',note:'Remplacez "голова" par toute partie du corps',lvl:'a2'},
   {ua:'Я не розумію',tr:'Ya ne rozumiyu',fr:'Je ne comprends pas',cat:'Communication',note:'La phrase la plus utile pour un débutant',lvl:'a1'},
   {ua:'Говоріть повільніше, будь ласка',tr:'Hovoritʼ povilnishe, bud laska',fr:'Parlez plus lentement, s\'il vous plaît',cat:'Communication',note:'Indispensable au début',lvl:'a1'},
   {ua:'Як це буде по-українськи?',tr:'Yak tse bude po-ukrayinsky?',fr:'Comment dit-on ça en ukrainien ?',cat:'Communication',note:'La clé de tout apprenant !',lvl:'a2'},
-  {ua:'Повторіть, будь ласка',tr:'Povtoritʼ, bud laska',fr:'Répétez, s\'il vous plaît',cat:'Communication',note:'En classe ou conversation',lvl:'a1'},
+  {ua:'Повторіть, будь ласка',tr:'Povtoritʼ, bud laska',fr:'Répète, s\'il vous plaît',cat:'Communication',note:'En classe ou conversation',lvl:'a1'},
   {ua:'Напишіть це, будь ласка',tr:'Napyshitʼ tse, bud laska',fr:'Écrivez cela, s\'il vous plaît',cat:'Communication',note:'Pour mieux comprendre',lvl:'a2'},
   {ua:'Я думаю, що...',tr:'Ya dumayu, shcho...',fr:'Je pense que...',cat:'Opinions',note:'Introduit une opinion',lvl:'b1'},
   {ua:'На мою думку...',tr:'Na moyu dumku...',fr:'À mon avis...',cat:'Opinions',note:'Registre soutenu',lvl:'b1'},
@@ -1714,6 +1714,7 @@ function saveData(){
     localStorage.setItem('uk_xp',xp);
     localStorage.setItem('uk_anki_done',ankiDoneToday);
     localStorage.setItem('uk_known_verbs',JSON.stringify([...knownVerbs]));
+    localStorage.setItem('uk_known_phrases',JSON.stringify([...knownPhrases]));
   }catch(e){}
 }
 function loadData(){
@@ -1726,10 +1727,12 @@ function loadData(){
     if(a)ankiDoneToday=parseInt(a)||0;
     const kv=localStorage.getItem('uk_known_verbs');
     if(kv)knownVerbs=new Set(JSON.parse(kv));
+    const kp=localStorage.getItem('uk_known_phrases');
+    if(kp)knownPhrases=new Set(JSON.parse(kp));
   }catch(e){}
 }
 
-let known=new Set(),knownVerbs=new Set(),xp=0,ankiSession=[],ankiIdx=0,ankiFlipped=false,ankiDoneToday=0;
+let known=new Set(),knownVerbs=new Set(),knownPhrases=new Set(),xp=0,ankiSession=[],ankiIdx=0,ankiFlipped=false,ankiDoneToday=0;
 let selCat='Tous',selPhrCat='Tous',selVerb=0,selTense='pres';
 let qCur=0,qArr=[],qCorrect=0,qAns=false;
 const pages=['home','vocab','flash','quiz','anki','trad','phrases','conj','gram','alpha'];
@@ -1979,7 +1982,7 @@ const GRAM=[
    ]},
 
   {cat:'Phrases',icon:'❓',lvl:'a2',title:'Former des questions correctement',
-   rule:'En ukrainien, on ne fait pas d\'inversion sujet-verbe pour former une question (contrairement au français "Venez-vous ?"). On utilise soit l\'intonation montante, soit la particule "чи" en début de phrase. Les questions avec un mot interrogatif (où, quand, comment...) fonctionnent comme en français.',
+   rule:'En ukrainien, on ne fait pas d\'inversion sujet-verbe pour former une question (contrairement au français "Viens-vous ?"). On utilise soit l\'intonation montante, soit la particule "чи" en début de phrase. Les questions avec un mot interrogatif (où, quand, comment...) fonctionnent comme en français.',
    table:{heads:['Type de question','Structure','Exemple ukrainien','Transcription','Traduction'],rows:[
      ['Oui/Non — intonation','phrase normale + ↑','Ти говориш по-французьки?','Ty hovorish po-frantsuзky?','Tu parles français ?'],
      ['Oui/Non — avec чи','Чи + phrase','Чи ти говориш по-французьки?','Chy ty hovorish...?','Est-ce que tu parles français ?'],
@@ -2021,7 +2024,7 @@ const GRAM=[
    table:{heads:['Expression','Sens','Sujet au datif','Exemple','Traduction'],rows:[
      ['треба / потрібно','il faut / avoir besoin','мені (à moi)','Мені треба піти','Je dois partir'],
      ['потрібно','il est nécessaire','тобі (à toi)','Тобі потрібно відпочити','Tu dois te reposer'],
-     ['можна','on peut / c\'est permis','вам (à vous)','Вам можна ввійти','Vous pouvez entrer'],
+     ['можна','on peut / c\'est permis','вам (à vous)','Вам можна ввійти','Tu peux entrer'],
      ['не можна','on ne peut pas / interdit','—','Тут не можна курити','On ne peut pas fumer ici'],
      ['варто','ça vaut la peine de','тобі (à toi)','Тобі варто спробувати','Tu devrais essayer'],
      ['мусити (verbe)','devoir (obligation forte)','я (nominatif)','Я мушу піти','Je dois partir (obligation)'],
@@ -2051,7 +2054,7 @@ const GRAM=[
    tip:'💡 En ukrainien, le pronom sujet est souvent omis car la terminaison du verbe indique déjà la personne. On dit "іду" plutôt que "я іду" dans la conversation.',
    examples:[
      {ua:'Я іду додому',tr:'Ya idu dodomu',fr:'Je rentre à la maison'},
-     {ua:'Ви говорите по-французьки?',tr:'Vy hovoryte po-frantsuzky?',fr:'Parlez-vous français ? (formel)'},
+     {ua:'Ви говорите по-французьки?',tr:'Vy hovoryte po-frantsuzky?',fr:'Tu parles français ? (formel)'},
      {ua:'Вони живуть в Києві',tr:'Vony zhyvut v Kyevi',fr:'Ils habitent à Kyiv'},
    ]},
 
@@ -2228,7 +2231,11 @@ function buildFlashDeck(){
   } else if(flashMode==='phrases'){
     let pool=flashCatSel==='Tous'?PHRASES:PHRASES.filter(p=>p.cat===flashCatSel);
     if(pool.length===0) pool=PHRASES;
-    return shuffle(pool).map(p=>({fr:p.fr,ua:p.ua,tr:p.tr,ctx:p.cat}));
+    if(flashFilterUnknown){
+      const filtered=pool.filter(p=>!knownPhrases.has(PHRASES.indexOf(p)));
+      if(filtered.length>0) pool=filtered;
+    }
+    return shuffle(pool).map(p=>({fr:p.fr,ua:p.ua,tr:p.tr,ctx:p.cat,phraseIdx:PHRASES.indexOf(p)}));
   } else {
     // Verbes
     if(flashCatSel==='Infinitif'){
@@ -2367,6 +2374,15 @@ function rateFlash(r){
       else if(r===0||r===1){ knownVerbs.delete(i); }
       saveData();updateAll();
       if(document.getElementById('page-vocab').classList.contains('on')) renderVocab();
+    }
+  } else if(flashMode==='phrases'){
+    const card=flashDeck[flashIdx];
+    const i=PHRASES.findIndex(p=>p.ua===card.ua);
+    if(i!==-1){
+      if(r===2||r===3){ knownPhrases.add(i); }
+      else if(r===0||r===1){ knownPhrases.delete(i); }
+      saveData();
+      if(document.getElementById('page-phrases').classList.contains('on')) renderPhrases();
     }
   } else if(flashMode==='trad'){
     const card=flashDeck[flashIdx];
@@ -2965,12 +2981,12 @@ const EXAMPLES={
   'будь ласка':'Будь ласка, допоможіть мені. (S\'il vous plaît, aidez-moi.)',
   'так':'Так, я розумію. (Oui, je comprends.)',
   'ні':'Ні, дякую. (Non, merci.)',
-  'вибачте':'Вибачте, я запізнився. (Excusez-moi, je suis en retard.)',
+  'вибачте':'Вибачте, я запізнився. (Excuse-moi, je suis en retard.)',
   'до побачення':'До побачення, до завтра! (Au revoir, à demain !)',
   'добрий ранок':'Добрий ранок! Як ти спав? (Bonjour ! Comment as-tu dormi ?)',
   'добрий день':'Добрий день! Чим можу допомогти? (Bonjour ! En quoi puis-je vous aider ?)',
   'добрий вечір':'Добрий вечір! Заходьте. (Bonsoir ! Entrez.)',
-  'на здоров\'я':'На здоров\'я! (À votre santé !)',
+  'на здоров\'я':'На здоров\'я! (À ton santé !)',
   'як справи':'Як справи? Все добре? (Comment ça va ? Tout va bien ?)',
   'дуже добре':'Дуже добре, дякую! (Très bien, merci !)',
   'не погано':'Не погано, але я втомився. (Pas mal, mais je suis fatigué.)',
@@ -2980,7 +2996,7 @@ const EXAMPLES={
   'вона':'Вона дуже добре співає. (Elle chante très bien.)',
   'воно':'Воно велике і важке. (C\'est grand et lourd.)',
   'ми':'Ми разом вивчаємо мову. (Nous apprenons la langue ensemble.)',
-  'ви':'Ви говорите по-французьки? (Parlez-vous français ?)',
+  'ви':'Ви говорите по-французьки? (Tu parles français ?)',
   'вони':'Вони живуть поруч. (Ils habitent à côté.)',
   'мій / моя':'Мій друг — українець. (Mon ami est ukrainien.)',
   'твій / твоя':'Твоя ідея дуже гарна! (Ton idée est très bonne !)',
@@ -2993,7 +3009,7 @@ const EXAMPLES={
   'її':'Її сумка дуже велика. (Son sac est très grand.)',
   'наш / наша / наше':'Наше місто красиве. (Notre ville est belle.)',
   'наші':'Наші діти в школі. (Nos enfants sont à l\'école.)',
-  'ваш / ваша / ваше':'Ваше замовлення готове. (Votre commande est prête.)',
+  'ваш / ваша / ваше':'Ваше замовлення готове. (Ton commande est prête.)',
   'ваші':'Ваші документи тут. (Vos documents sont ici.)',
   'їхній / їхня / їхнє':'Їхній будинок дуже великий. (Leur maison est très grande.)',
   'їхні':'Їхні діти грають у парку. (Leurs enfants jouent dans le parc.)',
@@ -3084,7 +3100,7 @@ const EXAMPLES={
   'обід':'О котрій у тебе обід? (À quelle heure tu déjeunes ?)',
   'вечеря':'Ми вечеряємо о сьомій. (Nous dînons à sept heures.)',
   'страва':'Яка твоя улюблена страва? (Quel est ton plat préféré ?)',
-  'меню':'Принесіть меню, будь ласка. (Apportez le menu, s\'il vous plaît.)',
+  'меню':'Принесіть меню, будь ласка. (Apporte le menu, s\'il vous plaît.)',
   'апельсин':'Я п\'ю сік апельсина. (Je bois du jus d\'orange.)',
   'лимон':'Лимон кислий, але корисний. (Le citron est acide mais bon pour la santé.)',
   'виноград':'Виноград солодкий і соковитий. (Le raisin est sucré et juteux.)',
@@ -3182,7 +3198,7 @@ const EXAMPLES={
   'парк':'Прогуляємося в парку? (On se promène dans le parc ?)',
   'школа':'Діти йдуть до школи. (Les enfants vont à l\'école.)',
   'університет':'Я навчаюся в університеті. (J\'étudie à l\'université.)',
-  'лікарня':'Відвезіть мене до лікарні! (Emmenez-moi à l\'hôpital !)',
+  'лікарня':'Відвезіть мене до лікарні! (Emmène-moi à l\'hôpital !)',
   'аптека':'Де найближча аптека? (Où est la pharmacie la plus proche ?)',
   'магазин':'Магазин відкритий до дев\'ятої. (Le magasin est ouvert jusqu\'à neuf heures.)',
   'ринок':'На ринку свіжі овочі. (Au marché, des légumes frais.)',
@@ -3697,9 +3713,9 @@ const EXAMPLES={
   'демократія':'Демократія потребує участі громадян. (La démocratie nécessite la participation des citoyens.)',
   'глобалізація':'Глобалізація з\'єднує світ. (La mondialisation connecte le monde.)',
   'нерівність':'Нерівність — проблема сучасності. (L\'inégalité est un problème contemporain.)',
-  'ліворуч':'Поверніть ліворуч на світлофорі. (Tournez à gauche au feu rouge.)',
+  'ліворуч':'Поверніть ліворуч на світлофорі. (Tourne à gauche au feu rouge.)',
   'праворуч':'Банк праворуч від аптеки. (La banque est à droite de la pharmacie.)',
-  'прямо':'Ідіть прямо до площі. (Allez tout droit jusqu\'à la place.)',
+  'прямо':'Ідіть прямо до площі. (Va tout droit jusqu\'à la place.)',
   'назад':'Повернися назад — ти забув ключ. (Reviens en arrière — tu as oublié ta clé.)',
   'вперед':'Рухаємося вперед! (On avance !)',
   'вгору':'Ліфт іде вгору. (L\'ascenseur monte.)',
@@ -3968,21 +3984,34 @@ function renderPhrases(){
   const cats=['Tous',...new Set(PHRASES.map(p=>p.cat))];
   document.getElementById('phr-cats').innerHTML=cats.map(c=>`<button class="pill ${c===selPhrCat?'on':''}" onclick="selPhrCat='${c}';renderPhrases()">${c}</button>`).join('');
   const list=selPhrCat==='Tous'?PHRASES:PHRASES.filter(p=>p.cat===selPhrCat);
-  document.getElementById('phr-grid').innerHTML=list.map(p=>{
+  document.getElementById('pkc').textContent=knownPhrases.size;
+  document.getElementById('ptot').textContent=PHRASES.length;
+  document.getElementById('phr-grid').innerHTML=list.map((p,idx)=>{
+    const i=PHRASES.indexOf(p);
+    const k=knownPhrases.has(i);
     const ua=p.ua.replace(/'/g,"\\'");
-    return `<div class="phr-card" onclick="this.classList.toggle('open')">
-    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
-      <div style="flex:1">
-        <span class="tag tag-${p.lvl}" style="margin-bottom:8px;display:inline-block">${p.lvl.toUpperCase()}</span>
+    return `<div class="phr-card ${k?'known':''}" style="${k?'border-color:rgba(48,209,88,.4);background:rgba(48,209,88,.04)':''}">
+    <div style="display:flex;align-items:flex-start;gap:10px">
+      <div style="flex:1" onclick="document.getElementById('phr-note-${i}').style.display=document.getElementById('phr-note-${i}').style.display==='block'?'none':'block'">
+        <span class="tag tag-${p.lvl}" style="margin-bottom:6px;display:inline-block">${p.lvl.toUpperCase()}</span>
         <div class="phr-ua">${p.ua}</div>
         <div class="phr-tr">${p.tr}</div>
         <div class="phr-fr">${p.fr}</div>
+        <div id="phr-note-${i}" class="phr-note" style="display:none">${p.note||''}</div>
       </div>
-      <button class="speak-btn" onclick="speak('${ua}',event)" style="margin-top:24px;flex-shrink:0">🔊</button>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0">
+        <button class="speak-btn" onclick="speak('${ua}',event)">🔊</button>
+        <div class="wchk" onclick="toggleKnownPhrase(${i})">${k?'✓':''}</div>
+      </div>
     </div>
-    <div class="phr-note">${p.note}</div>
   </div>`;
   }).join('');
+}
+
+function toggleKnownPhrase(i){
+  if(knownPhrases.has(i))knownPhrases.delete(i);
+  else{knownPhrases.add(i);addXP(2);}
+  saveData();renderPhrases();
 }
 function renderConj(){
   document.getElementById('verb-sel').innerHTML=VERBS.map((v,i)=>`<button class="vbtn ${i===selVerb?'on':''}" onclick="selVerb=${i};renderConj()">${v.fr}</button>`).join('');
