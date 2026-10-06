@@ -1390,6 +1390,134 @@ const VOCAB=[
   {ua:'адреса',tr:'adresa',fr:'adresse',cat:'Directions',lvl:'a1',plur:'адреси (adresy)'},
   {ua:'поверх',tr:'poverkh',fr:'étage',cat:'Directions',lvl:'a1',plur:'поверхи (poverkhy)'},
   {ua:'підвал',tr:'pidval',fr:'sous-sol / cave',cat:'Directions',lvl:'a2',plur:'підвали (pidvaly)'},
+
+  // ── MOTS DU QUOTIDIEN (à utiliser constamment) ──
+  {ua:'щодня',tr:'shchodnya',fr:'tous les jours / quotidiennement',cat:'Quotidien+',lvl:'a1',ex:'Щодня я вчу нові слова. (Tous les jours j\'apprends de nouveaux mots.)'},
+  {ua:'щотижня',tr:'shchotyzhniya',fr:'chaque semaine',cat:'Quotidien+',lvl:'a2',ex:'Щотижня ми зустрічаємося. (Chaque semaine nous nous retrouvons.)'},
+  {ua:'щомісяця',tr:'shchomisyatsya',fr:'chaque mois',cat:'Quotidien+',lvl:'a2',ex:'Щомісяця я плачу за квартиру. (Chaque mois je paie le loyer.)'},
+  {ua:'щось',tr:'shchos',fr:'quelque chose',cat:'Quotidien+',lvl:'a1',ex:'Я хочу щось з\'їсти. (Je veux manger quelque chose.)'},
+  {ua:'хтось',tr:'khtos',fr:'quelqu\'un',cat:'Quotidien+',lvl:'a1',ex:'Хтось стукає у двері. (Quelqu\'un frappe à la porte.)'},
+  {ua:'ніщо / нічого',tr:'nishcho / nichоho',fr:'rien',cat:'Quotidien+',lvl:'a1',ex:'Нічого страшного! (Ce n\'est pas grave !)'},
+  {ua:'ніхто',tr:'nikhto',fr:'personne (négatif)',cat:'Quotidien+',lvl:'a1',ex:'Ніхто не знає відповіді. (Personne ne connaît la réponse.)'},
+  {ua:'усі / всі',tr:'usi / vsi',fr:'tout le monde / tous',cat:'Quotidien+',lvl:'a1',ex:'Усі готові? Починаємо! (Tout le monde est prêt ? On commence !)'},
+  {ua:'все',tr:'vse',fr:'tout / tout ça',cat:'Quotidien+',lvl:'a1',ex:'Все добре, не хвилюйся. (Tout va bien, ne t\'inquiète pas.)'},
+  {ua:'інший / інша',tr:'inshyy / insha',fr:'autre / un autre',cat:'Quotidien+',lvl:'a2',ex:'Спробуй інший варіант. (Essaie une autre option.)'},
+  {ua:'той самий',tr:'toy samyy',fr:'le même',cat:'Quotidien+',lvl:'a2',ex:'Той самий ресторан. (Le même restaurant.)'},
+  {ua:'різний',tr:'riznyy',fr:'différent / divers',cat:'Quotidien+',lvl:'a2',ex:'Різні думки — багатство. (Des opinions différentes — c\'est une richesse.)'},
+  {ua:'кілька',tr:'kilka',fr:'quelques / plusieurs',cat:'Quotidien+',lvl:'a1',ex:'Кілька хвилин ще. (Encore quelques minutes.)'},
+  {ua:'кожен / кожна',tr:'kozhen / kozhna',fr:'chaque / chacun(e)',cat:'Quotidien+',lvl:'a2',ex:'Кожен день — новий шанс. (Chaque jour — une nouvelle chance.)'},
+  {ua:'разом',tr:'razom',fr:'ensemble / en même temps',cat:'Quotidien+',lvl:'a1',ex:'Ми разом вивчаємо мову. (Nous apprenons la langue ensemble.)'},
+  {ua:'окремо',tr:'okremo',fr:'séparément / à part',cat:'Quotidien+',lvl:'a2',ex:'Я хочу рахунок окремо. (Je veux l\'addition séparément.)'},
+  {ua:'зазвичай',tr:'zazvychay',fr:'d\'habitude / normalement',cat:'Quotidien+',lvl:'a2',ex:'Зазвичай я прокидаюся о сьомій. (D\'habitude je me réveille à sept heures.)'},
+  {ua:'нарешті',tr:'nareshti',fr:'enfin / finalement',cat:'Quotidien+',lvl:'a2',ex:'Нарешті вихідні! (Enfin le week-end !)'},
+  {ua:'раптом',tr:'raptom',fr:'soudain / tout à coup',cat:'Quotidien+',lvl:'b1',ex:'Раптом пішов дощ. (Soudain il a plu.)'},
+  {ua:'відразу',tr:'vidrazu',fr:'tout de suite / immédiatement',cat:'Quotidien+',lvl:'a2',ex:'Я відразу зателефоную. (Je t\'appelle tout de suite.)'},
+  {ua:'поступово',tr:'postupovo',fr:'progressivement / peu à peu',cat:'Quotidien+',lvl:'b1',ex:'Поступово я розумію більше. (Progressivement je comprends plus.)'},
+  {ua:'насправді',tr:'naspravdi',fr:'en fait / en réalité',cat:'Quotidien+',lvl:'b1',ex:'Насправді це просто. (En fait c\'est simple.)'},
+  {ua:'мабуть',tr:'mabutʼ',fr:'probablement / sans doute',cat:'Quotidien+',lvl:'b1',ex:'Мабуть, вона забула. (Elle a probablement oublié.)'},
+  {ua:'нажаль',tr:'na zhal',fr:'malheureusement',cat:'Quotidien+',lvl:'a2',ex:'На жаль, я не можу прийти. (Malheureusement je ne peux pas venir.)'},
+  {ua:'на щастя',tr:'na shchastya',fr:'heureusement',cat:'Quotidien+',lvl:'a2',ex:'На щастя, все закінчилося добре. (Heureusement tout s\'est bien terminé.)'},
+  {ua:'взагалі',tr:'vzahali',fr:'en général / du tout (négatif)',cat:'Quotidien+',lvl:'b1',ex:'Взагалі це гарна ідея. (En général c\'est une bonne idée.)'},
+  {ua:'особливо',tr:'osoblyvo',fr:'surtout / particulièrement',cat:'Quotidien+',lvl:'b1',ex:'Особливо мені подобається кава. (J\'aime particulièrement le café.)'},
+  {ua:'мабуть',tr:'mabutʼ',fr:'sans doute / probablement',cat:'Quotidien+',lvl:'b1',ex:'Він мабуть ще спить. (Il dort probablement encore.)'},
+  {ua:'навряд чи',tr:'navryad chy',fr:'peu probable / j\'en doute',cat:'Quotidien+',lvl:'b1',ex:'Навряд чи він прийде. (Il va peu probablement venir.)'},
+  {ua:'хоч би',tr:'khoch by',fr:'au moins / si seulement',cat:'Quotidien+',lvl:'b1',ex:'Хоч би він подзвонив! (S\'il pouvait au moins appeler !)'},
+  {ua:'або... або...',tr:'abo... abo...',fr:'soit... soit...',cat:'Quotidien+',lvl:'a2',ex:'Або чай, або кава. (Soit du thé, soit du café.)'},
+  {ua:'ні... ні...',tr:'ni... ni...',fr:'ni... ni...',cat:'Quotidien+',lvl:'a2',ex:'Ні чаю, ні кави. (Ni thé, ni café.)'},
+  {ua:'як тільки',tr:'yak tilky',fr:'dès que / aussitôt que',cat:'Quotidien+',lvl:'b1',ex:'Як тільки прийдеш, телефонуй. (Dès que tu arrives, appelle.)'},
+  {ua:'незабаром',tr:'nezabarom',fr:'bientôt / dans peu de temps',cat:'Quotidien+',lvl:'b1',ex:'Незабаром все буде добре. (Bientôt tout ira bien.)'},
+  {ua:'давно',tr:'davno',fr:'il y a longtemps / depuis longtemps',cat:'Quotidien+',lvl:'a2',ex:'Ми давно не бачилися. (Ça fait longtemps qu\'on ne s\'est pas vus.)'},
+  {ua:'нещодавно',tr:'neshchodavno',fr:'récemment / il y a peu',cat:'Quotidien+',lvl:'b1',ex:'Я нещодавно переїхав. (Je viens de déménager récemment.)'},
+  {ua:'по-перше',tr:'po-pershe',fr:'premièrement / d\'abord',cat:'Quotidien+',lvl:'a2',ex:'По-перше, привітаємося. (D\'abord, disons bonjour.)'},
+  {ua:'по-друге',tr:'po-druhe',fr:'deuxièmement / ensuite',cat:'Quotidien+',lvl:'a2',ex:'По-друге, сядемо. (Ensuite, asseyons-nous.)'},
+  {ua:'наприклад',tr:'napryklad',fr:'par exemple',cat:'Quotidien+',lvl:'a2',ex:'Наприклад, слово "привіт". (Par exemple, le mot "bonjour".)'},
+  {ua:'тобто',tr:'tobto',fr:'c\'est-à-dire',cat:'Quotidien+',lvl:'b1',ex:'Завтра, тобто в п\'ятницю. (Demain, c\'est-à-dire vendredi.)'},
+  {ua:'між іншим',tr:'mizh inshym',fr:'soit dit en passant / d\'ailleurs',cat:'Quotidien+',lvl:'b1',ex:'Між іншим, він говорить українськи. (D\'ailleurs, il parle ukrainien.)'},
+  {ua:'до речі',tr:'do rechi',fr:'au fait / à propos',cat:'Quotidien+',lvl:'b1',ex:'До речі, ти бачив мій ключ? (Au fait, tu as vu ma clé ?)'},
+  {ua:'звісно',tr:'zvisno',fr:'bien sûr / évidemment',cat:'Quotidien+',lvl:'a1',ex:'Звісно, я допоможу! (Bien sûr, je vais t\'aider !)'},
+  {ua:'можливо',tr:'mozhlуvo',fr:'peut-être / il est possible',cat:'Quotidien+',lvl:'a2',ex:'Можливо, він прийде пізніше. (Peut-être qu\'il viendra plus tard.)'},
+  {ua:'схоже',tr:'skhozhе',fr:'il semble / apparemment',cat:'Quotidien+',lvl:'b1',ex:'Схоже, буде дощ. (Il semble qu\'il va pleuvoir.)'},
+  {ua:'будь-який',tr:'bud-yakyy',fr:'n\'importe quel / quelconque',cat:'Quotidien+',lvl:'b1',ex:'Будь-який варіант підійде. (N\'importe quelle option conviendra.)'},
+  {ua:'взагалі-то',tr:'vzahali-to',fr:'à vrai dire / en fait',cat:'Quotidien+',lvl:'b1',ex:'Взагалі-то я не хотів іти. (À vrai dire je ne voulais pas y aller.)'},
+
+  // ── MOIS DE L\'ANNÉE ──
+  {ua:'січень',tr:'sichen',fr:'janvier',cat:'Mois',lvl:'a2',plur:'',ex:'Січень — найхолодніший місяць. (Janvier — le mois le plus froid.)'},
+  {ua:'лютий',tr:'lyutyy',fr:'février',cat:'Mois',lvl:'a2',ex:'Лютий короткий, але холодний. (Février est court mais froid.)'},
+  {ua:'березень',tr:'berezen',fr:'mars',cat:'Mois',lvl:'a2',ex:'Березень — початок весни. (Mars — le début du printemps.)'},
+  {ua:'квітень',tr:'kviten',fr:'avril',cat:'Mois',lvl:'a2',ex:'У квітні квітнуть дерева. (En avril les arbres fleurissent.)'},
+  {ua:'травень',tr:'traven',fr:'mai',cat:'Mois',lvl:'a2',ex:'Травень — найгарніший місяць. (Mai — le plus beau mois.)'},
+  {ua:'червень',tr:'cherven',fr:'juin',cat:'Mois',lvl:'a2',ex:'Червень — початок літа. (Juin — le début de l\'été.)'},
+  {ua:'липень',tr:'lypen',fr:'juillet',cat:'Mois',lvl:'a2',ex:'Липень — найспекотніший місяць. (Juillet — le mois le plus chaud.)'},
+  {ua:'серпень',tr:'serpen',fr:'août',cat:'Mois',lvl:'a2',ex:'Серпень — останній місяць літа. (Août — le dernier mois de l\'été.)'},
+  {ua:'вересень',tr:'veresen',fr:'septembre',cat:'Mois',lvl:'a2',ex:'Вересень — початок осені. (Septembre — le début de l\'automne.)'},
+  {ua:'жовтень',tr:'zhovten',fr:'octobre',cat:'Mois',lvl:'a2',ex:'У жовтні листя опадає. (En octobre les feuilles tombent.)'},
+  {ua:'листопад',tr:'lystopad',fr:'novembre',cat:'Mois',lvl:'a2',ex:'Листопад — сірий і дощовий. (Novembre — gris et pluvieux.)'},
+  {ua:'грудень',tr:'hruden',fr:'décembre',cat:'Mois',lvl:'a2',ex:'Грудень — місяць Різдва. (Décembre — le mois de Noël.)'},
+  {ua:'у січні',tr:'u sichni',fr:'en janvier',cat:'Mois',lvl:'a2',ex:'У січні дуже холодно. (En janvier il fait très froid.)'},
+  {ua:'на початку місяця',tr:'na pochatku misyatsya',fr:'au début du mois',cat:'Mois',lvl:'b1',ex:'Зустрінемося на початку місяця. (On se retrouve au début du mois.)'},
+  {ua:'в кінці місяця',tr:'v kintsi misyatsya',fr:'à la fin du mois',cat:'Mois',lvl:'b1',ex:'Зарплата в кінці місяця. (Le salaire à la fin du mois.)'},
+  {ua:'минулого місяця',tr:'mynuloho misyatsya',fr:'le mois dernier',cat:'Mois',lvl:'a2',ex:'Минулого місяця я був у Львові. (Le mois dernier j\'étais à Lviv.)'},
+  {ua:'наступного місяця',tr:'nastupnoho misyatsya',fr:'le mois prochain',cat:'Mois',lvl:'a2',ex:'Наступного місяця — відпустка! (Le mois prochain — vacances !)'},
+
+  // ── HEURES ET TEMPS ──
+  {ua:'котра година?',tr:'kotra hodyna',fr:'quelle heure est-il ?',cat:'Heures',lvl:'a1',ex:'Котра година? — Зараз три. (Quelle heure est-il ? — Il est trois heures.)'},
+  {ua:'о котрій?',tr:'o kotriy',fr:'à quelle heure ?',cat:'Heures',lvl:'a1',ex:'О котрій починається фільм? (À quelle heure commence le film ?)'},
+  {ua:'о першій',tr:'o pershiy',fr:'à une heure',cat:'Heures',lvl:'a1',ex:'Зустрінемося о першій. (On se retrouve à une heure.)'},
+  {ua:'о другій',tr:'o druhiy',fr:'à deux heures',cat:'Heures',lvl:'a1',ex:'Обід о другій. (Le déjeuner à deux heures.)'},
+  {ua:'о третій',tr:'o tretiy',fr:'à trois heures',cat:'Heures',lvl:'a1',ex:'Зустріч о третій. (Réunion à trois heures.)'},
+  {ua:'о четвертій',tr:'o chetvertiy',fr:'à quatre heures',cat:'Heures',lvl:'a1',ex:'Поїзд о четвертій. (Le train à quatre heures.)'},
+  {ua:'о п\'ятій',tr:'o pyatiy',fr:'à cinq heures',cat:'Heures',lvl:'a1',ex:'Я закінчую о п\'ятій. (Je finis à cinq heures.)'},
+  {ua:'о шостій',tr:'o shostiy',fr:'à six heures',cat:'Heures',lvl:'a1',ex:'Підйом о шостій ранку. (Lever à six heures du matin.)'},
+  {ua:'о сьомій',tr:'o somiy',fr:'à sept heures',cat:'Heures',lvl:'a1',ex:'Вечеря о сьомій. (Le dîner à sept heures.)'},
+  {ua:'о восьмій',tr:'o vosmiy',fr:'à huit heures',cat:'Heures',lvl:'a1',ex:'Школа починається о восьмій. (L\'école commence à huit heures.)'},
+  {ua:'о дев\'ятій',tr:'o devyatiy',fr:'à neuf heures',cat:'Heures',lvl:'a1',ex:'Робота о дев\'ятій ранку. (Travail à neuf heures du matin.)'},
+  {ua:'о десятій',tr:'o desyatiy',fr:'à dix heures',cat:'Heures',lvl:'a1',ex:'Зустріч о десятій. (Réunion à dix heures.)'},
+  {ua:'об одинадцятій',tr:'ob odynamtsyatiy',fr:'à onze heures',cat:'Heures',lvl:'a1',ex:'Дзвони об одинадцятій. (Appelle à onze heures.)'},
+  {ua:'о дванадцятій / опівдні',tr:'o dvanadtsyatiy / opivdni',fr:'à midi / à douze heures',cat:'Heures',lvl:'a1',ex:'Обід о дванадцятій. (Déjeuner à midi.)'},
+  {ua:'опівночі',tr:'opivnochi',fr:'à minuit',cat:'Heures',lvl:'a2',ex:'Він прийшов опівночі. (Il est arrivé à minuit.)'},
+  {ua:'пів на...',tr:'piv na...',fr:'et demie (ex: пів на другу = 1h30)',cat:'Heures',lvl:'a2',ex:'Зараз пів на третю — 14:30. (Il est 14h30.)'},
+  {ua:'чверть на...',tr:'chvert na...',fr:'et quart',cat:'Heures',lvl:'a2',ex:'Чверть на восьму — 7:15. (Il est 7h15.)'},
+  {ua:'за чверть...',tr:'za chvert...',fr:'moins le quart',cat:'Heures',lvl:'a2',ex:'За чверть дев\'ята — 8:45. (Il est 8h45.)'},
+  {ua:'ранку',tr:'ranku',fr:'du matin (AM)',cat:'Heures',lvl:'a1',ex:'О сьомій ранку я прокидаюся. (À sept heures du matin je me réveille.)'},
+  {ua:'вечора',tr:'vechora',fr:'du soir (PM)',cat:'Heures',lvl:'a1',ex:'О восьмій вечора — фільм. (À huit heures du soir — le film.)'},
+  {ua:'дня',tr:'dnya',fr:'de l\'après-midi',cat:'Heures',lvl:'a1',ex:'О третій дня — зустріч. (À trois heures de l\'après-midi — réunion.)'},
+  {ua:'рівно',tr:'rivno',fr:'pile / exactement (heure)',cat:'Heures',lvl:'a2',ex:'О дев\'ятій рівно! (À neuf heures pile !)'},
+  {ua:'приблизно',tr:'pryblyznо',fr:'environ / à peu près',cat:'Heures',lvl:'a2',ex:'Приблизно о шостій. (Environ à six heures.)'},
+  {ua:'через годину',tr:'cherez hodyny',fr:'dans une heure',cat:'Heures',lvl:'a1',ex:'Через годину зустрінемося. (Dans une heure on se retrouve.)'},
+  {ua:'годину тому',tr:'hodyny tomu',fr:'il y a une heure',cat:'Heures',lvl:'a2',ex:'Він пішов годину тому. (Il est parti il y a une heure.)'},
+  {ua:'цілий день',tr:'tsilyy den',fr:'toute la journée',cat:'Heures',lvl:'a2',ex:'Я працював цілий день. (J\'ai travaillé toute la journée.)'},
+  {ua:'всю ніч',tr:'vsyu nich',fr:'toute la nuit',cat:'Heures',lvl:'a2',ex:'Він читав всю ніч. (Il a lu toute la nuit.)'},
+
+  // ── ARGENT ET ACHATS ──
+  {ua:'скільки коштує?',tr:'skilky koshtуye',fr:'combien ça coûte ?',cat:'Argent',lvl:'a1',ex:'Скільки коштує квиток? (Combien coûte le billet ?)'},
+  {ua:'ціна',tr:'tsina',fr:'le prix',cat:'Argent',lvl:'a1',plur:'ціни (tsiny)',ex:'Яка ціна цього? (Quel est le prix de ça ?)'},
+  {ua:'дорого',tr:'doroho',fr:'cher / c\'est cher',cat:'Argent',lvl:'a1',ex:'Це занадто дорого! (C\'est trop cher !)'},
+  {ua:'дешево',tr:'deshevo',fr:'pas cher / bon marché',cat:'Argent',lvl:'a1',ex:'Дешево і смачно! (Pas cher et délicieux !)'},
+  {ua:'безкоштовно',tr:'bezkoshtovno',fr:'gratuit / gratuitement',cat:'Argent',lvl:'a2',ex:'Вхід безкоштовний. (L\'entrée est gratuite.)'},
+  {ua:'знижка',tr:'znyzka',fr:'réduction / promotion',cat:'Argent',lvl:'a2',plur:'знижки (znyzky)',ex:'Знижка 50% — беру! (50% de réduction — je prends !)'},
+  {ua:'рахунок',tr:'rakhunok',fr:'l\'addition / la facture',cat:'Argent',lvl:'a1',plur:'рахунки (rakhunky)',ex:'Принесіть рахунок, будь ласка. (Apportez l\'addition, s\'il vous plaît.)'},
+  {ua:'готівка',tr:'hotivka',fr:'espèces / cash',cat:'Argent',lvl:'a2',ex:'Можна платити готівкою? (On peut payer en espèces ?)'},
+  {ua:'картка',tr:'kartka',fr:'carte (bancaire)',cat:'Argent',lvl:'a1',plur:'картки (kartky)',ex:'Я плачу карткою. (Je paie par carte.)'},
+  {ua:'решта',tr:'reshta',fr:'la monnaie / le reste',cat:'Argent',lvl:'a2',ex:'Дайте решту, будь ласка. (Rendez-moi la monnaie, s\'il vous plaît.)'},
+  {ua:'бюджет',tr:'byudzhet',fr:'le budget',cat:'Argent',lvl:'b1',plur:'бюджети (byudzhety)',ex:'Я слідкую за бюджетом. (Je surveille mon budget.)'},
+  {ua:'заощадження',tr:'zaoshchadzhennya',fr:'les économies / épargnes',cat:'Argent',lvl:'b1',ex:'Я відкладаю на заощадження. (Je mets de côté pour les économies.)'},
+
+  // ── MÉTÉO ──
+  {ua:'погода',tr:'pohoda',fr:'la météo / le temps',cat:'Météo',lvl:'a1',ex:'Яка сьогодні погода? (Quel temps fait-il aujourd\'hui ?)'},
+  {ua:'гарна погода',tr:'harna pohoda',fr:'beau temps',cat:'Météo',lvl:'a1',ex:'Сьогодні гарна погода! (Il fait beau aujourd\'hui !)'},
+  {ua:'погана погода',tr:'pohana pohoda',fr:'mauvais temps',cat:'Météo',lvl:'a1',ex:'Погана погода — залишаємося вдома. (Mauvais temps — on reste à la maison.)'},
+  {ua:'іде дощ',tr:'ide doshch',fr:'il pleut',cat:'Météo',lvl:'a1',ex:'Іде дощ — візьми парасольку! (Il pleut — prends le parapluie !)'},
+  {ua:'іде сніг',tr:'ide snіh',fr:'il neige',cat:'Météo',lvl:'a1',ex:'Іде сніг — яка краса! (Il neige — quelle beauté !)'},
+  {ua:'хмарно',tr:'khmarno',fr:'nuageux / couvert',cat:'Météo',lvl:'a1',ex:'Сьогодні хмарно і сіро. (Aujourd\'hui c\'est nuageux et gris.)'},
+  {ua:'сонячно',tr:'sonyachno',fr:'ensoleillé',cat:'Météo',lvl:'a1',ex:'Сонячно і тепло — чудово! (Ensoleillé et chaud — merveilleux !)'},
+  {ua:'вітряно',tr:'vitryano',fr:'venteux / il y a du vent',cat:'Météo',lvl:'a1',ex:'Дуже вітряно сьогодні. (Il y a beaucoup de vent aujourd\'hui.)'},
+  {ua:'туманно',tr:'tumanno',fr:'brumeux / il y a du brouillard',cat:'Météo',lvl:'a2',ex:'Туманно — їдь обережно. (Brumeux — conduis prudemment.)'},
+  {ua:'гроза',tr:'hroza',fr:'l\'orage',cat:'Météo',lvl:'a2',plur:'грози (hrozy)',ex:'Вночі буде гроза. (Cette nuit il y aura un orage.)'},
+  {ua:'градус',tr:'hradus',fr:'le degré (température)',cat:'Météo',lvl:'a1',plur:'градуси (hradusy)',ex:'Сьогодні 20 градусів тепла. (Aujourd\'hui il fait 20 degrés.)'},
+  {ua:'мороз',tr:'moroz',fr:'le gel / le froid intense',cat:'Météo',lvl:'a2',ex:'На вулиці мороз — мінус десять. (Il gèle dehors — moins dix.)'},
+  {ua:'спека',tr:'speka',fr:'la chaleur / la canicule',cat:'Météo',lvl:'a2',ex:'Яка спека! Не можу дихати. (Quelle chaleur ! Je n\'arrive pas à respirer.)'},
+  {ua:'злива',tr:'zlyva',fr:'l\'averse / la grosse pluie',cat:'Météo',lvl:'b1',plur:'зливи (zlyvy)',ex:'Попала під зливу без парасольки. (Je me suis retrouvée sous une averse sans parapluie.)'},
+  {ua:'прогноз погоди',tr:'prohnoz pohody',fr:'la météo / les prévisions',cat:'Météo',lvl:'a2',ex:'Який прогноз погоди на завтра? (Quelle est la météo pour demain ?)'},
 ];
 
 const PHRASES=[
@@ -2235,7 +2363,7 @@ function rateFlash(r){
     const card=flashDeck[flashIdx];
     const i=VERBS.findIndex(v=>v.inf===card.ua);
     if(i!==-1){
-      if(r===3){ knownVerbs.add(i); }
+      if(r===2||r===3){ knownVerbs.add(i); }
       else if(r===0||r===1){ knownVerbs.delete(i); }
       saveData();updateAll();
       if(document.getElementById('page-vocab').classList.contains('on')) renderVocab();
@@ -3612,6 +3740,7 @@ const EXAMPLES={
 };
 
 function getExample(w){
+  if(w.ex) return w.ex;
   if(EXAMPLES[w.ua]) return EXAMPLES[w.ua];
   const plur=getPlurRaw(w);
   if(plur) return w.ua+' → '+plur+' (pluriel)';
