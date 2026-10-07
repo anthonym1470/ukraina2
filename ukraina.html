@@ -330,6 +330,54 @@ body{font-family:-apple-system,'SF Pro Text','Inter',system-ui,sans-serif;color:
         <div class="mcard-ttl">Alphabet</div><div class="mcard-sub">Cyrillique ukrainien</div>
       </div>
     </div>
+
+    <!-- SESSION DU JOUR -->
+    <button onclick="go('session')" style="width:100%;margin:16px 0 8px;padding:16px;border-radius:var(--radius-lg);border:none;background:linear-gradient(135deg,var(--acc),#FF6B35);color:#fff;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 16px rgba(255,213,0,.3)">
+      🎯 Entraînement du jour — 30 min
+    </button>
+
+    <div class="section-title">Parler & Pratiquer</div>
+    <div class="cards2">
+      <div class="mcard" onclick="go('parler')" style="border-color:rgba(255,159,10,.3);background:rgba(255,159,10,.05)">
+        <div class="mcard-top"><div class="mcard-ico">🗣️</div><div class="mcard-badge">6 niveaux</div></div>
+        <div class="mcard-ttl">Mode Parler</div><div class="mcard-sub">Production orale FR→UA</div>
+      </div>
+      <div class="mcard" onclick="go('dialogues')" style="border-color:rgba(48,209,88,.3);background:rgba(48,209,88,.05)">
+        <div class="mcard-top"><div class="mcard-ico">💬</div><div class="mcard-badge">19 situations</div></div>
+        <div class="mcard-ttl">Mini-dialogues</div><div class="mcard-sub">Conversations réelles</div>
+      </div>
+      <div class="mcard" onclick="go('cas')" style="border-color:rgba(10,132,255,.3);background:rgba(10,132,255,.05)">
+        <div class="mcard-top"><div class="mcard-ico">🧩</div><div class="mcard-badge">7 cas</div></div>
+        <div class="mcard-ttl">Cas ukrainiens</div><div class="mcard-sub">Par la pratique</div>
+      </div>
+      <div class="mcard" onclick="go('construction')" style="border-color:rgba(255,69,58,.3);background:rgba(255,69,58,.05)">
+        <div class="mcard-top"><div class="mcard-ico">🔀</div><div class="mcard-badge">Phrases</div></div>
+        <div class="mcard-ttl">Construction</div><div class="mcard-sub">Ordonner les mots</div>
+      </div>
+      <div class="mcard" onclick="go('ecoute')" style="border-color:rgba(94,92,230,.3);background:rgba(94,92,230,.05)">
+        <div class="mcard-top"><div class="mcard-ico">🎧</div><div class="mcard-badge">Niveaux 1-5</div></div>
+        <div class="mcard-ttl">Écouter</div><div class="mcard-sub">Compréhension orale</div>
+      </div>
+      <div class="mcard" onclick="go('copine')" style="border-color:rgba(255,45,85,.3);background:rgba(255,45,85,.05)">
+        <div class="mcard-top"><div class="mcard-ico">❤️</div><div class="mcard-badge">Pratique réelle</div></div>
+        <div class="mcard-ttl">Avec ma copine</div><div class="mcard-sub">Parler ensemble</div>
+      </div>
+    </div>
+
+    <div class="section-title">Statistiques</div>
+    <div class="stats3">
+      <div class="scard"><div class="snum" id="st-phrases-prod">0</div><div class="slbl">Phrases produites</div></div>
+      <div class="scard"><div class="snum" id="st-ecoute">0</div><div class="slbl">Écoutes faites</div></div>
+      <div class="scard"><div class="snum" id="st-streak">0</div><div class="slbl">🔥 Jours de suite</div></div>
+    </div>
+    <div class="stats3" style="margin-top:8px">
+      <div class="scard"><div class="snum" id="st-verbs-k">0</div><div class="slbl">Verbes connus</div></div>
+      <div class="scard"><div class="snum" id="st-phrases-k">0</div><div class="slbl">Phrases connues</div></div>
+      <div class="scard"><div class="snum" id="st-srs-due">0</div><div class="slbl">À réviser auj.</div></div>
+    </div>
+    <div id="niveau-badge" style="margin-top:12px;padding:12px 16px;background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);font-size:13px;color:var(--muted);text-align:center">
+      <span id="niveau-txt">Niveau estimé : A1</span> <span style="font-size:10px;opacity:.6">— indication de progression dans l'app</span>
+    </div>
   </div>
 
   <!-- FLASHCARDS FR→UA -->
@@ -538,6 +586,177 @@ body{font-family:-apple-system,'SF Pro Text','Inter',system-ui,sans-serif;color:
     </div>
   </div>
 
+  <!-- MODE PARLER -->
+  <div class="page" id="page-parler">
+    <div class="hrow"><div class="hrow-title">🗣️ Mode Parler</div></div>
+    <div class="pills" id="parler-level-pills" style="margin-bottom:12px"></div>
+    <div id="parler-card" style="background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);padding:20px;margin-bottom:12px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--acc4);text-transform:uppercase;margin-bottom:8px" id="parler-niv-lbl">NIVEAU 1</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:12px">Dis en ukrainien :</div>
+      <div style="font-size:20px;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:16px" id="parler-fr"></div>
+      <div style="font-size:12px;color:var(--muted);text-align:center" id="parler-hint">🎤 Essaie de dire la phrase à voix haute</div>
+    </div>
+    <button onclick="revealParler()" id="parler-reveal-btn" style="width:100%;padding:14px;border-radius:var(--radius-lg);border:none;background:var(--surf2);color:var(--text);font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:12px">👁️ Voir la réponse</button>
+    <div id="parler-answer" style="display:none;background:rgba(10,132,255,.06);border:0.5px solid rgba(10,132,255,.3);border-radius:var(--radius-lg);padding:16px;margin-bottom:12px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
+        <div style="flex:1">
+          <div style="font-size:20px;font-weight:700;color:var(--text);margin-bottom:6px" id="parler-ua"></div>
+          <div style="font-size:13px;color:var(--muted);font-style:italic;margin-bottom:4px" id="parler-tr"></div>
+          <div style="font-size:12px;color:var(--acc2);margin-top:6px" id="parler-note"></div>
+        </div>
+        <button class="speak-btn" onclick="speakParler()" id="parler-speak">🔊</button>
+      </div>
+    </div>
+    <div id="parler-btns" style="display:none;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+      <button onclick="rateParler(3)" style="padding:12px;border-radius:var(--radius-lg);border:0.5px solid rgba(48,209,88,.4);background:rgba(48,209,88,.1);color:#30D158;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">✅ Je savais</button>
+      <button onclick="rateParler(1)" style="padding:12px;border-radius:var(--radius-lg);border:0.5px solid rgba(255,159,10,.4);background:rgba(255,159,10,.1);color:#FF9F0A;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">🟡 Difficile</button>
+      <button onclick="rateParler(0)" style="padding:12px;border-radius:var(--radius-lg);border:0.5px solid rgba(255,69,58,.4);background:rgba(255,69,58,.1);color:#FF453A;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">❌ Pas su</button>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)">
+      <span id="parler-prog">0/0</span>
+      <span id="parler-score">✅ 0</span>
+    </div>
+  </div>
+
+  <!-- DIALOGUES -->
+  <div class="page" id="page-dialogues">
+    <div class="hrow"><div class="hrow-title">💬 Mini-dialogues</div></div>
+    <div id="dial-situation-list" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px"></div>
+    <div id="dial-conversation" style="display:none">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <button onclick="showDialSituations()" style="padding:6px 12px;border-radius:20px;border:0.5px solid var(--brd);background:transparent;color:var(--muted);font-family:inherit;font-size:12px;cursor:pointer">← Retour</button>
+        <div style="font-size:14px;font-weight:700;color:var(--text)" id="dial-title"></div>
+      </div>
+      <div id="dial-messages" style="display:flex;flex-direction:column;gap:10px;margin-bottom:12px"></div>
+      <div id="dial-response-area" style="display:none;background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);padding:14px;margin-bottom:8px">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Réponse possible :</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:4px" id="dial-resp-ua"></div>
+        <div style="font-size:12px;color:var(--muted);font-style:italic;margin-bottom:8px" id="dial-resp-tr"></div>
+        <div style="font-size:12px;color:var(--text);margin-bottom:8px" id="dial-resp-fr"></div>
+        <button class="speak-btn" onclick="speak(currentDialResp,event)" style="width:100%;border-radius:10px;height:36px;font-size:13px">🔊 Écouter</button>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button onclick="revealDialResponse()" id="dial-reveal-btn" style="flex:1;padding:12px;border-radius:var(--radius-lg);border:none;background:var(--surf2);color:var(--text);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer">👁️ Voir une réponse</button>
+        <button onclick="nextDialLine()" id="dial-next-btn" style="flex:1;padding:12px;border-radius:var(--radius-lg);border:none;background:var(--acc2);color:#fff;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer">Suite →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAS UKRAINIENS -->
+  <div class="page" id="page-cas">
+    <div class="hrow"><div class="hrow-title">🧩 Cas ukrainiens</div></div>
+    <div class="pills" id="cas-type-pills" style="margin-bottom:12px"></div>
+    <div id="cas-card" style="background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);padding:20px;margin-bottom:12px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--acc);text-transform:uppercase;margin-bottom:8px" id="cas-type-lbl"></div>
+      <div style="font-size:18px;font-weight:700;color:var(--text);margin-bottom:16px;line-height:1.5" id="cas-question"></div>
+      <div id="cas-qcm-options" style="display:flex;flex-direction:column;gap:8px"></div>
+    </div>
+    <div id="cas-feedback" style="display:none;border-radius:var(--radius-lg);padding:14px;margin-bottom:12px">
+      <div style="font-size:15px;font-weight:700;margin-bottom:6px" id="cas-fb-result"></div>
+      <div style="font-size:14px;font-weight:600;color:var(--acc2);margin-bottom:4px" id="cas-fb-ua"></div>
+      <div style="font-size:12px;color:var(--muted);font-style:italic;margin-bottom:8px" id="cas-fb-expl"></div>
+      <button onclick="nextCas()" style="width:100%;padding:12px;border-radius:var(--radius-lg);border:none;background:var(--acc2);color:#fff;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer">Suivant →</button>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted)">
+      <span id="cas-prog">0/0</span><span id="cas-score">✅ 0</span>
+    </div>
+  </div>
+
+  <!-- CONSTRUCTION DE PHRASES -->
+  <div class="page" id="page-construction">
+    <div class="hrow"><div class="hrow-title">🔀 Construction</div></div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:12px">Remets les mots dans le bon ordre :</div>
+    <div id="constr-card" style="background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);padding:16px;margin-bottom:12px">
+      <div style="font-size:13px;color:var(--acc4);margin-bottom:8px" id="constr-fr"></div>
+      <div id="constr-answer-zone" style="min-height:48px;background:var(--surf2);border:1px dashed var(--brd);border-radius:10px;padding:8px;display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px"></div>
+      <div id="constr-words" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+    </div>
+    <div id="constr-feedback" style="display:none;border-radius:var(--radius-lg);padding:12px;margin-bottom:12px">
+      <div style="font-weight:700;margin-bottom:4px" id="constr-fb-result"></div>
+      <div style="font-size:13px;color:var(--acc2);margin-bottom:4px" id="constr-fb-ua"></div>
+      <div style="font-size:12px;color:var(--muted)" id="constr-fb-note"></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <button onclick="checkConstruction()" id="constr-check-btn" style="flex:1;padding:12px;border-radius:var(--radius-lg);border:none;background:var(--acc2);color:#fff;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer">✓ Vérifier</button>
+      <button onclick="nextConstruction()" id="constr-next-btn" style="display:none;flex:1;padding:12px;border-radius:var(--radius-lg);border:none;background:var(--acc3);color:#fff;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer">Suivant →</button>
+      <button onclick="resetConstruction()" style="padding:12px 16px;border-radius:var(--radius-lg);border:0.5px solid var(--brd);background:transparent;color:var(--muted);font-family:inherit;font-size:14px;cursor:pointer">↺</button>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted)">
+      <span id="constr-prog">0/0</span><span id="constr-score">✅ 0</span>
+    </div>
+  </div>
+
+  <!-- ÉCOUTER -->
+  <div class="page" id="page-ecoute">
+    <div class="hrow"><div class="hrow-title">🎧 Écouter</div></div>
+    <div class="pills" id="ecoute-level-pills" style="margin-bottom:12px"></div>
+    <div style="text-align:center;padding:24px;background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);margin-bottom:12px">
+      <div style="font-size:48px;margin-bottom:12px">🔊</div>
+      <button onclick="playEcoute()" id="ecoute-play-btn" style="padding:14px 32px;border-radius:var(--radius-lg);border:none;background:var(--acc2);color:#fff;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer">▶ Écouter</button>
+      <div style="font-size:12px;color:var(--muted);margin-top:8px" id="ecoute-instruction">Écoute la phrase, puis réponds</div>
+    </div>
+    <div id="ecoute-options" style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px"></div>
+    <div id="ecoute-reveal" style="display:none;background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);padding:14px;margin-bottom:12px">
+      <div style="font-size:16px;font-weight:700;margin-bottom:4px" id="ecoute-ua"></div>
+      <div style="font-size:12px;color:var(--muted);font-style:italic;margin-bottom:4px" id="ecoute-tr"></div>
+      <div style="font-size:13px;color:var(--acc4);margin-bottom:8px" id="ecoute-fr"></div>
+      <div style="display:flex;gap:8px">
+        <button onclick="playEcouteSlow()" style="flex:1;padding:10px;border-radius:10px;border:0.5px solid var(--brd);background:transparent;color:var(--muted);font-family:inherit;font-size:12px;cursor:pointer">🐢 Lentement</button>
+        <button onclick="playEcoute()" style="flex:1;padding:10px;border-radius:10px;border:0.5px solid var(--brd);background:transparent;color:var(--muted);font-family:inherit;font-size:12px;cursor:pointer">▶ Normal</button>
+      </div>
+    </div>
+    <div id="ecoute-next-area" style="display:none">
+      <button onclick="nextEcoute()" style="width:100%;padding:12px;border-radius:var(--radius-lg);border:none;background:var(--acc2);color:#fff;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer">Suivant →</button>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:12px;color:var(--muted)">
+      <span id="ecoute-prog">0/0</span><span id="ecoute-score">✅ 0</span>
+    </div>
+  </div>
+
+  <!-- AVEC MA COPINE -->
+  <div class="page" id="page-copine">
+    <div class="hrow"><div class="hrow-title">❤️ Avec ma copine</div></div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:16px">Des questions à lui poser en ukrainien. Essaie d'abord, puis révèle.</div>
+    <div id="copine-card" style="background:linear-gradient(135deg,rgba(255,45,85,.1),rgba(255,159,10,.05));border:0.5px solid rgba(255,45,85,.3);border-radius:var(--radius-lg);padding:20px;margin-bottom:12px">
+      <div style="font-size:12px;color:var(--danger);font-weight:600;margin-bottom:8px" id="copine-num">Question 1/5</div>
+      <div style="font-size:18px;color:var(--text);font-weight:600;margin-bottom:6px" id="copine-fr"></div>
+      <div style="font-size:12px;color:var(--muted)">🎤 Essaie de le dire en ukrainien...</div>
+    </div>
+    <button onclick="revealCopine()" id="copine-reveal-btn" style="width:100%;padding:14px;border-radius:var(--radius-lg);border:none;background:var(--surf2);color:var(--text);font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:8px">❤️ Voir en ukrainien</button>
+    <div id="copine-answer" style="display:none;background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);padding:14px;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div style="flex:1">
+          <div style="font-size:18px;font-weight:700;color:var(--text);margin-bottom:4px" id="copine-ua"></div>
+          <div style="font-size:12px;color:var(--muted);font-style:italic;margin-bottom:8px" id="copine-tr"></div>
+        </div>
+        <button class="speak-btn" onclick="speak(document.getElementById('copine-ua').textContent,event)">🔊</button>
+      </div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--muted);text-transform:uppercase;margin:8px 0 6px">Questions de relance :</div>
+      <div id="copine-followup" style="font-size:13px;color:var(--acc2);line-height:1.8"></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:8px" id="copine-rate-btns" style="display:none">
+      <button onclick="nextCopine(3)" style="flex:1;padding:10px;border-radius:var(--radius-lg);border:0.5px solid rgba(48,209,88,.4);background:rgba(48,209,88,.1);color:#30D158;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer">✅ Dit</button>
+      <button onclick="nextCopine(0)" style="flex:1;padding:10px;border-radius:var(--radius-lg);border:0.5px solid rgba(255,69,58,.4);background:rgba(255,69,58,.1);color:#FF453A;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer">❌ Pas su</button>
+    </div>
+    <div style="text-align:center;font-size:12px;color:var(--muted)" id="copine-prog">1 / 5</div>
+  </div>
+
+  <!-- SESSION DU JOUR -->
+  <div class="page" id="page-session">
+    <div class="hrow"><div class="hrow-title">🎯 Session du jour</div></div>
+    <div id="session-plan" style="margin-bottom:16px"></div>
+    <div id="session-active" style="display:none">
+      <div id="session-step-content"></div>
+    </div>
+    <div id="session-end" style="display:none;text-align:center;padding:32px 16px">
+      <div style="font-size:48px;margin-bottom:12px">🏆</div>
+      <div style="font-size:24px;font-weight:800;color:var(--acc4);margin-bottom:8px" id="session-xp-gained">+0 XP</div>
+      <div style="font-size:14px;color:var(--muted);margin-bottom:16px">Session terminée ! Bravo !</div>
+      <div id="session-summary" style="background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);padding:16px;text-align:left;font-size:13px;line-height:1.8;margin-bottom:16px;color:var(--muted)"></div>
+      <button onclick="go('home')" style="width:100%;padding:14px;border-radius:var(--radius-lg);border:none;background:var(--acc);color:#000;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer">Retour à l'accueil</button>
+    </div>
+  </div>
+
 </div>
 
 <nav class="bottomnav">
@@ -551,6 +770,12 @@ body{font-family:-apple-system,'SF Pro Text','Inter',system-ui,sans-serif;color:
   <button class="bnav-item" id="bnav-conj" onclick="go('conj')"><div class="bnav-ico">📝</div><div class="bnav-lbl">Verbes</div><div class="bnav-dot"></div></button>
   <button class="bnav-item" id="bnav-gram" onclick="go('gram')"><div class="bnav-ico">📖</div><div class="bnav-lbl">Gramm.</div><div class="bnav-dot"></div></button>
   <button class="bnav-item" id="bnav-alpha" onclick="go('alpha')"><div class="bnav-ico">🔤</div><div class="bnav-lbl">Alphabet</div><div class="bnav-dot"></div></button>
+  <button class="bnav-item" id="bnav-parler" onclick="go('parler')"><div class="bnav-ico">🗣️</div><div class="bnav-lbl">Parler</div><div class="bnav-dot"></div></button>
+  <button class="bnav-item" id="bnav-dialogues" onclick="go('dialogues')"><div class="bnav-ico">💬</div><div class="bnav-lbl">Dialogues</div><div class="bnav-dot"></div></button>
+  <button class="bnav-item" id="bnav-ecoute" onclick="go('ecoute')"><div class="bnav-ico">🎧</div><div class="bnav-lbl">Écouter</div><div class="bnav-dot"></div></button>
+  <button class="bnav-item" id="bnav-cas" onclick="go('cas')"><div class="bnav-ico">🧩</div><div class="bnav-lbl">Cas</div><div class="bnav-dot"></div></button>
+  <button class="bnav-item" id="bnav-construction" onclick="go('construction')"><div class="bnav-ico">🔀</div><div class="bnav-lbl">Phrases</div><div class="bnav-dot"></div></button>
+  <button class="bnav-item" id="bnav-copine" onclick="go('copine')"><div class="bnav-ico">❤️</div><div class="bnav-lbl">Copine</div><div class="bnav-dot"></div></button>
 </nav>
 </div>
 
@@ -1687,7 +1912,7 @@ function loadData(){
 let known=new Set(),knownVerbs=new Set(),knownPhrases=new Set(),xp=0,ankiSession=[],ankiIdx=0,ankiFlipped=false,ankiDoneToday=0;
 let selCat='Tous',selPhrCat='Tous',selVerb=0,selTense='pres';
 let qCur=0,qArr=[],qCorrect=0,qAns=false;
-const pages=['home','vocab','flash','quiz','anki','trad','phrases','conj','gram','alpha'];
+const pages=['home','vocab','flash','quiz','anki','trad','phrases','conj','gram','alpha','parler','dialogues','cas','construction','ecoute','copine','session'];
 
 const GRAM=[
   // ── BASES ────────────────────────────────────────
@@ -2103,8 +2328,10 @@ loadData();loadTradData();
 function haptic(){try{if(navigator.vibrate)navigator.vibrate(10);}catch(e){}}
 function go(id){
   pages.forEach(p=>{
-    document.getElementById('page-'+p).classList.toggle('on',p===id);
-    document.getElementById('bnav-'+p).classList.toggle('on',p===id);
+    const pg=document.getElementById('page-'+p);
+    if(pg) pg.classList.toggle('on',p===id);
+    const bn=document.getElementById('bnav-'+p);
+    if(bn) bn.classList.toggle('on',p===id);
   });
   document.querySelector('.content').scrollTop=0;
   haptic();
@@ -2115,6 +2342,13 @@ function go(id){
   if(id==='conj')renderConj();
   if(id==='gram')renderGram();
   if(id==='trad')renderTrad();
+  if(id==='parler')initParler();
+  if(id==='dialogues')initDialogues();
+  if(id==='cas')initCas();
+  if(id==='construction')initConstruction();
+  if(id==='ecoute')initEcoute();
+  if(id==='copine')initCopine();
+  if(id==='session')initSession();
   if(id==='alpha')renderAlpha();
   if(id==='vocab')renderVocab();
 }
@@ -2128,6 +2362,29 @@ function updateAll(){
   document.getElementById('vkc').textContent=kc;
   document.getElementById('xp-lbl').textContent=xp+' XP';
   document.getElementById('gp').style.width=Math.max(5,Math.round(kc/VOCAB.length*100))+'%';
+  // Stats enrichies
+  const total=kc+knownVerbs.size+knownPhrases.size;
+  let niveau='A1';
+  if(total>400)niveau='B2';
+  else if(total>250)niveau='B1';
+  else if(total>120)niveau='A2';
+  else if(total>50)niveau='A1+';
+  const nbTxt=document.getElementById('niveau-txt');
+  if(nbTxt)nbTxt.textContent='Niveau estimé : '+niveau+' ('+total+' éléments connus)';
+  const sv=document.getElementById('st-verbs-k');if(sv)sv.textContent=knownVerbs.size;
+  const sp=document.getElementById('st-phrases-k');if(sp)sp.textContent=knownPhrases.size;
+  const ss=document.getElementById('st-srs-due');if(ss)ss.textContent=Math.max(0,Math.floor(kc/5));
+  const sst=document.getElementById('st-streak');
+  if(sst){
+    try{
+      const today=new Date().toDateString();
+      let streak=1;
+      const s=localStorage.getItem('uk_streak_data');
+      if(s){const d=JSON.parse(s);if(d.last===today)streak=d.count;else if(d.last===new Date(Date.now()-86400000).toDateString()){streak=d.count+1;localStorage.setItem('uk_streak_data',JSON.stringify({last:today,count:streak}));}else{streak=1;localStorage.setItem('uk_streak_data',JSON.stringify({last:today,count:1}));}}
+      else{localStorage.setItem('uk_streak_data',JSON.stringify({last:today,count:1}));}
+      sst.textContent=streak;
+    }catch(e){sst.textContent=0;}
+  }
 }
 // ===== FLASHCARDS FR → UA =====
 let flashMode='vocab', flashCat='Tous', flashDeck=[], flashIdx=0, flashFlipped=false, flashOk=0, flashCatSel='Tous', flashFilterUnknown=false;
@@ -4009,6 +4266,671 @@ function showLetter(i){
     </div>`).join('');
   document.getElementById('adetail').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
+// ══════════════════════════════════════════════════════
+// ── MODE PARLER ────────────────────────────────────────
+// ══════════════════════════════════════════════════════
+const PARLER_DATA={
+  1:[ // Niveau 1 : mots isolés
+    {fr:'Bonjour',ua:'Привіт',tr:'pryvit',note:''},
+    {fr:'Merci',ua:'Дякую',tr:'dyakuyu',note:''},
+    {fr:'Oui',ua:'Так',tr:'tak',note:''},
+    {fr:'Non',ua:'Ні',tr:'ni',note:''},
+    {fr:'S\'il te plaît',ua:'Будь ласка',tr:'bud laska',note:''},
+    {fr:'Excuse-moi',ua:'Вибачте',tr:'vybachte',note:''},
+    {fr:'De rien',ua:'Нема за що',tr:'nema za shcho',note:''},
+    {fr:'Eau',ua:'Вода',tr:'voda',note:''},
+    {fr:'Pain',ua:'Хліб',tr:'khlib',note:''},
+    {fr:'Maison',ua:'Будинок',tr:'budynok',note:''},
+  ],
+  2:[ // Niveau 2 : phrases courtes
+    {fr:'Comment tu t\'appelles ?',ua:'Як тебе звуть?',tr:'Yak tebe zvut?',note:''},
+    {fr:'Je m\'appelle Antoine.',ua:'Мене звуть Антуан.',tr:'Mene zvut Antoine.',note:''},
+    {fr:'Comment ça va ?',ua:'Як справи?',tr:'Yak spravy?',note:''},
+    {fr:'Ça va bien.',ua:'Все добре.',tr:'Vse dobre.',note:''},
+    {fr:'Où est la gare ?',ua:'Де вокзал?',tr:'De vokzal?',note:''},
+    {fr:'Combien ça coûte ?',ua:'Скільки коштує?',tr:'Skilky koshtуye?',note:''},
+    {fr:'Je ne comprends pas.',ua:'Я не розумію.',tr:'Ya ne rozumiyu.',note:''},
+    {fr:'Parle plus lentement.',ua:'Говори повільніше.',tr:'Hovory povilnishe.',note:''},
+    {fr:'J\'ai faim.',ua:'Я хочу їсти.',tr:'Ya khochu yisty.',note:'Structure : je veux manger'},
+    {fr:'J\'ai soif.',ua:'Я хочу пити.',tr:'Ya khochu pyty.',note:'Structure : je veux boire'},
+  ],
+  3:[ // Niveau 3 : phrases avec verbes
+    {fr:'Je travaille à la maison.',ua:'Я працюю вдома.',tr:'Ya pratsyuyu vdoma.',note:'Verbe : працювати'},
+    {fr:'Elle parle ukrainien.',ua:'Вона говорить по-українськи.',tr:'Vona hovoryt po-ukrayinsky.',note:''},
+    {fr:'Nous apprenons ensemble.',ua:'Ми вчимося разом.',tr:'My vchymosya razom.',note:'Verbe réfléchi : вчитися'},
+    {fr:'Il mange une pomme.',ua:'Він їсть яблуко.',tr:'Vin yist yabluko.',note:'Accusatif : яблуко'},
+    {fr:'Je lis un livre.',ua:'Я читаю книгу.',tr:'Ya chytayu knyhu.',note:'Accusatif : книгу (книга)'},
+    {fr:'Tu bois du café.',ua:'Ти п\'єш каву.',tr:'Ty pyesh kavu.',note:'Accusatif : каву (кава)'},
+    {fr:'On va au restaurant.',ua:'Ми йдемо в ресторан.',tr:'My ydemo v restoran.',note:'В + accusatif'},
+    {fr:'J\'ai acheté du pain.',ua:'Я купив хліб.',tr:'Ya kupуv khlib.',note:'Passé : купив (masc.)'},
+    {fr:'Elle a téléphoné.',ua:'Вона зателефонувала.',tr:'Vona zatelefonuvala.',note:'Passé : -ла (fém.)'},
+    {fr:'Demain je partirai.',ua:'Завтра я поїду.',tr:'Zavtra ya poyidu.',note:'Perfectif futur'},
+  ],
+  4:[ // Niveau 4 : cas et pronoms
+    {fr:'Donne-moi le livre.',ua:'Дай мені книгу.',tr:'Day meni knyhu.',note:'Datif : мені (à moi)'},
+    {fr:'Je parle à ma copine.',ua:'Я говорю з моєю подругою.',tr:'Ya hovoryu z moyeyu podruhoyu.',note:'Instrumental : з + instr.'},
+    {fr:'Il pense à moi.',ua:'Він думає про мене.',tr:'Vin dumaуe pro mene.',note:'Locatif : про + accus.'},
+    {fr:'C\'est le livre de mon ami.',ua:'Це книга мого друга.',tr:'Tse knyha moho druha.',note:'Génitif : мого друга'},
+    {fr:'Je rentre chez moi.',ua:'Я іду додому.',tr:'Ya idu dodomu.',note:'додому = vers la maison'},
+    {fr:'Je vis en France.',ua:'Я живу у Франції.',tr:'Ya zhyvu u Frantsiyi.',note:'Locatif : у + loc.'},
+    {fr:'Nous allons au cinéma.',ua:'Ми йдемо в кіно.',tr:'My ydemo v kino.',note:'В + accusatif neutre'},
+    {fr:'Je l\'ai vu hier.',ua:'Я бачив його вчора.',tr:'Ya bachуv yoho vchora.',note:'Accusatif pronom : його'},
+    {fr:'Tu me manques.',ua:'Я сумую за тобою.',tr:'Ya sumuyu za toboyu.',note:'Instrumental : за + instr.'},
+    {fr:'Je suis fier de toi.',ua:'Я пишаюся тобою.',tr:'Ya pуshayusya toboyu.',note:'Instrumental réfléchi'},
+  ],
+  5:[ // Niveau 5 : phrases complexes
+    {fr:'Quand j\'étais petit, j\'habitais à Paris.',ua:'Коли я був маленьким, я жив у Парижі.',tr:'Koly ya buv malenkуm, ya zhуv u Paryzhi.',note:'Passé + locatif instrumental'},
+    {fr:'Je n\'ai jamais mangé de bortsch.',ua:'Я ніколи не їв борщ.',tr:'Ya nikoly ne yiv borshch.',note:'Négation + passé'},
+    {fr:'Si tu veux, on peut se retrouver.',ua:'Якщо хочеш, можемо зустрітися.',tr:'Yakshcho khochesh, mozhemo zustrytysya.',note:'Conditionnel ukrainien'},
+    {fr:'J\'apprends le plus possible chaque jour.',ua:'Я вчуся якнайбільше кожен день.',tr:'Ya vchusya yaknаybilshe kozhen den.',note:'Superlatif'},
+    {fr:'Il fait beau mais il fait froid.',ua:'Гарна погода, але холодно.',tr:'Harna pohoda, ale kholodno.',note:'Mais = але'},
+    {fr:'Je suis content que tu sois là.',ua:'Я радий, що ти тут.',tr:'Ya radуy, shcho ty tut.',note:'Proposition subordonnée'},
+    {fr:'C\'est le plus beau pays du monde.',ua:'Це найкраща країна у світі.',tr:'Tse naykrashcha kraуina u sviti.',note:'Superlatif : най- + adj.'},
+    {fr:'Je te promets de revenir.',ua:'Я обіцяю повернутися.',tr:'Ya obitsyayu povernutysya.',note:'Infinitif après verbe'},
+    {fr:'Autant que je sache, il parle bien.',ua:'Наскільки я знаю, він добре говорить.',tr:'Naskilky ya znayu, vin dobre hovoryt.',note:'Expression idiomatique'},
+    {fr:'Je me lève à sept heures chaque matin.',ua:'Я встаю о сьомій кожного ранку.',tr:'Ya vstаyu o somiy kozhnоho ranku.',note:'Génitif temporel : кожного ранку'},
+  ],
+  6:[ // Niveau 6 : production libre avancée
+    {fr:'Parle-moi de ta journée.',ua:'Розкажи мені про свій день.',tr:'Rozkazhy meni pro sviy den.',note:''},
+    {fr:'Décris ta famille.',ua:'Опиши свою родину.',tr:'Opуshy svoyu rodуnu.',note:''},
+    {fr:'Qu\'est-ce que tu aimes faire le week-end ?',ua:'Що ти любиш робити у вихідні?',tr:'Shcho ty lyubуsh robуty u vуkhidni?',note:''},
+    {fr:'Raconte une chose intéressante sur l\'Ukraine.',ua:'Розкажи щось цікаве про Україну.',tr:'Rozkazhy shchos tsikave pro Ukrayinu.',note:''},
+    {fr:'Qu\'est-ce que tu ferais si tu avais le temps ?',ua:'Що б ти зробив, якби мав час?',tr:'Shcho b tу zrobuv, yakbу mav chas?',note:'Conditionnel : якби + б'},
+    {fr:'Comment dit-on "au revoir" en ukrainien ?',ua:'Як сказати "до побачення" по-українськи?',tr:'Yak skazaty "do pobachennya" po-ukrayinsky?',note:''},
+    {fr:'Explique-moi le système des cas.',ua:'Поясни мені систему відмінків.',tr:'Poyasnу meni systemu vidminkiv.',note:''},
+    {fr:'Parle d\'un film que tu as vu récemment.',ua:'Розкажи про фільм, який ти нещодавно дивився.',tr:'Rozkazhy pro film, yakyy tу neshchodavno dуvuvsya.',note:''},
+  ]
+};
+
+let parlerLevel=1, parlerIdx=0, parlerDeck=[], parlerScore=0;
+let currentParlerItem=null;
+
+function initParler(){
+  // Build level pills
+  document.getElementById('parler-level-pills').innerHTML=
+    [1,2,3,4,5,6].map(n=>`<button class="pill ${n===parlerLevel?'on':''}" onclick="setParlerLevel(${n})">Niveau ${n}</button>`).join('');
+  startParlerLevel();
+}
+
+function setParlerLevel(n){
+  parlerLevel=n;
+  document.querySelectorAll('#parler-level-pills .pill').forEach((b,i)=>b.classList.toggle('on',i+1===n));
+  startParlerLevel();
+}
+
+function startParlerLevel(){
+  parlerDeck=shuffle([...(PARLER_DATA[parlerLevel]||[])]);
+  parlerIdx=0; parlerScore=0;
+  document.getElementById('parler-answer').style.display='none';
+  document.getElementById('parler-btns').style.display='none';
+  document.getElementById('parler-reveal-btn').style.display='block';
+  showParlerCard();
+}
+
+function showParlerCard(){
+  if(parlerIdx>=parlerDeck.length){
+    document.getElementById('parler-fr').textContent='🎉 Niveau terminé ! '+parlerScore+'/'+parlerDeck.length+' correctes';
+    document.getElementById('parler-hint').textContent='Passe au niveau suivant ou recommence !';
+    document.getElementById('parler-reveal-btn').style.display='none';
+    addXP(parlerScore*5);
+    return;
+  }
+  currentParlerItem=parlerDeck[parlerIdx];
+  document.getElementById('parler-niv-lbl').textContent='NIVEAU '+parlerLevel+' — '+(parlerIdx+1)+'/'+parlerDeck.length;
+  document.getElementById('parler-fr').textContent=currentParlerItem.fr;
+  document.getElementById('parler-hint').textContent='🎤 Essaie de dire la phrase à voix haute';
+  document.getElementById('parler-answer').style.display='none';
+  document.getElementById('parler-btns').style.display='none';
+  document.getElementById('parler-reveal-btn').style.display='block';
+  document.getElementById('parler-prog').textContent=(parlerIdx+1)+'/'+parlerDeck.length;
+  document.getElementById('parler-score').textContent='✅ '+parlerScore;
+}
+
+function revealParler(){
+  if(!currentParlerItem)return;
+  document.getElementById('parler-ua').textContent=currentParlerItem.ua;
+  document.getElementById('parler-tr').textContent=currentParlerItem.tr;
+  document.getElementById('parler-note').textContent=currentParlerItem.note||'';
+  document.getElementById('parler-answer').style.display='block';
+  document.getElementById('parler-btns').style.display='grid';
+  document.getElementById('parler-reveal-btn').style.display='none';
+  speak(currentParlerItem.ua);
+}
+
+function speakParler(){speak(document.getElementById('parler-ua').textContent);}
+
+function rateParler(r){
+  if(r===3)parlerScore++;
+  addXP(r===3?4:1);
+  parlerIdx++;
+  showParlerCard();
+  haptic();
+}
+
+// ══════════════════════════════════════════════════════
+// ── DIALOGUES ──────────────────────────────────────────
+// ══════════════════════════════════════════════════════
+const DIALOGUES=[
+  {title:'🛒 Au marché',lines:[
+    {role:'A',ua:'Добрий день! Що бажаєте?',tr:'Dobryy den! Shcho bazhayete?',fr:'Bonjour ! Que désirez-vous ?'},
+    {role:'B',ua:'Скільки коштують помідори?',tr:'Skilky koshtuyut pomidory?',fr:'Combien coûtent les tomates ?',resp:{ua:'Скільки коштують помідори?',tr:'Skilky koshtuyut pomidory?',fr:'Combien coûtent les tomates ?'}},
+    {role:'A',ua:'П\'ятдесят гривень за кілограм.',tr:'Pyatdesyat hryven za kilohram.',fr:'Cinquante hryvnias le kilo.'},
+    {role:'B',ua:'Дайте мені два кілограми, будь ласка.',tr:'Dayte meni dva kilohramу, bud laska.',fr:'Donnez-moi deux kilos, s\'il te plaît.',resp:{ua:'Дайте мені два кілограми, будь ласка.',tr:'Dayte meni dva kilohramу, bud laska.',fr:'Deux kilos, s\'il te plaît.'}},
+    {role:'A',ua:'Сто гривень, будь ласка.',tr:'Sto hryven, bud laska.',fr:'Cent hryvnias, s\'il vous plaît.'},
+    {role:'B',ua:'Дякую! До побачення.',tr:'Dyakuyu! Do pobachennya.',fr:'Merci ! Au revoir.',resp:{ua:'Дякую! До побачення.',tr:'Dyakuyu! Do pobachennya.',fr:'Merci ! Au revoir.'}},
+  ]},
+  {title:'☕ Au café',lines:[
+    {role:'A',ua:'Привіт! Що будеш?',tr:'Pryvit! Shcho budesh?',fr:'Salut ! Tu prends quoi ?'},
+    {role:'B',ua:'Каву, будь ласка. З молоком.',tr:'Kavu, bud laska. Z molokom.',fr:'Un café, s\'il te plaît. Avec du lait.',resp:{ua:'Каву, будь ласка. З молоком.',tr:'Kavu, bud laska. Z molokom.',fr:'Un café avec du lait, s\'il te plaît.'}},
+    {role:'A',ua:'Велику чи маленьку?',tr:'Velyku chy malenku?',fr:'Grand ou petit ?'},
+    {role:'B',ua:'Велику, дякую.',tr:'Velyku, dyakuyu.',fr:'Grand, merci.',resp:{ua:'Велику, дякую.',tr:'Velyku, dyakuyu.',fr:'Grand, merci.'}},
+    {role:'A',ua:'З тебе п\'ятдесят гривень.',tr:'Z tebe pyatdesyat hryven.',fr:'Ça fait cinquante hryvnias.'},
+    {role:'B',ua:'Ось, будь ласка. Можна ще й воду?',tr:'Os, bud laska. Mozhna shche y vodu?',fr:'Voilà. Je peux aussi avoir de l\'eau ?',resp:{ua:'Ось, будь ласка. Можна ще й воду?',tr:'Os, bud laska. Mozhna shche y vodu?',fr:'Voilà. Et aussi de l\'eau ?'}},
+  ]},
+  {title:'📍 Se repérer',lines:[
+    {role:'A',ua:'Вибачте, де знаходиться вокзал?',tr:'Vybachte, de znakhodуtsya vokzal?',fr:'Excuse-moi, où se trouve la gare ?'},
+    {role:'B',ua:'Іди прямо, потім поверни праворуч.',tr:'Idy pryamo, potim poverny pravoruch.',fr:'Va tout droit, puis tourne à droite.',resp:{ua:'Іди прямо, потім поверни праворуч.',tr:'Idy pryamo, potim poverny pravoruch.',fr:'Tout droit puis à droite.'}},
+    {role:'A',ua:'Це далеко?',tr:'Tse daleko?',fr:'C\'est loin ?'},
+    {role:'B',ua:'Ні, п\'ять хвилин пішки.',tr:'Ni, pyat khvylуn pishky.',fr:'Non, cinq minutes à pied.',resp:{ua:'Ні, п\'ять хвилин пішки.',tr:'Ni, pyat khvylуn pishky.',fr:'Non, cinq minutes à pied.'}},
+    {role:'A',ua:'Дякую велике!',tr:'Dyakuyu velyke!',fr:'Merci beaucoup !'},
+    {role:'B',ua:'Нема за що! Гарного дня!',tr:'Nema za shcho! Harnoho dnya!',fr:'De rien ! Bonne journée !',resp:{ua:'Нема за що! Гарного дня!',tr:'Nema za shcho! Harnoho dnya!',fr:'De rien ! Bonne journée !'}},
+  ]},
+  {title:'🏨 À l\'hôtel',lines:[
+    {role:'A',ua:'Доброго вечора! У мене є бронювання.',tr:'Dobroho vechora! U mene ye bronyuvannya.',fr:'Bonsoir ! J\'ai une réservation.'},
+    {role:'B',ua:'Ваше прізвище, будь ласка.',tr:'Vashe prizvyshche, bud laska.',fr:'Votre nom, s\'il vous plaît.',resp:{ua:'Моє прізвище...',tr:'Moye prizvyshche...',fr:'Mon nom est...'}},
+    {role:'A',ua:'Ваш номер — 205, на другому поверсі.',tr:'Vash nomer — 205, na druhomu poversi.',fr:'Votre chambre est le 205, au deuxième étage.'},
+    {role:'B',ua:'Дякую. О котрій сніданок?',tr:'Dyakuyu. O kotriy snidanok?',fr:'Merci. Le petit-déjeuner est à quelle heure ?',resp:{ua:'О котрій сніданок?',tr:'O kotriy snidanok?',fr:'À quelle heure est le petit-déjeuner ?'}},
+    {role:'A',ua:'З сьомої до десятої ранку.',tr:'Z somoyi do desyatoyi ranku.',fr:'De sept à dix heures du matin.'},
+    {role:'B',ua:'Відмінно. Дякую!',tr:'Vidminno. Dyakuyu!',fr:'Parfait. Merci !',resp:{ua:'Відмінно, дякую!',tr:'Vidminno, dyakuyu!',fr:'Parfait, merci !'}},
+  ]},
+  {title:'🚑 Chez le médecin',lines:[
+    {role:'A',ua:'Що вас турбує?',tr:'Shcho vas turbuyе?',fr:'Qu\'est-ce qui vous préoccupe ?'},
+    {role:'B',ua:'У мене болить горло і температура.',tr:'U mene bolyt horlo i temperatura.',fr:'J\'ai mal à la gorge et de la fièvre.',resp:{ua:'У мене болить горло і температура.',tr:'U mene bolyt horlo i temperatura.',fr:'J\'ai mal à la gorge et de la fièvre.'}},
+    {role:'A',ua:'Скільки градусів?',tr:'Skilky hradusiv?',fr:'Combien de degrés ?'},
+    {role:'B',ua:'Тридцять вісім і п\'ять.',tr:'Trydtsyat visim i pyat.',fr:'Trente-huit cinq.',resp:{ua:'Тридцять вісім і п\'ять.',tr:'Trydtsyat visim i pyat.',fr:'Trente-huit cinq.'}},
+    {role:'A',ua:'Це ангіна. Вам потрібні антибіотики.',tr:'Tse anhina. Vam potribni antybiotуky.',fr:'C\'est une angine. Vous avez besoin d\'antibiotiques.'},
+    {role:'B',ua:'Добре. Скільки разів на день?',tr:'Dobre. Skilky raziv na den?',fr:'D\'accord. Combien de fois par jour ?',resp:{ua:'Скільки разів на день приймати?',tr:'Skilky raziv na den prуymaty?',fr:'Combien de fois par jour ?'}},
+  ]},
+];
+
+let currentDialogue=null, currentDialLine=0;
+let currentDialResp='';
+
+function initDialogues(){
+  document.getElementById('dial-situation-list').style.display='grid';
+  document.getElementById('dial-conversation').style.display='none';
+  document.getElementById('dial-situation-list').innerHTML=DIALOGUES.map((d,i)=>
+    `<div class="mcard" onclick="startDialogue(${i})" style="border:0.5px solid var(--brd)">
+      <div style="font-size:20px;margin-bottom:6px">${d.title.split(' ')[0]}</div>
+      <div style="font-size:13px;font-weight:600;color:var(--text)">${d.title.slice(2)}</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px">${d.lines.length} répliques</div>
+    </div>`
+  ).join('');
+}
+
+function showDialSituations(){
+  document.getElementById('dial-situation-list').style.display='grid';
+  document.getElementById('dial-conversation').style.display='none';
+}
+
+function startDialogue(i){
+  currentDialogue=DIALOGUES[i];
+  currentDialLine=0;
+  document.getElementById('dial-title').textContent=currentDialogue.title;
+  document.getElementById('dial-messages').innerHTML='';
+  document.getElementById('dial-response-area').style.display='none';
+  document.getElementById('dial-situation-list').style.display='none';
+  document.getElementById('dial-conversation').style.display='block';
+  document.getElementById('dial-reveal-btn').style.display='block';
+  document.getElementById('dial-next-btn').textContent='Suite →';
+  renderDialLine();
+}
+
+function renderDialLine(){
+  if(!currentDialogue||currentDialLine>=currentDialogue.lines.length){
+    document.getElementById('dial-next-btn').textContent='🎉 Terminé !';
+    document.getElementById('dial-reveal-btn').style.display='none';
+    addXP(10);
+    return;
+  }
+  const line=currentDialogue.lines[currentDialLine];
+  const msgs=document.getElementById('dial-messages');
+  const isA=line.role==='A';
+  const div=document.createElement('div');
+  div.style.cssText=`display:flex;gap:8px;align-items:flex-start;${isA?'':'flex-direction:row-reverse'}`;
+  div.innerHTML=`<div style="width:30px;height:30px;border-radius:50%;background:${isA?'var(--acc2)':'var(--acc3)'};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0">${line.role}</div>
+    <div style="max-width:75%;background:${isA?'var(--surf)':'rgba(48,209,88,.1)'};border:0.5px solid ${isA?'var(--brd)':'rgba(48,209,88,.3)'};border-radius:12px;padding:10px 12px">
+      <div style="font-size:14px;font-weight:600;margin-bottom:3px">${line.ua}</div>
+      <div style="font-size:11px;color:var(--muted);font-style:italic;margin-bottom:2px">${line.tr}</div>
+      <div style="font-size:12px;color:var(--acc4)">${line.fr}</div>
+      ${!isA?`<button onclick="speak('${line.ua.replace(/'/g,"\\'")}',event)" class="speak-btn" style="margin-top:6px;width:24px;height:24px;font-size:11px">🔊</button>`:''}
+    </div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+  if(!isA&&line.resp){
+    currentDialResp=line.ua;
+    document.getElementById('dial-reveal-btn').style.display='block';
+    document.getElementById('dial-response-area').style.display='none';
+  } else {
+    document.getElementById('dial-reveal-btn').style.display='none';
+    if(isA)speak(line.ua);
+  }
+}
+
+function revealDialResponse(){
+  if(!currentDialogue)return;
+  const line=currentDialogue.lines[currentDialLine];
+  if(!line||!line.resp)return;
+  document.getElementById('dial-resp-ua').textContent=line.resp.ua;
+  document.getElementById('dial-resp-tr').textContent=line.resp.tr;
+  document.getElementById('dial-resp-fr').textContent=line.resp.fr;
+  document.getElementById('dial-response-area').style.display='block';
+  document.getElementById('dial-reveal-btn').style.display='none';
+  speak(line.resp.ua);
+}
+
+function nextDialLine(){
+  currentDialLine++;
+  document.getElementById('dial-response-area').style.display='none';
+  renderDialLine();
+  if(currentDialogue&&currentDialLine<currentDialogue.lines.length){
+    const next=currentDialogue.lines[currentDialLine];
+    if(next&&next.role==='A'){speak(next.ua);}
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// ── CAS UKRAINIENS ─────────────────────────────────────
+// ══════════════════════════════════════════════════════
+const CAS_DATA=[
+  // Nominatif
+  {cas:'Nominatif (sujet)',q:'Qui mange la pomme ?\n_____ їсть яблуко.',opts:['Студент','Студента','Студенту','Студентом'],correct:0,ua:'Студент їсть яблуко.',expl:'Nominatif = sujet de la phrase. Le nom est à sa forme de base.'},
+  {cas:'Nominatif (sujet)',q:'La ville est belle.\n_____ красива.',opts:['Місто','Міста','Місту','Містом'],correct:0,ua:'Місто красиве.',expl:'Nominatif pour le sujet. Місто (neutre) + красиве.'},
+  // Génitif
+  {cas:'Génitif (de/du)',q:'"Le livre de Pierre" — de qui ?\nКнига _____.',opts:['Петра','Петро','Петрові','Петром'],correct:0,ua:'Книга Петра.',expl:'Génitif = possession. Петро → Петра (masc. -о change en -а).'},
+  {cas:'Génitif (de/du)',q:'"Beaucoup d\'étudiants" — quelle forme ?\nБагато _____.',opts:['студентів','студенти','студенту','студентом'],correct:0,ua:'Багато студентів.',expl:'Génitif pluriel après багато (beaucoup). -и/-і → -ів/-ей.'},
+  {cas:'Génitif (de/du)',q:'"Je rentre de l\'école." — après "з".\nЯ іду з _____.',opts:['школи','школа','школі','школою'],correct:0,ua:'Я іду зі школи.',expl:'Génitif après з (de). Школа → школи.'},
+  // Datif
+  {cas:'Datif (à/pour)',q:'"Je donne le livre à Marie." — à qui ?\nЯ даю книгу _____.',opts:['Марії','Марія','Марію','Марією'],correct:0,ua:'Я даю книгу Марії.',expl:'Datif = destinataire, bénéficiaire. Марія → Марії.'},
+  {cas:'Datif (à/pour)',q:'"J\'ai froid" — structure ukrainienne ?\n_____ холодно.',opts:['Мені','Я','Мене','Мною'],correct:0,ua:'Мені холодно.',expl:'Datif pour les sensations ! Мені/тобі/йому холодно.'},
+  {cas:'Datif (à/pour)',q:'"Il me faut de l\'eau."\n_____ треба вода.',opts:['Мені','Я','Мене','Мною'],correct:0,ua:'Мені треба вода.',expl:'Треба (il faut) + datif. Мені треба = j\'ai besoin.'},
+  // Accusatif
+  {cas:'Accusatif (objet direct)',q:'"Je lis le journal." — objet direct ?\nЯ читаю _____.',opts:['газету','газета','газеті','газетою'],correct:0,ua:'Я читаю газету.',expl:'Accusatif = objet direct. Газета (fém.) → газету (-а → -у).'},
+  {cas:'Accusatif (objet direct)',q:'"Je vois mon ami." — objet animé ?\nЯ бачу свого _____.',opts:['друга','друг','другу','другом'],correct:0,ua:'Я бачу свого друга.',expl:'Accusatif animé masc. = comme le génitif ! Друг → друга.'},
+  {cas:'Accusatif (objet direct)',q:'"On va en ville."\nМи йдемо в _____.',opts:['місто','міста','місті','містом'],correct:0,ua:'Ми йдемо в місто.',expl:'В + accusatif = direction. Le nom reste à sa forme de base si neutre.'},
+  // Instrumental
+  {cas:'Instrumental (avec/par)',q:'"Je voyage avec mes amis."\nЯ подорожую зі своїми _____.',opts:['друзями','друзі','друзів','друзям'],correct:0,ua:'Я подорожую зі своїми друзями.',expl:'Instrumental pluriel. Друзі → друзями (-і → -ями).'},
+  {cas:'Instrumental (avec/par)',q:'"Elle est professeure." (profession)\nВона є _____.',opts:['вчителькою','вчителька','вчительки','вчительці'],correct:0,ua:'Вона є вчителькою.',expl:'Après "є" (être), instrumental pour la profession. -а → -ою.'},
+  {cas:'Instrumental (avec/par)',q:'"J\'écris avec un stylo."\nЯ пишу _____.',opts:['ручкою','ручка','ручки','ручці'],correct:0,ua:'Я пишу ручкою.',expl:'Instrumental = moyen. Ручка → ручкою. Sans préposition !'},
+  // Locatif
+  {cas:'Locatif (lieu)',q:'"J\'habite en Ukraine."\nЯ живу в _____.',opts:['Україні','Україна','України','Україною'],correct:0,ua:'Я живу в Україні.',expl:'Locatif après в/у (lieu). Україна → Україні (-а → -і).'},
+  {cas:'Locatif (lieu)',q:'"Le livre est sur la table."\nКнига лежить на _____.',opts:['столі','стіл','стола','столом'],correct:0,ua:'Книга лежить на столі.',expl:'Locatif après на (sur). Стіл → столі. Toujours avec préposition !'},
+  {cas:'Locatif (lieu)',q:'"Je pense à toi."\nЯ думаю про _____.',opts:['тебе','ти','тобі','тобою'],correct:0,ua:'Я думаю про тебе.',expl:'Attention ! Про (de/à propos) + accusatif, pas locatif. Ти → тебе (accus.).'},
+  // Vocatif
+  {cas:'Vocatif (apostrophe)',q:'Comment appelle-t-on "Maman !" en ukrainien ?',opts:['Мамо!','Мама!','Мамі!','Мамою!'],correct:0,ua:'Мамо!',expl:'Vocatif = interpellation. Мама → Мамо. Тато → Тату. Дружина → Дружино.'},
+  {cas:'Vocatif (apostrophe)',q:'"Dieu !" en ukrainien (expression).',opts:['Боже!','Бог!','Богу!','Богом!'],correct:0,ua:'Боже!',expl:'Vocatif de Бог (Dieu). Expression courante : Боже мій ! = Mon Dieu !'},
+];
+
+let casIdx=0, casDeck=[], casScore=0, casType='Tous';
+
+function initCas(){
+  const types=['Tous',...new Set(CAS_DATA.map(c=>c.cas))];
+  document.getElementById('cas-type-pills').innerHTML=types.map(t=>
+    `<button class="pill ${t===casType?'on':''}" onclick="setCasType('${t.replace(/'/g,"\\'")}')">${t.split(' ')[0]}</button>`
+  ).join('');
+  startCasSession();
+}
+
+function setCasType(t){
+  casType=t;
+  document.querySelectorAll('#cas-type-pills .pill').forEach(b=>b.classList.toggle('on',b.textContent===t.split(' ')[0]));
+  startCasSession();
+}
+
+function startCasSession(){
+  const pool=casType==='Tous'?CAS_DATA:CAS_DATA.filter(c=>c.cas===casType);
+  casDeck=shuffle([...pool]);
+  casIdx=0;casScore=0;
+  document.getElementById('cas-feedback').style.display='none';
+  showCasCard();
+}
+
+function showCasCard(){
+  if(casIdx>=casDeck.length){
+    document.getElementById('cas-question').textContent='🎉 Terminé ! '+casScore+'/'+casDeck.length;
+    document.getElementById('cas-qcm-options').innerHTML=`<button onclick="startCasSession()" style="padding:12px;border-radius:var(--radius-lg);border:none;background:var(--acc2);color:#fff;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;width:100%">Recommencer</button>`;
+    addXP(casScore*5);return;
+  }
+  const c=casDeck[casIdx];
+  document.getElementById('cas-type-lbl').textContent=c.cas.toUpperCase();
+  document.getElementById('cas-question').textContent=c.q;
+  document.getElementById('cas-prog').textContent=(casIdx+1)+'/'+casDeck.length;
+  document.getElementById('cas-score').textContent='✅ '+casScore;
+  document.getElementById('cas-feedback').style.display='none';
+  document.getElementById('cas-qcm-options').innerHTML=c.opts.map((opt,i)=>
+    `<button onclick="answerCas(${i})" style="padding:12px;border-radius:var(--radius-lg);border:0.5px solid var(--brd);background:var(--surf);color:var(--text);font-family:inherit;font-size:14px;cursor:pointer;text-align:left;transition:all .15s">${opt}</button>`
+  ).join('');
+}
+
+function answerCas(i){
+  const c=casDeck[casIdx];
+  const correct=(i===c.correct);
+  if(correct)casScore++;
+  addXP(correct?5:1);
+  document.querySelectorAll('#cas-qcm-options button').forEach((b,j)=>{
+    b.disabled=true;
+    if(j===c.correct)b.style.cssText='padding:12px;border-radius:var(--radius-lg);border:0.5px solid #30D158;background:rgba(48,209,88,.15);color:#30D158;font-family:inherit;font-size:14px;cursor:pointer;text-align:left;font-weight:700;width:100%';
+    else if(j===i&&!correct)b.style.cssText='padding:12px;border-radius:var(--radius-lg);border:0.5px solid #FF453A;background:rgba(255,69,58,.1);color:#FF453A;font-family:inherit;font-size:14px;cursor:pointer;text-align:left;width:100%';
+  });
+  const fb=document.getElementById('cas-feedback');
+  fb.style.display='block';
+  fb.style.background=correct?'rgba(48,209,88,.08)':'rgba(255,69,58,.08)';
+  fb.style.border=`0.5px solid ${correct?'rgba(48,209,88,.3)':'rgba(255,69,58,.3)'}`;
+  document.getElementById('cas-fb-result').textContent=(correct?'✅ Correct !':'❌ Incorrect');
+  document.getElementById('cas-fb-result').style.color=correct?'#30D158':'#FF453A';
+  document.getElementById('cas-fb-ua').textContent=c.ua;
+  document.getElementById('cas-fb-expl').textContent=c.expl;
+  haptic();
+}
+
+function nextCas(){casIdx++;document.getElementById('cas-feedback').style.display='none';showCasCard();}
+
+// ══════════════════════════════════════════════════════
+// ── CONSTRUCTION DE PHRASES ────────────────────────────
+// ══════════════════════════════════════════════════════
+const CONSTRUCTION_DATA=[
+  {fr:'Je m\'appelle Antoine.',words:['Мене','звуть','Антуан','.'],correct:'Мене звуть Антуан .'},
+  {fr:'Comment tu vas ?',words:['Як','справи','?'],correct:'Як справи ?'},
+  {fr:'Je veux boire de l\'eau.',words:['Я','хочу','пити','воду','.'],correct:'Я хочу пити воду .'},
+  {fr:'La maison est grande.',words:['Будинок','великий','.'],correct:'Будинок великий .'},
+  {fr:'Il mange le pain.',words:['Він','їсть','хліб','.'],correct:'Він їсть хліб .'},
+  {fr:'Nous allons au marché.',words:['Ми','йдемо','на','ринок','.'],correct:'Ми йдемо на ринок .'},
+  {fr:'J\'ai froid.',words:['Мені','холодно','.'],correct:'Мені холодно .'},
+  {fr:'Elle parle ukrainien.',words:['Вона','говорить','по-українськи','.'],correct:'Вона говорить по-українськи .'},
+  {fr:'Donne-moi le livre.',words:['Дай','мені','книгу','.'],correct:'Дай мені книгу .'},
+  {fr:'Quelle heure est-il ?',words:['Котра','година','?'],correct:'Котра година ?'},
+  {fr:'Je ne comprends pas.',words:['Я','не','розумію','.'],correct:'Я не розумію .'},
+  {fr:'Combien ça coûte ?',words:['Скільки','це','коштує','?'],correct:'Скільки це коштує ?'},
+  {fr:'Le café est délicieux.',words:['Кава','дуже','смачна','.'],correct:'Кава дуже смачна .'},
+  {fr:'Excuse-moi, où est la gare ?',words:['Вибачте',',','де','вокзал','?'],correct:'Вибачте , де вокзал ?'},
+  {fr:'J\'habite en Suisse.',words:['Я','живу','у','Швейцарії','.'],correct:'Я живу у Швейцарії .'},
+];
+
+let constrDeck=[], constrIdx=0, constrScore=0;
+let constrAnswerWords=[], constrRemainingWords=[];
+
+function initConstruction(){
+  constrDeck=shuffle([...CONSTRUCTION_DATA]);
+  constrIdx=0;constrScore=0;
+  showConstrCard();
+}
+
+function showConstrCard(){
+  if(constrIdx>=constrDeck.length){
+    document.getElementById('constr-fr').textContent='🎉 Terminé ! '+constrScore+'/'+constrDeck.length;
+    document.getElementById('constr-words').innerHTML='';
+    document.getElementById('constr-answer-zone').innerHTML='';
+    document.getElementById('constr-feedback').style.display='none';
+    document.getElementById('constr-check-btn').style.display='none';
+    document.getElementById('constr-next-btn').style.display='none';
+    addXP(constrScore*6);return;
+  }
+  const item=constrDeck[constrIdx];
+  constrAnswerWords=[];
+  constrRemainingWords=shuffle([...item.words]);
+  document.getElementById('constr-fr').textContent=item.fr;
+  document.getElementById('constr-answer-zone').innerHTML='';
+  document.getElementById('constr-feedback').style.display='none';
+  document.getElementById('constr-check-btn').style.display='block';
+  document.getElementById('constr-next-btn').style.display='none';
+  document.getElementById('constr-prog').textContent=(constrIdx+1)+'/'+constrDeck.length;
+  document.getElementById('constr-score').textContent='✅ '+constrScore;
+  renderConstrWords();
+}
+
+function renderConstrWords(){
+  document.getElementById('constr-words').innerHTML=constrRemainingWords.map((w,i)=>
+    `<button onclick="addWordToAnswer(${i})" style="padding:6px 12px;border-radius:20px;border:0.5px solid var(--brd);background:var(--surf);color:var(--text);font-family:inherit;font-size:14px;cursor:pointer">${w}</button>`
+  ).join('');
+  const answerZone=document.getElementById('constr-answer-zone');
+  answerZone.innerHTML=constrAnswerWords.map((w,i)=>
+    `<button onclick="removeWordFromAnswer(${i})" style="padding:6px 12px;border-radius:20px;border:0.5px solid var(--acc2);background:rgba(10,132,255,.1);color:var(--acc2);font-family:inherit;font-size:14px;cursor:pointer">${w}</button>`
+  ).join('');
+}
+
+function addWordToAnswer(i){
+  constrAnswerWords.push(constrRemainingWords[i]);
+  constrRemainingWords.splice(i,1);
+  renderConstrWords();haptic();
+}
+
+function removeWordFromAnswer(i){
+  constrRemainingWords.push(constrAnswerWords[i]);
+  constrAnswerWords.splice(i,1);
+  renderConstrWords();haptic();
+}
+
+function resetConstruction(){
+  const item=constrDeck[constrIdx];
+  if(!item)return;
+  constrAnswerWords=[];
+  constrRemainingWords=shuffle([...item.words]);
+  document.getElementById('constr-feedback').style.display='none';
+  document.getElementById('constr-check-btn').style.display='block';
+  document.getElementById('constr-next-btn').style.display='none';
+  renderConstrWords();
+}
+
+function checkConstruction(){
+  const item=constrDeck[constrIdx];
+  const userAnswer=constrAnswerWords.join(' ');
+  const correct=(userAnswer===item.correct);
+  if(correct)constrScore++;
+  addXP(correct?6:1);
+  const fb=document.getElementById('constr-feedback');
+  fb.style.display='block';
+  fb.style.background=correct?'rgba(48,209,88,.08)':'rgba(255,69,58,.08)';
+  fb.style.border=`0.5px solid ${correct?'rgba(48,209,88,.3)':'rgba(255,69,58,.3)'}`;
+  document.getElementById('constr-fb-result').textContent=correct?'✅ Parfait !':'❌ Pas tout à fait';
+  document.getElementById('constr-fb-result').style.color=correct?'#30D158':'#FF453A';
+  document.getElementById('constr-fb-ua').textContent='✓ '+item.correct.replace(' .','.');
+  document.getElementById('constr-fb-note').textContent=correct?'Excellent !':'La bonne réponse est ci-dessus.';
+  document.getElementById('constr-check-btn').style.display='none';
+  document.getElementById('constr-next-btn').style.display='block';
+  if(correct)speak(item.correct.replace(' .','').replace(' ?','?'));
+  haptic();
+}
+
+function nextConstruction(){constrIdx++;showConstrCard();}
+
+// ══════════════════════════════════════════════════════
+// ── ÉCOUTER ────────────────────────────────────────────
+// ══════════════════════════════════════════════════════
+const ECOUTE_DATA={
+  1:PHRASES.slice(0,20).map(p=>({ua:p.ua,tr:p.tr,fr:p.fr,opts:null})),
+  2:PHRASES.slice(20,40).map(p=>({ua:p.ua,tr:p.tr,fr:p.fr,opts:null})),
+  3:PHRASES.slice(0,40).map(p=>({ua:p.ua,tr:p.tr,fr:p.fr,opts:null})),
+  4:VOCAB.filter(v=>['a2','b1'].includes(v.lvl)).slice(0,30).map(v=>({ua:v.ua,tr:v.tr,fr:v.fr,opts:null})),
+  5:VOCAB.filter(v=>v.lvl==='b1'||v.lvl==='b2').slice(0,20).map(v=>({ua:v.ua,tr:v.tr,fr:v.fr,opts:null})),
+};
+
+let ecouteLevel=1, ecouteDeck=[], ecouteIdx=0, ecouteScore=0;
+let currentEcoute=null;
+
+function initEcoute(){
+  document.getElementById('ecoute-level-pills').innerHTML=
+    [1,2,3,4,5].map(n=>`<button class="pill ${n===ecouteLevel?'on':''}" onclick="setEcouteLevel(${n})">Niveau ${n}</button>`).join('');
+  startEcouteDeck();
+}
+
+function setEcouteLevel(n){
+  ecouteLevel=n;
+  document.querySelectorAll('#ecoute-level-pills .pill').forEach((b,i)=>b.classList.toggle('on',i+1===n));
+  startEcouteDeck();
+}
+
+function startEcouteDeck(){
+  const pool=(ECOUTE_DATA[ecouteLevel]||ECOUTE_DATA[1]).filter(e=>e.ua);
+  ecouteDeck=shuffle([...pool]).slice(0,15);
+  ecouteIdx=0;ecouteScore=0;
+  document.getElementById('ecoute-reveal').style.display='none';
+  document.getElementById('ecoute-next-area').style.display='none';
+  showEcouteCard();
+}
+
+function showEcouteCard(){
+  if(ecouteIdx>=ecouteDeck.length){
+    document.getElementById('ecoute-instruction').textContent='🎉 Terminé ! '+ecouteScore+'/'+ecouteDeck.length+' corrects !';
+    document.getElementById('ecoute-options').innerHTML='';
+    document.getElementById('ecoute-reveal').style.display='none';
+    document.getElementById('ecoute-next-area').style.display='none';
+    addXP(ecouteScore*5);return;
+  }
+  currentEcoute=ecouteDeck[ecouteIdx];
+  // Build wrong options from pool
+  const wrongPool=ecouteDeck.filter((_,i)=>i!==ecouteIdx);
+  const wrongs=shuffle(wrongPool).slice(0,3).map(e=>e.fr);
+  const opts=shuffle([currentEcoute.fr,...wrongs]);
+  document.getElementById('ecoute-instruction').textContent='Écoute et choisis la bonne traduction :';
+  document.getElementById('ecoute-reveal').style.display='none';
+  document.getElementById('ecoute-next-area').style.display='none';
+  document.getElementById('ecoute-prog').textContent=(ecouteIdx+1)+'/'+ecouteDeck.length;
+  document.getElementById('ecoute-score').textContent='✅ '+ecouteScore;
+  document.getElementById('ecoute-options').innerHTML=opts.map(opt=>
+    `<button onclick="answerEcoute('${opt.replace(/'/g,"\\'")}','${currentEcoute.fr.replace(/'/g,"\\'")}','${currentEcoute.ua.replace(/'/g,"\\'")}','${currentEcoute.tr.replace(/'/g,"\\'")}','${currentEcoute.fr.replace(/'/g,"\\'")}',this)" style="padding:12px;border-radius:var(--radius-lg);border:0.5px solid var(--brd);background:var(--surf);color:var(--text);font-family:inherit;font-size:13px;cursor:pointer;text-align:left">${opt}</button>`
+  ).join('');
+}
+
+function playEcoute(){if(currentEcoute)speak(currentEcoute.ua);}
+function playEcouteSlow(){if(currentEcoute){const u=new SpeechSynthesisUtterance(currentEcoute.ua);u.lang='uk-UA';u.rate=0.5;speechSynthesis.cancel();speechSynthesis.speak(u);}}
+
+function answerEcoute(chosen,correct,ua,tr,fr,btn){
+  const isCorrect=(chosen===correct);
+  if(isCorrect)ecouteScore++;
+  addXP(isCorrect?5:1);
+  document.querySelectorAll('#ecoute-options button').forEach(b=>{
+    b.disabled=true;
+    if(b.textContent===correct)b.style.background='rgba(48,209,88,.15)',b.style.borderColor='#30D158',b.style.color='#30D158',b.style.fontWeight='700';
+    else if(b===btn&&!isCorrect)b.style.background='rgba(255,69,58,.1)',b.style.borderColor='#FF453A',b.style.color='#FF453A';
+  });
+  document.getElementById('ecoute-ua').textContent=ua;
+  document.getElementById('ecoute-tr').textContent=tr;
+  document.getElementById('ecoute-fr').textContent=fr;
+  document.getElementById('ecoute-reveal').style.display='block';
+  document.getElementById('ecoute-next-area').style.display='block';
+  haptic();
+}
+
+function nextEcoute(){ecouteIdx++;showEcouteCard();}
+
+// ══════════════════════════════════════════════════════
+// ── AVEC MA COPINE ─────────────────────────────────────
+// ══════════════════════════════════════════════════════
+const COPINE_DATA=[
+  {fr:'Comment tu vas aujourd\'hui ?',ua:'Як ти сьогодні?',tr:'Yak ty sohodni?',followup:['Що робила вдень? (Tu as fait quoi aujourd\'hui ?)','Ти щаслива? (Tu es heureuse ?)']},
+  {fr:'Tu as faim ? On mange quelque chose ?',ua:'Ти хочеш їсти? Може, поїмо щось?',tr:'Ty khochesh yisty? Mozhe, poyimo shchos?',followup:['Що ти хочеш? (Tu veux quoi ?)','Де ти хочеш поїсти? (Tu veux manger où ?)']},
+  {fr:'Tu es belle aujourd\'hui.',ua:'Ти сьогодні красива.',tr:'Ty sohodni krasyva.',followup:['Мені подобається твоя сукня. (J\'aime ta robe.)','Ти завжди красива. (Tu es toujours belle.)']},
+  {fr:'Qu\'est-ce que tu veux faire ce soir ?',ua:'Що ти хочеш робити сьогодні ввечері?',tr:'Shcho ty khochesh robyty sohodni vvecherі?',followup:['Ідемо в кіно? (On va au cinéma ?)','Залишаємося вдома? (On reste à la maison ?)']},
+  {fr:'Je t\'aime.',ua:'Я тебе люблю.',tr:'Ya tebe lyublyu.',followup:['Ти моя найкраща дівчина. (Tu es ma meilleure copine.)','Я дуже радий, що ти є. (Je suis tellement content que tu sois là.)']},
+  {fr:'Parle-moi de ta journée.',ua:'Розкажи мені про свій день.',tr:'Rozkazhy meni pro sviy den.',followup:['Що було цікавого? (Il y avait quoi d\'intéressant ?)','З ким ти бачилася? (Tu as vu qui ?)']},
+  {fr:'Tu veux un café ?',ua:'Хочеш кави?',tr:'Khochesh kavy?',followup:['З молоком чи без? (Avec ou sans lait ?)','Я зроблю тобі каву. (Je te fais un café.)']},
+  {fr:'Excuse-moi, j\'avais tort.',ua:'Вибачте, я був неправий.',tr:'Vybachte, ya buv nepravуy.',followup:['Прости мене. (Pardonne-moi.)','Я не хотів тебе засмутити. (Je ne voulais pas te peiner.)']},
+  {fr:'Qu\'est-ce qui te ferait plaisir ?',ua:'Що тебе б порадувало?',tr:'Shcho tebe b poraduvalo?',followup:['Скажи мені, я хочу знати. (Dis-moi, je veux savoir.)','Я хочу тебе зробити щасливою. (Je veux te rendre heureuse.)']},
+  {fr:'On va se promener ensemble ?',ua:'Підемо разом гуляти?',tr:'Pidemo razom hulyaty?',followup:['Де ти хочеш піти? (Où veux-tu aller ?)','Надягни теплу куртку! (Mets ta veste chaude !)']},
+  {fr:'Tu parles très bien ukrainien !',ua:'Ти дуже добре говориш по-українськи!',tr:'Ty duzhe dobre hovorysh po-ukrayinsky!',followup:['Я пишаюся тобою. (Je suis fier de toi.)','Продовжуй вчитися! (Continue d\'apprendre !)']},
+  {fr:'Tu veux regarder un film ?',ua:'Хочеш подивитися фільм?',tr:'Khochesh podyvуtуsya film?',followup:['Який фільм? (Quel film ?)','З попкорном! (Avec du popcorn !)']},
+  {fr:'Je pense à toi.',ua:'Я думаю про тебе.',tr:'Ya dumayu pro tebe.',followup:['Ти у мене в думках. (Tu es dans mes pensées.)','Я скучаю за тобою. (Tu me manques.)']},
+  {fr:'Tu as bien dormi ?',ua:'Ти добре спала?',tr:'Ty dobre spala?',followup:['Як твій сон? (Comment tu as dormi ?)','Тобі снилося щось? (Tu as rêvé de quelque chose ?)']},
+  {fr:'Tu veux sortir ce week-end ?',ua:'Хочеш вийти цього вихідного?',tr:'Khochesh vуytу tsokho vуkhidnoho?',followup:['Що ти думаєш? (Qu\'est-ce que tu penses ?)','У мене є ідея! (J\'ai une idée !)']},
+];
+
+let copineIdx=0, copineDeck=[], copineScore=0;
+
+function initCopine(){
+  copineDeck=shuffle([...COPINE_DATA]);
+  copineIdx=0;copineScore=0;
+  document.getElementById('copine-answer').style.display='none';
+  document.getElementById('copine-reveal-btn').style.display='block';
+  document.getElementById('copine-rate-btns').style.display='none';
+  showCopineCard();
+}
+
+function showCopineCard(){
+  if(copineIdx>=copineDeck.length){
+    document.getElementById('copine-fr').textContent='🎉 Session terminée !';
+    document.getElementById('copine-num').textContent='Fini !';
+    document.getElementById('copine-reveal-btn').style.display='none';
+    document.getElementById('copine-rate-btns').style.display='none';
+    addXP(copineScore*5);return;
+  }
+  const item=copineDeck[copineIdx];
+  document.getElementById('copine-num').textContent='Question '+(copineIdx+1)+'/'+copineDeck.length;
+  document.getElementById('copine-fr').textContent=item.fr;
+  document.getElementById('copine-prog').textContent=(copineIdx+1)+' / '+copineDeck.length;
+  document.getElementById('copine-answer').style.display='none';
+  document.getElementById('copine-reveal-btn').style.display='block';
+  document.getElementById('copine-rate-btns').style.display='none';
+}
+
+function revealCopine(){
+  const item=copineDeck[copineIdx];
+  document.getElementById('copine-ua').textContent=item.ua;
+  document.getElementById('copine-tr').textContent=item.tr;
+  document.getElementById('copine-followup').innerHTML=item.followup.map(f=>`• ${f}`).join('<br>');
+  document.getElementById('copine-answer').style.display='block';
+  document.getElementById('copine-reveal-btn').style.display='none';
+  document.getElementById('copine-rate-btns').style.display='flex';
+  speak(item.ua);
+}
+
+function nextCopine(r){
+  if(r===3)copineScore++;
+  addXP(r===3?4:1);
+  copineIdx++;showCopineCard();haptic();
+}
+
+// ══════════════════════════════════════════════════════
+// ── SESSION DU JOUR ────────────────────────────────────
+// ══════════════════════════════════════════════════════
+let sessionXP=0;
+
+function initSession(){
+  sessionXP=0;
+  document.getElementById('session-active').style.display='none';
+  document.getElementById('session-end').style.display='none';
+  document.getElementById('session-plan').style.display='block';
+
+  const due=known.size>20?Math.min(known.size,20):10;
+  const steps=[
+    {icon:'🔄',label:'Révision Anki',desc:due+' cartes à revoir',time:'5 min',action:'anki'},
+    {icon:'🃏',label:'Flashcards',desc:'20 cartes vocabulaire',time:'7 min',action:'flash'},
+    {icon:'🗣️',label:'Parler',desc:'10 phrases niveau 2',time:'5 min',action:'parler'},
+    {icon:'🎧',label:'Écouter',desc:'10 phrases à comprendre',time:'5 min',action:'ecoute'},
+    {icon:'🔀',label:'Construction',desc:'5 phrases à ordonner',time:'3 min',action:'construction'},
+    {icon:'🧩',label:'Cas ukrainiens',desc:'10 exercices',time:'5 min',action:'cas'},
+  ];
+
+  document.getElementById('session-plan').innerHTML=`
+    <div style="font-size:14px;color:var(--muted);margin-bottom:12px">Une session complète pour progresser vite :</div>
+    ${steps.map((s,i)=>`
+      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--surf);border:0.5px solid var(--brd);border-radius:var(--radius-lg);margin-bottom:8px">
+        <div style="font-size:24px;width:36px;text-align:center">${s.icon}</div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:600;color:var(--text)">${s.label}</div>
+          <div style="font-size:12px;color:var(--muted)">${s.desc} · ${s.time}</div>
+        </div>
+        <button onclick="go('${s.action}')" style="padding:8px 14px;border-radius:20px;border:none;background:var(--acc2);color:#fff;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer">→</button>
+      </div>`).join('')}
+    <button onclick="startFullSession()" style="width:100%;margin-top:8px;padding:14px;border-radius:var(--radius-lg);border:none;background:linear-gradient(135deg,var(--acc),#FF6B35);color:#000;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer">🎯 Commencer la session complète</button>
+  `;
+}
+
+function startFullSession(){
+  // Just navigate to Anki to start - simplified session
+  go('anki');
+}
+
+
 renderVocab();renderAlpha();renderGram();renderTrad();buildFlashCats();updateAll();
 </script>
 </body>
